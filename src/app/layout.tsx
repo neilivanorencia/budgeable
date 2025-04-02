@@ -32,11 +32,10 @@ export default function RootLayout({
           unsafe_disableDevelopmentModeWarnings: true,
         },
       }}
+      afterSignOutUrl="/"
     >
       <html lang="en">
-        <body className={`${inter.variable} ${manrope.variable} antialiased`}>
-          {children}
-        </body>
+        <body className={`${inter.variable} ${manrope.variable} antialiased`}>{children}</body>
       </html>
     </ClerkProvider>
   );
