@@ -4,6 +4,7 @@ import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { BsArrowRightShort } from "react-icons/bs";
 import { IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiMoney } from "react-icons/pi";
@@ -79,6 +80,40 @@ export const Navigation = () => {
             </h1>
           </div>
           <div className="mb-4 h-px w-full bg-teal-200/70" />
+          <nav className="flex flex-col gap-y-4">
+            {routes.map((route) => {
+              const isActive = route.href === pathname;
+              return (
+                <Button
+                  size="lg"
+                  variant="ghost"
+                  key={route.href}
+                  onClick={() => onClick(route.href)}
+                  className={`group relative w-full cursor-pointer justify-start rounded-lg py-6 text-sm font-normal text-slate-700 sm:py-8 sm:text-base ${
+                    isActive
+                      ? "bg-teal-500 font-normal text-white shadow-lg shadow-teal-200/50 hover:bg-teal-500 hover:text-white"
+                      : "bg-transparent hover:bg-teal-200/50 hover:text-slate-800"
+                  }`}
+                >
+                  <div
+                    className={`mr-1 flex items-center justify-center rounded-full p-2 transition-colors sm:mr-3 ${
+                      isActive ? "bg-white" : "bg-slate-200 group-hover:bg-white"
+                    }`}
+                  >
+                    {route.icon && (
+                      <route.icon
+                        className={`size-4 sm:size-5 ${isActive ? "text-teal-500" : "text-slate-800"}`}
+                      />
+                    )}
+                  </div>
+                  {route.label}
+                  <BsArrowRightShort
+                    className={`absolute right-4 size-6 ${isActive ? "animate-pulse text-white" : "opacity-0"}`}
+                  />
+                </Button>
+              );
+            })}
+          </nav>
         </SheetContent>
       </Sheet>
     );
