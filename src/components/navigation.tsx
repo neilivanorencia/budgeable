@@ -1,6 +1,7 @@
 "use client";
 
 import { MenuIcon } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
@@ -64,7 +65,21 @@ export const Navigation = () => {
             <MenuIcon className="size-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="bg-teal-50 px-4 pt-6"></SheetContent>
+        <SheetContent side="left" className="bg-teal-50 px-4 pt-6">
+          <div className="flex flex-col items-center justify-center gap-3 text-center">
+            <Image
+              src="/icon.svg"
+              alt="Budgeable Logo"
+              width={100}
+              height={100}
+              className="size-10"
+            />
+            <h1 className="font-manrope bg-gradient-to-r from-teal-500 to-teal-400 bg-clip-text text-xl font-bold tracking-wide text-transparent uppercase sm:text-2xl">
+              Budgeable
+            </h1>
+          </div>
+          <div className="mb-4 h-px w-full bg-teal-200/70" />
+        </SheetContent>
       </Sheet>
     );
   }
