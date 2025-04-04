@@ -1,11 +1,5 @@
-import { UserButton } from "@clerk/nextjs";
-
 const DashboardPage = () => {
-  return (
-    <div>
-      <UserButton />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default DashboardPage;
