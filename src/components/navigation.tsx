@@ -8,6 +8,8 @@ import { PiMoney } from "react-icons/pi";
 import { TbTransfer } from "react-icons/tb";
 import { useMedia } from "react-use";
 
+import { NavigationItem } from "@/components/navigation-item";
+
 const routes = [
   {
     href: "/",
@@ -47,5 +49,16 @@ export const Navigation = () => {
     return <div></div>;
   }
 
-  return <div></div>;
+  return (
+    <nav className="hidden items-center gap-x-4 overflow-x-auto lg:flex">
+      {routes.map((route) => (
+        <NavigationItem
+          key={route.href}
+          href={route.href}
+          label={route.label}
+          isActive={pathname === route.href}
+        />
+      ))}
+    </nav>
+  );
 };
