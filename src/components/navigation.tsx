@@ -114,6 +114,12 @@ export const Navigation = () => {
               );
             })}
           </nav>
+          <div className="absolute right-0 bottom-6 left-0 px-4">
+            <div className="mb-4 h-px w-full bg-teal-200/70" />
+            <p className="text-center text-xs tracking-wide text-slate-500 sm:text-sm">
+              Copyright © {new Date().getFullYear()} Budgeable
+            </p>
+          </div>
         </SheetContent>
       </Sheet>
     );
