@@ -3,6 +3,7 @@ import "@/app/globals.css";
 
 import { Inter, Manrope } from "next/font/google";
 
+import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
 import { SheetProvider } from "@/providers/sheet-provider";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -39,6 +40,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${inter.variable} ${manrope.variable} antialiased`}>
           <SheetProvider />
+          <Toaster />
           <QueryProvider>{children}</QueryProvider>
         </body>
       </html>
