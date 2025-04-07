@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { Inter, Manrope } from "next/font/google";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { QueryProvider } from "@/providers/query-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,7 +36,9 @@ export default function RootLayout({
       afterSignOutUrl="/"
     >
       <html lang="en">
-        <body className={`${inter.variable} ${manrope.variable} antialiased`}>{children}</body>
+        <body className={`${inter.variable} ${manrope.variable} antialiased`}>
+          <QueryProvider>{children}</QueryProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
