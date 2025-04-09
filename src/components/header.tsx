@@ -17,7 +17,7 @@ const UserInfo = () => {
 
 export const Header = () => {
   return (
-    <header className="bg-teal-600 bg-[url('/topography.svg')] bg-repeat px-4 py-8 pb-36 bg-blend-soft-light lg:px-14">
+    <header className="bg-teal-600 bg-[url('/topography.svg')] bg-repeat px-6 py-8 pb-36 bg-blend-soft-light lg:px-14">
       <div className="mx-auto max-w-screen-2xl">
         <div className="mb-14 flex w-full items-center justify-between">
           <div className="flex items-center gap-x-4 lg:hidden">
