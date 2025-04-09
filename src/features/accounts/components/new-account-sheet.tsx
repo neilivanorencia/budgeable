@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { useCreateAccount } from "@/app/features/accounts/api/use-create-account";
-import { AccountForm } from "@/app/features/accounts/components/account-form";
-import { useNewAccount } from "@/app/features/accounts/hooks/use-new-account";
+import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { AccountForm } from "@/features/accounts/components/account-form";
+import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import {
   Sheet,
   SheetContent,
