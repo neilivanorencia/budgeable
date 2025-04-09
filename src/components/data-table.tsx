@@ -69,12 +69,16 @@ export function DataTable<TData, TValue>({
           placeholder={`Filter ${filterKey}...`}
           value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn(filterKey)?.setFilterValue(event.target.value)}
-          className="w-full sm:text-base text-sm sm:max-w-sm"
+          className="w-full text-sm sm:max-w-sm sm:text-base"
         />
         {table.getFilteredSelectedRowModel().rows.length > 0 && (
           <Button
             disabled={disabled}
             className="w-full cursor-pointer border-none bg-rose-500 text-slate-100 shadow-none transition duration-300 ease-in-out outline-none hover:bg-rose-400 hover:text-slate-100 hover:shadow-md hover:shadow-rose-300/50 sm:ml-auto sm:w-auto"
+            onClick={() => {
+              onDelete(table.getFilteredSelectedRowModel().rows);
+              table.resetRowSelection();
+            }}
           >
             <BsTrash className="size-4" />
             Delete ({table.getFilteredSelectedRowModel().rows.length} selected)
