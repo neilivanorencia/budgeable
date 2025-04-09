@@ -6,10 +6,13 @@ import { columns } from "@/app/(dashboard)/accounts/columns";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
+  const accountsQuery = useGetAccounts();
+  const accounts = accountsQuery.data || [];
 
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
@@ -27,7 +30,7 @@ const AccountsPage = () => {
           </Button>
         </CardHeader>
         <CardContent>
-          <DataTable columns={columns} data={[]} filterKey="name" onDelete={() => {}} />
+          <DataTable columns={columns} data={accounts} filterKey="name" onDelete={() => {}} />
         </CardContent>
       </Card>
     </div>
