@@ -39,9 +39,11 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={`${inter.variable} ${manrope.variable} antialiased`}>
-          <SheetProvider />
-          <Toaster />
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <SheetProvider />
+            <Toaster />
+            {children}
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>
