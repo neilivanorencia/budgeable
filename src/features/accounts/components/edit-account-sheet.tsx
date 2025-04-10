@@ -9,7 +9,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { accountsInsertSchema } from "@/db/schema";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useEditAccount } from "@/features/accounts/api/use-edit-account";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import { AccountForm } from "@/features/accounts/components/account-form";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
@@ -24,17 +24,24 @@ export const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
 
   const accountQuery = useGetAccount(id);
-  const mutation = useCreateAccount();
+  const editMutation = useEditAccount();
 
   const isLoading = accountQuery.isLoading;
 
+  const isPending = editMutation.isPending;
+
   const onSubmit = (values: FormValues) => {
+    if (!id) return;
+    
     const validated = formSchema.parse(values);
-    mutation.mutate(validated, {
-      onSuccess: () => {
-        onClose();
-      },
-    });
+    editMutation.mutate(
+      { id, data: validated },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const defaultValues = accountQuery.data
@@ -64,7 +71,7 @@ export const EditAccountSheet = () => {
           <AccountForm
             id={id}
             onSubmit={onSubmit}
-            disabled={mutation.isPending}
+            disabled={isPending}
             defaultValues={defaultValues}
           />
         )}

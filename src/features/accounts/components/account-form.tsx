@@ -56,25 +56,27 @@ export const AccountForm = ({ id, defaultValues, onSubmit, onDelete, disabled }:
             </FormItem>
           )}
         />
-        <Button
-          className="transition-color w-full cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50"
-          disabled={disabled}
-        >
-          {id ? "Save changes" : "Create account"}
-        </Button>
-
-        {!!id && (
+        <div className={id ? "grid grid-cols-2 gap-x-2" : ""}>
           <Button
-            type="button"
+            className="transition-color w-full cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50"
             disabled={disabled}
-            onClick={handleDelete}
-            variant="outline"
-            className="transition-color w-full cursor-pointer border-2 border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600"
           >
-            <BsTrash className="size-4" />
-            Delete account
+            {id ? "Save changes" : "Create account"}
           </Button>
-        )}
+
+          {!!id && (
+            <Button
+              type="button"
+              disabled={disabled}
+              onClick={handleDelete}
+              variant="outline"
+              className="transition-color w-full cursor-pointer border-2 border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600"
+            >
+              <BsTrash className="size-4" />
+              Delete account
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );
