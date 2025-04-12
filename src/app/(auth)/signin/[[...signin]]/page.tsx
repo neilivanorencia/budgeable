@@ -4,10 +4,10 @@ import { ClerkLoaded, SignIn } from "@clerk/nextjs";
 
 export default function Page() {
   return (
-    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+    <div className="grid min-h-screen grid-cols-1 bg-white lg:grid-cols-2">
       <div className="flex h-full flex-col items-center justify-center p-4 md:p-6">
         <ClerkLoaded>
-        <div className="mx-auto w-full max-w-lg">
+          <div className="mx-auto w-full max-w-lg">
             <SignIn
               appearance={{
                 variables: {
