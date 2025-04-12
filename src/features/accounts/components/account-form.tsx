@@ -44,7 +44,7 @@ export const AccountForm = ({ id, defaultValues, onSubmit, onDelete, disabled }:
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Account Name</FormLabel>
               <FormControl>
                 <Input
                   className="text-sm"
