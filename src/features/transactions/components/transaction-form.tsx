@@ -59,9 +59,19 @@ export const TransactionForm = ({
   onCreateAccount,
   onCreateCategory,
 }: Props) => {
+  const formDefaultValues = {
+    date: new Date(),
+    accountId: "",
+    categoryId: "",
+    payee: "",
+    amount: "",
+    notes: "",
+    ...defaultValues,
+  };
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues,
+    defaultValues: formDefaultValues,
   });
 
   const handleSubmit = (values: FormValues) => {
@@ -87,6 +97,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
+              <FormLabel className="font-normal text-slate-800">Date</FormLabel>
               <FormControl>
                 <DatePicker value={field.value} onChange={field.onChange} disabled={disabled} />
               </FormControl>
@@ -98,7 +109,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-slate-800 font-normal">Account Name</FormLabel>
+              <FormLabel className="font-normal text-slate-800">Account Name</FormLabel>
               <FormControl>
                 <Select
                   placeholder="Select account"
@@ -117,7 +128,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-slate-800 font-normal">Category Name</FormLabel>
+              <FormLabel className="font-normal text-slate-800">Category Name</FormLabel>
               <FormControl>
                 <Select
                   placeholder="Select category"
@@ -136,7 +147,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-slate-800 font-normal">Payee</FormLabel>
+              <FormLabel className="font-normal text-slate-800">Payee</FormLabel>
               <FormControl className="text-sm sm:text-base">
                 <Input disabled={disabled} placeholder="Add payee" {...field} />
               </FormControl>
@@ -148,7 +159,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-slate-800 font-normal">Amount</FormLabel>
+              <FormLabel className="font-normal text-slate-800">Amount</FormLabel>
               <FormControl className="flex items-center text-sm sm:text-base">
                 <AmountInput disabled={disabled} placeholder="0.00" {...field} />
               </FormControl>
@@ -160,7 +171,7 @@ export const TransactionForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-slate-800 font-normal">Notes</FormLabel>
+              <FormLabel className="font-normal text-slate-800">Notes</FormLabel>
               <FormControl className="text-sm sm:text-base">
                 <Textarea
                   {...field}
