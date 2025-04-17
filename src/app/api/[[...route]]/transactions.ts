@@ -1,4 +1,4 @@
-import { parse, subDays } from "date-fns";
+import { parse } from "date-fns";
 import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
@@ -25,11 +25,8 @@ const app = new Hono()
       const auth = getAuth(c);
       const { from, to, accountId } = c.req.valid("query");
 
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
-
-      const startDate = from ? parse(from, "yyyy-MM-dd", new Date()) : defaultFrom;
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+      const startDate = from ? parse(from, "yyyy-MM-dd", new Date()) : undefined;
+      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : undefined;
 
       const data = await db
         .select({
@@ -51,8 +48,8 @@ const app = new Hono()
             ...[
               accountId ? eq(transactions.accountId, accountId) : undefined,
               auth?.userId ? eq(accounts.userId, auth.userId) : undefined,
-              gte(transactions.date, startDate),
-              lte(transactions.date, endDate),
+              startDate ? gte(transactions.date, startDate) : undefined,
+              endDate ? lte(transactions.date, endDate) : undefined,
             ].filter(Boolean)
           )
         )
@@ -132,9 +129,13 @@ const app = new Hono()
     zValidator(
       "json",
       z.array(
-        transactionsInsertSchema.omit({
-          id: true,
-        })
+        transactionsInsertSchema
+          .omit({
+            id: true,
+          })
+          .extend({
+            categoryId: z.string().optional(),
+          })
       )
     ),
     async (c) => {
@@ -145,12 +146,32 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const defaultCategory = await db
+        .select({ id: categories.id })
+        .from(categories)
+        .where(eq(categories.userId, auth.userId))
+        .limit(1);
+
+      const defaultCategoryId = defaultCategory.length > 0 ? defaultCategory[0].id : null;
+
+      if (!defaultCategoryId) {
+        return c.json(
+          {
+            success: false,
+            error:
+              "No categories found. Create at least one category before importing transactions.",
+          },
+          400
+        );
+      }
+
       const data = await db
         .insert(transactions)
         .values(
           values.map((value) => ({
             id: createId(),
             ...value,
+            categoryId: value.categoryId || defaultCategoryId,
           }))
         )
         .returning();
