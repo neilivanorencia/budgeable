@@ -139,20 +139,30 @@ export function DataTable<TData, TValue>({
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="grid w-full grid-cols-2 gap-x-2 sm:flex sm:w-auto sm:justify-end">
+        <div className="grid w-full grid-cols-2 gap-x-2 font-normal sm:flex sm:w-auto sm:justify-end">
           <Button
-            variant="outline"
+            variant={table.getCanPreviousPage() ? "default" : "outline"}
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className={
+              table.getCanPreviousPage()
+                ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+                : "cursor-pointer text-slate-800"
+            }
           >
             Previous
           </Button>
           <Button
-            variant="outline"
+            variant={table.getCanNextPage() ? "default" : "outline"}
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className={
+              table.getCanNextPage()
+                ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+                : "cursor-pointer text-slate-800"
+            }
           >
             Next
           </Button>
