@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { InferResponseType } from "hono";
 import { ArrowUpDown } from "lucide-react";
 
-import { Actions } from "@/app/(dashboard)/accounts/actions";
+import { Actions } from "@/app/(dashboard)/transactions/actions";
 import { AccountColumn } from "@/app/(dashboard)/transactions/account-column";
 import { CategoryColumn } from "@/app/(dashboard)/transactions/category-column";
 import { Badge } from "@/components/ui/badge";
