@@ -1,24 +1,80 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { LuPlus } from "react-icons/lu";
+import { toast } from "sonner";
 
 import { columns } from "@/app/(dashboard)/transactions/columns";
+import { ImportCard } from "@/app/(dashboard)/transactions/import-card";
+import { UploadButton } from "@/app/(dashboard)/transactions/upload-button";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { transactions as transactionSchema } from "@/db/schema";
+import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
+import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
+import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
-import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
+
+enum VARIANTS {
+  LIST = "LIST",
+  IMPORT = "IMPORT",
+}
+
+const INITIAL_IMPORT_RESULTS = {
+  data: [],
+  errors: [],
+  meta: {},
+};
 
 const TransactionsPage = () => {
+  const [AccountDialog, confirm] = useSelectAccount();
+  const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
+  const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
+
+  const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+    setImportResults(results);
+    setVariant(VARIANTS.IMPORT);
+  };
+
+  const onCancelImport = () => {
+    setImportResults(INITIAL_IMPORT_RESULTS);
+    setVariant(VARIANTS.LIST);
+  };
+
   const newTransaction = useNewTransaction();
   const transactionsQuery = useGetTransactions();
   const transactions = transactionsQuery.data || [];
+  const createTransactions = useBulkCreateTransactions();
   const deleteTransactions = useBulkDeleteTransactions();
 
   const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending;
+
+  const onSubmitImport = async (values: (typeof transactionSchema.$inferInsert)[]) => {
+    const accountId = await confirm();
+
+    if (!accountId) {
+      return toast.error("No account selected");
+    }
+
+    const data = values.map((value) => ({
+      ...value,
+      accountId: accountId as string,
+    }));
+
+    createTransactions.mutate(data, {
+      onSuccess: () => {
+        toast.success("Transactions created");
+        onCancelImport();
+      },
+      onError: () => {
+        toast.error("Failed to create transactions");
+      },
+    });
+  };
 
   if (transactionsQuery.isLoading) {
     return (
@@ -37,6 +93,15 @@ const TransactionsPage = () => {
     );
   }
 
+  if (variant === VARIANTS.IMPORT) {
+    return (
+      <>
+        <AccountDialog />
+        <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={onSubmitImport} />
+      </>
+    );
+  }
+
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="border-none shadow-none drop-shadow-none">
@@ -44,13 +109,16 @@ const TransactionsPage = () => {
           <CardTitle className="font-manrope line-clamp-1 text-lg font-semibold text-slate-800 md:text-xl">
             Transactions History
           </CardTitle>
-          <Button
-            className="transition-color w-full cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
-            onClick={newTransaction.onOpen}
-          >
-            <LuPlus className="size-4" />
-            Add new
-          </Button>
+          <div className="flex w-full items-center justify-end gap-x-2 md:w-auto">
+            <Button
+              className="transition-color w-[calc(50%-0.25rem)] cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+              onClick={newTransaction.onOpen}
+            >
+              <LuPlus className="size-4" />
+              Add new
+            </Button>
+            <UploadButton onUpload={onUpload} />
+          </div>
         </CardHeader>
         <CardContent>
           <DataTable
