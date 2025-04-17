@@ -1,0 +1,47 @@
+import { TableHeadSelect } from "@/app/(dashboard)/transactions/table-head-select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+type Props = {
+  headers: string[];
+  rows: string[][];
+  selectedColumns: Record<string, string | null>;
+  onTableHeadSelectChange: (columnIndex: number, value: string | null) => void;
+};
+
+export const ImportTable = ({ headers, rows, selectedColumns, onTableHeadSelectChange }: Props) => {
+  return (
+    <div className="overflow-hidden rounded-md border">
+      <Table>
+        <TableHeader className="bg-muted">
+          <TableRow>
+            {headers.map((_item, index) => (
+              <TableHead key={index}>
+                <TableHeadSelect
+                  columnIndex={index}
+                  selectedColumns={selectedColumns}
+                  onChange={onTableHeadSelectChange}
+                />
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row: string[], index) => (
+            <TableRow key={index}>
+              {row.map((cell, index) => (
+                <TableCell key={index}>{cell}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
