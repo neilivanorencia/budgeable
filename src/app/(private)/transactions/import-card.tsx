@@ -2,7 +2,7 @@
 import { format, parse } from "date-fns";
 import { useState } from "react";
 
-import { ImportTable } from "@/app/(dashboard)/transactions/import-table";
+import { ImportTable } from "@/app/(private)/transactions/import-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { convertAmountToMiliunits } from "@/lib/utils";

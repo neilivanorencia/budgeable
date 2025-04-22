@@ -1,4 +1,4 @@
-import { TableHeadSelect } from "@/app/(dashboard)/transactions/table-head-select";
+import { TableHeadSelect } from "@/app/(private)/transactions/table-head-select";
 import {
   Table,
   TableBody,

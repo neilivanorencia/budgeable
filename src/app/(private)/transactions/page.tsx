@@ -5,9 +5,9 @@ import { useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import { toast } from "sonner";
 
-import { columns } from "@/app/(dashboard)/transactions/columns";
-import { ImportCard } from "@/app/(dashboard)/transactions/import-card";
-import { UploadButton } from "@/app/(dashboard)/transactions/upload-button";
+import { columns } from "@/app/(private)/transactions/columns";
+import { ImportCard } from "@/app/(private)/transactions/import-card";
+import { UploadButton } from "@/app/(private)/transactions/upload-button";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

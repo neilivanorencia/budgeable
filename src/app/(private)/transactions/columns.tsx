@@ -4,9 +4,9 @@ import { format } from "date-fns";
 import { InferResponseType } from "hono";
 import { ArrowUpDown } from "lucide-react";
 
-import { Actions } from "@/app/(dashboard)/transactions/actions";
-import { AccountColumn } from "@/app/(dashboard)/transactions/account-column";
-import { CategoryColumn } from "@/app/(dashboard)/transactions/category-column";
+import { Actions } from "@/app/(private)/transactions/actions";
+import { AccountColumn } from "@/app/(private)/transactions/account-column";
+import { CategoryColumn } from "@/app/(private)/transactions/category-column";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
