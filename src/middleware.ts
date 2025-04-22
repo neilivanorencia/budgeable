@@ -1,9 +1,45 @@
+import { NextResponse } from "next/server";
+
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(["/"]);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/transactions(.*)",
+  "/categories(.*)",
+  "/accounts(.*)",
+  "/settings(.*)",
+]);
+
+const validRedirectPages = ["/dashboard", "/transactions", "/categories", "/accounts", "/settings"];
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+  const { userId } = await auth();
+
+  if (
+    userId &&
+    req.nextUrl.pathname !== "/" &&
+    validRedirectPages.some((page) => req.nextUrl.pathname.startsWith(page))
+  ) {
+    const response = NextResponse.next();
+    response.cookies.set("lastVisitedPage", req.nextUrl.pathname, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+      httpOnly: true,
+      sameSite: "lax",
+    });
+    return response;
+  }
+
+  if (userId && req.nextUrl.pathname === "/") {
+    const lastVisitedPage = req.cookies.get("lastVisitedPage")?.value || "/dashboard";
+    return NextResponse.redirect(new URL(lastVisitedPage, req.url));
+  }
+
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+
+  return NextResponse.next();
 });
 
 export const config = {
