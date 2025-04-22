@@ -15,7 +15,7 @@ export const WelcomeMessage = () => {
         <PiConfetti className="ml-2 size-10 text-white" />
       </div>
       <p className="text-sm text-slate-200 md:text-base">
-        This dashboard provides an overview of your expenses and account activity.
+        Track your expenses and budget activities here.
       </p>
     </div>
   );
