@@ -29,6 +29,13 @@
       "when": 1744963667002,
       "tag": "0003_equal_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1747385823827,
+      "tag": "0004_parallel_darkstar",
+      "breakpoints": true
     }
   ]
 }
