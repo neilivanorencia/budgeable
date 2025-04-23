@@ -1,6 +1,6 @@
 "use client";
 
-import { useMountedState } from "react-use";
+import { useEffect, useState } from "react";
 
 import { EditAccountSheet } from "@/features/accounts/components/edit-account-sheet";
 import { NewAccountSheet } from "@/features/accounts/components/new-account-sheet";
@@ -10,9 +10,13 @@ import { EditTransactionSheet } from "@/features/transactions/components/edit-tr
 import { NewTransactionSheet } from "@/features/transactions/components/new-transaction-sheet";
 
 export const SheetProvider = () => {
-  const isMounted = useMountedState();
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (!isMounted()) return null;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <>

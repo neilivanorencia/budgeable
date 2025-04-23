@@ -60,13 +60,12 @@ export const TransactionForm = ({
   onCreateCategory,
 }: Props) => {
   const formDefaultValues = {
-    date: new Date(),
-    accountId: "",
-    categoryId: "",
-    payee: "",
-    amount: "",
-    notes: "",
-    ...defaultValues,
+    date: defaultValues?.date || new Date(),
+    accountId: defaultValues?.accountId || "",
+    categoryId: defaultValues?.categoryId || "",
+    payee: defaultValues?.payee || "",
+    amount: defaultValues?.amount || "",
+    notes: defaultValues?.notes || "",
   };
 
   const form = useForm<FormValues>({

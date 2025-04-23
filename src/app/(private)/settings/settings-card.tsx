@@ -2,32 +2,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useGetConnectedBank } from "@/features/plaid/api/use-get-connected-bank";
 import { PlaidConnect } from "@/features/plaid/components/plaid-connect";
 import { PlaidDisconnect } from "@/features/plaid/components/plaid-disconnect";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
 
 export const SettingsCard = () => {
-  const { data: connectedBank, isLoading: isLoadingConnectedBank } = useGetConnectedBank();
-
-  if (isLoadingConnectedBank) {
-    return (
-      <Card className="border-none shadow-none">
-        <CardHeader>
-          <CardTitle className="line-clamp-1 text-xl">
-            <Skeleton className="h-6 w-24" />
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex h-[100px] w-full items-center justify-center">
-            <Loader2 className="size-6 animate-spin text-slate-300" />
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  const { data: connectedBank } = useGetConnectedBank();
 
   return (
     <Card className="border-none shadow-none">
