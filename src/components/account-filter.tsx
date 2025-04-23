@@ -54,13 +54,15 @@ export const AccountFilter = () => {
       onValueChange={onChange}
       disabled={isLoadingAccounts || isLoadingSummary}
     >
-      <SelectTrigger className="h-9 w-full sm:w-auto cursor-pointer justify-center rounded-md border-none bg-white/10 px-3 text-center text-sm font-normal text-white transition outline-none hover:bg-white/20 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 lg:w-auto lg:justify-start [&_svg]:text-white">
+      <SelectTrigger className="h-9 w-full cursor-pointer justify-center rounded-md border-none bg-white/10 px-3 text-center text-sm font-normal text-white transition outline-none hover:bg-white/20 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 sm:w-auto lg:w-auto lg:justify-start [&_svg]:!text-white [&_svg]:!opacity-100">
         <SelectValue placeholder="Select account" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="all">All Accounts</SelectItem>
+      <SelectContent className="rounded-lg">
+        <SelectItem value="all" className="rounded-sm">
+          All Accounts
+        </SelectItem>
         {accounts?.map((account) => (
-          <SelectItem key={account.id} value={account.id}>
+          <SelectItem key={account.id} value={account.id} className="rounded-sm">
             {account.name}
           </SelectItem>
         ))}

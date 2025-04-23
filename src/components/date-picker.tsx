@@ -48,7 +48,7 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
         disabled={disabled}
         variant="outline"
         className={cn(
-          "w-full justify-start border-2 bg-transparent text-left font-normal",
+          "w-full justify-start border bg-transparent text-left font-normal shadow-none md:border-2",
           !value && "text-muted-foreground"
         )}
         onClick={handleButtonClick}
@@ -59,7 +59,7 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
 
       {isOpen && (
         <div
-          className="absolute top-full left-0 z-[9999] mt-1 rounded-md border bg-white shadow-lg"
+          className="absolute top-full left-0 z-[9999] mt-1 rounded-2xl border bg-white shadow-[0_10px_15px_-3px_rgba(30,25,20,0.06),0_4px_6px_-4px_rgba(30,25,20,0.04)]"
           style={{ zIndex: 9999 }}
         >
           <Calendar
@@ -68,7 +68,7 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
             onSelect={handleDateSelect}
             disabled={disabled}
             initialFocus
-            className="rounded-md"
+            className="rounded-2xl"
           />
         </div>
       )}

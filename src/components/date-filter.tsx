@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { useMedia } from "react-use";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -16,6 +17,7 @@ export const DateFilter = () => {
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const isMobile = useMedia("(max-width: 639px)", false);
 
   const accountId = params.get("accountId");
   const from = params.get("from") || "";
@@ -64,10 +66,10 @@ export const DateFilter = () => {
           className="h-9 w-full sm:w-auto cursor-pointer rounded-md border-none bg-white/10 px-3 text-left font-normal text-white transition outline-none hover:bg-white/20 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 lg:w-auto"
         >
           <span className="text-sm">{formatDateRange(paramState)}</span>
-          <ChevronDown className="ml-2 size-4 opacity-50" />
+          <ChevronDown className="ml-2 size-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0 lg:w-auto" align="start">
+      <PopoverContent className="flex w-full flex-col items-center p-0 lg:block lg:w-auto" align={isMobile ? "center" : "start"}>
         <Calendar
           disabled={false}
           initialFocus
