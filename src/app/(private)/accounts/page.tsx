@@ -1,13 +1,12 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { LuPlus } from "react-icons/lu";
 
 import { columns } from "@/app/(private)/accounts/columns";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { AccountsSkeleton } from "@/components/skeletons/page-skeleton";
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
@@ -21,20 +20,7 @@ const AccountsPage = () => {
   const isDisabled = accountsQuery.isLoading || deleteAccounts.isPending;
 
   if (accountsQuery.isLoading) {
-    return (
-      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-        <Card className="border-none shadow-none drop-shadow-none">
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex w-full items-center justify-center">
-              <Loader2 className="size-8 animate-spin text-slate-200" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <AccountsSkeleton />;
   }
 
   return (

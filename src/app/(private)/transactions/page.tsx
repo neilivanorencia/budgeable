@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import { toast } from "sonner";
@@ -11,7 +10,7 @@ import { UploadButton } from "@/app/(private)/transactions/upload-button";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { TransactionsSkeleton } from "@/components/skeletons/page-skeleton";
 import { transactions as transactionSchema } from "@/db/schema";
 import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
 import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
@@ -77,20 +76,7 @@ const TransactionsPage = () => {
   };
 
   if (transactionsQuery.isLoading) {
-    return (
-      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-        <Card className="border-none shadow-none drop-shadow-none">
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex w-full items-center justify-center">
-              <Loader2 className="size-8 animate-spin text-slate-200" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <TransactionsSkeleton />;
   }
 
   if (variant === VARIANTS.IMPORT) {
