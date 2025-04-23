@@ -177,7 +177,7 @@ export const TransactionForm = ({
                   value={field.value ?? ""}
                   disabled={disabled}
                   placeholder="Add some optional notes"
-                  className="border-2 focus-visible:border-teal-500"
+                  className="border shadow-none focus-visible:border-teal-500 md:border-2"
                 />
               </FormControl>
             </FormItem>

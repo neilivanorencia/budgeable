@@ -70,7 +70,7 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
               disabled={disabled}
               onClick={handleDelete}
               variant="outline"
-              className="transition-color w-full cursor-pointer border-2 border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600"
+              className="transition-color w-full cursor-pointer border border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600 md:border-2"
             >
               <BsTrash className="size-4" />
               Delete category

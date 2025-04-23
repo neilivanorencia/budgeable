@@ -12,9 +12,12 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       toastOptions={{
         classNames: {
-          toast: "!font-inter",
-          title: "!text-slate-100 !text-sm !font-normal",
-          description: "!text-slate-100 !text-sm !font-normal",
+          toast: "!font-inter !rounded-2xl !border !border-white/25 !shadow-[0_10px_20px_-3px_rgba(0,0,0,0.15),0_4px_8px_-4px_rgba(0,0,0,0.10)]",
+          title: "!text-white !text-sm !font-normal",
+          description: "!text-white !text-sm !font-normal",
+          actionButton: "!bg-white/20 !text-white !rounded-lg",
+          cancelButton: "!bg-white/10 !text-white/70 !rounded-lg",
+          closeButton: "!bg-white/20 !text-white !border-0",
         },
         style: {
           fontFamily: "var(--font-inter)",
@@ -23,10 +26,15 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       style={
         {
-          "--normal-bg":
-            "linear-gradient(to right, oklch(75.54% 0.124 183.61), oklch(65.35% 0.124 183.61))",
+          "--normal-bg": "oklch(65.35% 0.124 183.61)",
           "--normal-text": "oklch(97.12% 0.006 255.09)",
-          "--normal-border": "var(--border)",
+          "--normal-border": "transparent",
+          "--success-bg": "oklch(60.32% 0.124 163.61)",
+          "--success-text": "oklch(97.12% 0.006 255.09)",
+          "--success-border": "transparent",
+          "--error-bg": "oklch(57.77% 0.207 27.33)",
+          "--error-text": "oklch(97.12% 0.006 255.09)",
+          "--error-border": "transparent",
           "--font-weight": "400",
         } as React.CSSProperties
       }
