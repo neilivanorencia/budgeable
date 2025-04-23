@@ -46,6 +46,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
@@ -65,6 +66,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Category
@@ -88,6 +90,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Payee
@@ -102,6 +105,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Amount
@@ -128,6 +132,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Account

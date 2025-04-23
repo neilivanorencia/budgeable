@@ -41,6 +41,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name

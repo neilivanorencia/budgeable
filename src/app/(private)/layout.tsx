@@ -18,9 +18,9 @@ const DashboardLayout = ({ children }: Props) => {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-slate-200">
         <HeaderSkeleton />
-        <main className="px-6 lg:px-14">
+        <main className="relative z-[1] px-6 lg:px-14">
           <DashboardSkeleton />
         </main>
       </div>
@@ -28,10 +28,10 @@ const DashboardLayout = ({ children }: Props) => {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-slate-200">
       <Header />
-      <main className="px-6 lg:px-14">{children}</main>
-    </>
+      <main className="relative z-[1] px-6 lg:px-14">{children}</main>
+    </div>
   );
 };
 
