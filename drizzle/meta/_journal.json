@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744203694339,
-      "tag": "0000_fixed_phil_sheldon",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1744442493520,
-      "tag": "0001_cute_gertrude_yorkes",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1744809526318,
-      "tag": "0002_complex_randall",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1744963667002,
-      "tag": "0003_equal_tyger_tiger",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1747385823827,
-      "tag": "0004_parallel_darkstar",
+      "when": 1755942530452,
+      "tag": "0000_budgeable",
       "breakpoints": true
     }
   ]

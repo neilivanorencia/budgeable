@@ -1,3 +1,23 @@
+CREATE TABLE "accounts" (
+	"id" text PRIMARY KEY NOT NULL,
+	"plaid_id" text,
+	"name" text NOT NULL,
+	"user_id" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "categories" (
+	"id" text PRIMARY KEY NOT NULL,
+	"plaid_id" text,
+	"name" text NOT NULL,
+	"user_id" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "connected_banks" (
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"access_token" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "transactions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"amount" integer NOT NULL,
