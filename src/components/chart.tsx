@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   data?: {

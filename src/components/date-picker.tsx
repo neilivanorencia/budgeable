@@ -1,46 +1,77 @@
 import { format } from "date-fns";
 import * as React from "react";
-import { SelectSingleEventHandler } from "react-day-picker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 type Props = {
   value?: Date;
-  onChange?: SelectSingleEventHandler;
+  onChange?: (date: Date | undefined) => void;
   disabled?: boolean;
 };
 
 export const DatePicker = ({ value, onChange, disabled }: Props) => {
-  const displayDate = value || new Date();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Close calendar when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isOpen]);
+
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date && onChange) {
+      onChange(date);
+      setIsOpen(false);
+    }
+  };
+
+  const handleButtonClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          disabled={disabled}
-          variant="outline"
-          className={cn(
-            "w-full cursor-pointer justify-start border-2 bg-transparent text-left font-normal",
-            !value && "text-muted-foreground"
-          )}
+    <div className="relative" ref={containerRef}>
+      <Button
+        type="button"
+        disabled={disabled}
+        variant="outline"
+        className={cn(
+          "w-full justify-start border-2 bg-transparent text-left font-normal",
+          !value && "text-muted-foreground"
+        )}
+        onClick={handleButtonClick}
+      >
+        <FaRegCalendarAlt className="mr-2 h-4 w-4" />
+        {value ? format(value, "PPP") : "Pick a date"}
+      </Button>
+
+      {isOpen && (
+        <div
+          className="absolute top-full left-0 z-[9999] mt-1 rounded-md border bg-white shadow-lg"
+          style={{ zIndex: 9999 }}
         >
-          <FaRegCalendarAlt className="size-4" />
-          {format(displayDate, "PPP")}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <Calendar
-          mode="single"
-          selected={displayDate}
-          onSelect={onChange}
-          disabled={disabled}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
+          <Calendar
+            mode="single"
+            selected={value}
+            onSelect={handleDateSelect}
+            disabled={disabled}
+            initialFocus
+            className="rounded-md"
+          />
+        </div>
+      )}
+    </div>
   );
 };
