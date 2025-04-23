@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
           placeholder={`Filter ${filterKey}...`}
           value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn(filterKey)?.setFilterValue(event.target.value)}
-          className="w-full text-sm sm:max-w-sm sm:text-base"
+          className="w-full border text-sm shadow-none sm:max-w-sm sm:text-base md:border-2"
         />
         {table.getFilteredSelectedRowModel().rows.length > 0 && (
           <Button

@@ -19,7 +19,7 @@ export const DataGrid = () => {
 
   if (isLoading) {
     return (
-      <div className="mb-8 grid grid-cols-1 gap-4 pb-2 md:grid-cols-3 md:gap-8">
+      <div className="mb-6 grid grid-cols-1 gap-4 pb-2 md:grid-cols-3 md:gap-8">
         <DataCardLoading />
         <DataCardLoading />
         <DataCardLoading />
@@ -28,7 +28,7 @@ export const DataGrid = () => {
   }
 
   return (
-    <div className="mb-8 grid grid-cols-1 gap-4 pb-2 md:grid-cols-3 md:gap-8">
+    <div className="mb-6 grid grid-cols-1 gap-4 pb-2 md:grid-cols-3 md:gap-8">
       <DataCard
         title="Budget"
         value={data?.incomeAmount}

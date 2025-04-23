@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn, formatCurrency, formatPercentage } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-const boxVariants = cva("rounded-md p-3", {
+const boxVariants = cva("rounded-lg p-3 md:rounded-xl", {
   variants: {
     variant: {
       default: "bg-teal-500/20",
@@ -114,14 +114,16 @@ export const DataCardLoading = () => {
     <Card className="h-[192px] border-none shadow-none">
       <CardHeader className="flex flex-row items-center justify-between gap-x-4">
         <div className="space-y-2">
-          <Skeleton className="h-6 w-24" />
-          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-6 w-24 lg:h-7 lg:w-28" />
+          <Skeleton className="h-4 w-40 sm:h-[14px]" />
         </div>
-        <Skeleton className="size-12" />
+        <div className="shrink-0 rounded-xl bg-slate-100 p-3">
+          <Skeleton className="size-6" />
+        </div>
       </CardHeader>
       <CardContent>
-        <Skeleton className="mb-2 h-10 w-24 shrink-0" />
-        <Skeleton className="h-4 w-40 shrink-0" />
+        <Skeleton className="mb-2 h-6 w-24 shrink-0 lg:h-7 lg:w-28" />
+        <Skeleton className="h-4 w-40 shrink-0 sm:h-[14px]" />
       </CardContent>
     </Card>
   );
