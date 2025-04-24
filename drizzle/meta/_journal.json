@@ -8,6 +8,13 @@
       "when": 1755942530452,
       "tag": "0000_budgeable",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781157610867,
+      "tag": "0001_additional_fields",
+      "breakpoints": true
     }
   ]
 }
