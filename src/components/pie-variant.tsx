@@ -1,27 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import { CircularTooltip } from "@/components/circular-tooltip";
 import { formatPercentage } from "@/lib/utils";
 
 const COLORS = [
-  "#f87171",
-  "#fb923c",
-  "#fbbf24",
-  "#facc15",
-  "#a3e635",
-  "#4ade80",
-  "#34d399",
-  "#2dd4bf",
-  "#22d3ee",
-  "#38bdf8",
-  "#60a5fa",
-  "#818cf8",
-  "#a78bfa",
-  "#c084fc",
-  "#e879f9",
-  "#f472b6",
-  "#fb7185",
+  "#14b8a6",
+  "#6366f1",
+  "#3b82f6",
+  "#22c55e",
+  "#ec4899",
+  "#0ea5e9",
+  "#a855f7",
+  "#8b5cf6",
+  "#ef4444",
+  "#84cc16",
+  "#06b6d4",
+  "#d946ef",
 ];
 
 type Props = {
@@ -42,19 +36,17 @@ export const PieVariant = ({ data }: Props) => {
           iconType="circle"
           content={({ payload }: any) => {
             return (
-              <ul className="flex flex-row flex-wrap justify-center gap-2">
+              <ul className="flex flex-row flex-wrap justify-center gap-x-3 gap-y-1.5 pt-2">
                 {payload.map((entry: any, index: number) => (
-                  <li key={`item-${index}`} className="flex items-center space-x-2">
+                  <li key={`item-${index}`} className="flex items-center gap-1.5">
                     <span
-                      className="size-2 rounded-full"
+                      className="size-2 shrink-0 rounded-full"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <div className="space-x-1">
-                      <span className="text-muted-foreground text-sm">{entry.value}</span>
-                      <span className="text-sm">
-                        {formatPercentage(entry.payload.percent * 100)}
-                      </span>
-                    </div>
+                    <span className="text-muted-foreground text-xs">{entry.value}</span>
+                    <span className="text-xs font-medium">
+                      {formatPercentage(entry.payload.percent * 100)}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -65,13 +57,15 @@ export const PieVariant = ({ data }: Props) => {
         <Pie
           data={data}
           cx="50%"
-          cy="40%"
-          outerRadius={90}
-          innerRadius={60}
-          paddingAngle={2}
-          fill="#414288"
+          cy="42%"
+          outerRadius={95}
+          innerRadius={58}
+          paddingAngle={3}
+          cornerRadius={5}
           dataKey="value"
           labelLine={false}
+          strokeWidth={2}
+          stroke="white"
         >
           {data?.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

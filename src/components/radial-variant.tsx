@@ -1,24 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Legend, RadialBar, RadialBarChart, ResponsiveContainer } from "recharts";
 
+import { convertAmountFromMiliunits, formatCurrency } from "@/lib/utils";
+
 const COLORS = [
-  "#ef4444",
-  "#f97316",
-  "#f59e0b",
-  "#eab308",
-  "#84cc16",
-  "#22c55e",
-  "#10b981",
   "#14b8a6",
-  "#06b6d4",
-  "#0ea5e9",
-  "#3b82f6",
   "#6366f1",
-  "#8b5cf6",
-  "#a855f7",
-  "#d946ef",
+  "#3b82f6",
+  "#22c55e",
   "#ec4899",
-  "#f43f5e",
+  "#0ea5e9",
+  "#a855f7",
+  "#8b5cf6",
+  "#ef4444",
+  "#84cc16",
+  "#06b6d4",
+  "#d946ef",
 ];
 
 type Props = {
@@ -47,12 +43,7 @@ export const RadialVariant = ({ data }: Props) => {
             fill: "#fff",
             fontSize: 12,
             position: "insideStart",
-            formatter: (value: number) => Intl.NumberFormat("en-PH", {
-              style: "currency",
-              currency: "PHP",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }).format(value / 1000)
+            formatter: (value: number) => formatCurrency(convertAmountFromMiliunits(value)),
           }}
           background
           dataKey="value"
@@ -64,24 +55,17 @@ export const RadialVariant = ({ data }: Props) => {
           iconType="circle"
           content={({ payload }: any) => {
             return (
-              <ul className="flex flex-row flex-wrap justify-center gap-2">
+              <ul className="flex flex-row flex-wrap justify-center gap-x-3 gap-y-1.5 pt-2">
                 {payload.map((entry: any, index: number) => (
-                  <li key={`item-${index}`} className="flex items-center space-x-2">
+                  <li key={`item-${index}`} className="flex items-center gap-1.5">
                     <span
-                      className="size-2 rounded-full"
+                      className="size-2 shrink-0 rounded-full"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <div className="space-x-1">
-                      <span className="text-muted-foreground text-sm">{entry.value}</span>
-                      <span className="text-sm">
-                        {Intl.NumberFormat("en-PH", {
-                          style: "currency",
-                          currency: "PHP",
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(entry.payload.value / 1000)}
-                      </span>
-                    </div>
+                    <span className="text-muted-foreground text-xs">{entry.value}</span>
+                    <span className="text-xs font-medium">
+                      {formatCurrency(convertAmountFromMiliunits(entry.payload.value))}
+                    </span>
                   </li>
                 ))}
               </ul>
