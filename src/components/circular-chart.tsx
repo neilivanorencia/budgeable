@@ -38,7 +38,7 @@ export const CircularChart = ({ data = [] }: Props) => {
         <Select defaultValue={chartType} onValueChange={onTypeChange}>
           <SelectTrigger
             className={cn(
-              "h-10 cursor-pointer rounded-[0.475rem] border-2 border-slate-200 bg-transparent text-sm transition duration-300 ease-in-out",
+              "h-10 cursor-pointer rounded-lg border-2 border-slate-200 bg-transparent text-sm transition duration-300 ease-in-out",
               "hover:border-teal-500",
               "focus:border-teal-500 focus:ring-0 focus:outline-none",
               "lg:w-auto"
@@ -46,7 +46,7 @@ export const CircularChart = ({ data = [] }: Props) => {
           >
             <SelectValue placeholder="Chart Type" />
           </SelectTrigger>
-          <SelectContent className="rounded-[0.375rem]">
+          <SelectContent>
             <SelectItem
               value="pie"
               className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
@@ -99,8 +99,8 @@ export const CircularChartLoading = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-8 w-full lg:w-[120px]" />
+        <Skeleton className="h-6 w-24 lg:h-7 lg:w-32" />
+        <Skeleton className="h-10 w-full rounded-[0.475rem] lg:w-[120px]" />
       </CardHeader>
       <CardContent>
         <div className="flex h-[350px] w-full items-center justify-center">

@@ -89,9 +89,9 @@ export const Navigation = () => {
                   variant="ghost"
                   key={route.href}
                   onClick={() => onClick(route.href)}
-                  className={`group relative w-full cursor-pointer justify-start rounded-lg py-6 text-sm font-normal text-slate-700 sm:py-8 sm:text-base ${
+                  className={`group relative w-full cursor-pointer justify-start rounded-xl py-6 text-sm font-normal text-slate-700 sm:py-8 sm:text-base ${
                     isActive
-                      ? "bg-teal-500 font-normal text-white shadow-lg shadow-teal-200/50 hover:bg-teal-500 hover:text-white"
+                      ? "bg-teal-500 font-normal text-white border border-teal-400/50 hover:bg-teal-500 hover:text-white"
                       : "bg-transparent hover:bg-teal-200/50 hover:text-slate-800"
                   }`}
                 >

@@ -6,6 +6,7 @@ import { Filter } from "@/components/filter";
 import { HeaderLogo } from "@/components/header-logo";
 import { Navigation } from "@/components/navigation";
 import { WelcomeMessage } from "@/components/welcome-message";
+import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
 import { ClerkLoaded, ClerkLoading, UserButton, useUser } from "@clerk/nextjs";
 
 const UserInfo = () => {
@@ -18,8 +19,20 @@ const UserInfo = () => {
 
 export const Header = () => {
   return (
-    <header className="bg-teal-600 bg-[url('/topography.svg')] bg-repeat px-6 py-8 pb-36 bg-blend-soft-light lg:px-14">
-      <div className="mx-auto max-w-screen-2xl">
+    <header className="relative overflow-hidden bg-teal-600 px-6 py-8 pb-36 lg:px-14">
+      <BackgroundRippleEffect
+        rows={12}
+        cols={5}
+        cellSize={76}
+        className="[--cell-border-color:rgba(255,255,255,0.08)] [--cell-fill-color:rgba(255,255,255,0.02)] sm:hidden"
+      />
+      <BackgroundRippleEffect
+        rows={8}
+        cols={22}
+        cellSize={72}
+        className="hidden [--cell-border-color:rgba(255,255,255,0.20)] [--cell-fill-color:rgba(255,255,255,0.06)] sm:block"
+      />
+      <div className="relative mx-auto max-w-screen-2xl">
         <div className="mb-14 flex w-full items-center justify-between">
           <div className="flex items-center gap-x-4 lg:hidden">
             <div className="hidden lg:block">

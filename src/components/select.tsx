@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { SingleValue } from "react-select";
 import CreatableSelect from "react-select/creatable";
+import { useMedia } from "react-use";
 
 type Props = {
   onChange: (value?: string) => void;
@@ -28,6 +29,8 @@ export const Select = ({
     onChange(option?.value);
   };
 
+  const isMobile = useMedia("(max-width: 767px)", false);
+
   const formattedValue = useMemo(() => {
     return options.find((option) => option.value === value);
   }, [options, value]);
@@ -40,10 +43,10 @@ export const Select = ({
         control: (base, state) => ({
           ...base,
           backgroundColor: "transparent",
-          borderRadius: "0.475rem",
+          borderRadius: "0.5rem",
           borderColor: "#e2e8f0",
-          borderWidth: state.isFocused ? "2px" : "2px",
-          boxShadow: state.isFocused ? "none" : base.boxShadow,
+          borderWidth: isMobile ? "1px" : "2px",
+          boxShadow: "none",
           "&:hover": {
             borderColor: "#14b8a6",
             color: "#14b8a6",
@@ -55,10 +58,14 @@ export const Select = ({
         }),
         menu: (base) => ({
           ...base,
-          borderRadius: "0.375rem",
+          borderRadius: "0.625rem",
+          border: "1px solid #e2e8f0",
+          boxShadow: "0 10px 15px -3px rgba(30, 25, 20, 0.06), 0 4px 6px -4px rgba(30, 25, 20, 0.04)",
+          overflow: "hidden",
         }),
         option: (base, state) => ({
           ...base,
+          borderRadius: "0.375rem",
           backgroundColor: state.isFocused ? "#e6fffa" : base.backgroundColor,
           color: state.isFocused ? "#0d9488" : base.color,
           "&:hover": {
