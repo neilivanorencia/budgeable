@@ -22,13 +22,8 @@ const formSchema = z.object({
   notes: z.string().nullable().optional(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const apiSchema = transactionsInsertSchema.omit({
-  id: true,
-});
-
 type FormValues = z.input<typeof formSchema>;
-type ApiFormValues = z.input<typeof apiSchema>;
+type ApiFormValues = Omit<z.input<typeof transactionsInsertSchema>, "id">;
 
 type Props = {
   id?: string;

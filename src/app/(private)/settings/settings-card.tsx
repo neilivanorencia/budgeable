@@ -13,7 +13,7 @@ export const SettingsCard = () => {
   return (
     <Card className="border-none shadow-none">
       <CardHeader>
-        <CardTitle className="font-manrope line-clamp-1 text-lg font-semibold text-slate-800 md:text-xl">
+        <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
           Settings
         </CardTitle>
       </CardHeader>

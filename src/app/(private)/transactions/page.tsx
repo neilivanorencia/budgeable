@@ -24,9 +24,9 @@ enum VARIANTS {
 }
 
 const INITIAL_IMPORT_RESULTS = {
-  data: [],
-  errors: [],
-  meta: {},
+  data: [] as string[][],
+  errors: [] as unknown[],
+  meta: {} as Record<string, unknown>,
 };
 
 const TransactionsPage = () => {
@@ -52,14 +52,14 @@ const TransactionsPage = () => {
 
   const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending;
 
-  const onSubmitImport = async (values: (typeof transactionSchema.$inferInsert)[]) => {
+  const onSubmitImport = async (values: Record<string, string | number | null>[]) => {
     const accountId = await confirm();
 
     if (!accountId) {
       return toast.error("No account selected");
     }
 
-    const data = values.map((value) => ({
+    const data = (values as unknown as (typeof transactionSchema.$inferInsert)[]).map((value) => ({
       ...value,
       accountId: accountId as string,
     }));
@@ -92,7 +92,7 @@ const TransactionsPage = () => {
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="border-none shadow-none drop-shadow-none">
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
-          <CardTitle className="font-manrope line-clamp-1 text-lg font-semibold text-slate-800 md:text-xl">
+          <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Transactions History
           </CardTitle>
           <div className="flex w-full items-center justify-end gap-x-2 md:w-auto">

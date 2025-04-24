@@ -27,7 +27,7 @@ const CategoriesPage = () => {
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="border-none shadow-none drop-shadow-none">
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
-          <CardTitle className="font-manrope line-clamp-1 text-lg font-semibold text-slate-800 md:text-xl">
+          <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Categories Page
           </CardTitle>
           <Button

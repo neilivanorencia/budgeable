@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { format, parse } from "date-fns";
 import { useState } from "react";
 
@@ -19,7 +18,7 @@ interface SelectedColumnsState {
 type Props = {
   data: string[][];
   onCancel: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: Record<string, string | number | null>[]) => void;
 };
 
 export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
@@ -71,7 +70,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     };
 
     const arrayOfData = mappedData.rows.map((row) => {
-      return row.reduce((acc: any, cell, index) => {
+      return row.reduce((acc: Record<string, string | null>, cell, index) => {
         const header = mappedData.headers[index];
         if (header !== null) {
           acc[header] = cell;
@@ -82,8 +81,8 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
 
     const formattedData = arrayOfData.map((item) => ({
       ...item,
-      amount: convertAmountToMiliunits(parseFloat(item.amount)),
-      date: format(parse(item.date, dateFormat, new Date()), outputFormat),
+      amount: convertAmountToMiliunits(parseFloat(item.amount ?? "")),
+      date: format(parse(item.date ?? "", dateFormat, new Date()), outputFormat),
     }));
 
     onSubmit(formattedData);
@@ -93,7 +92,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="border-none shadow-none drop-shadow-none">
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
-          <CardTitle className="font-manrope line-clamp-1 text-lg font-semibold text-slate-800 md:text-xl">
+          <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Import Transaction
           </CardTitle>
           <div className="flex w-full items-center justify-end gap-x-2 md:w-auto">

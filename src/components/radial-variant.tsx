@@ -53,10 +53,11 @@ export const RadialVariant = ({ data }: Props) => {
           verticalAlign="bottom"
           align="center"
           iconType="circle"
-          content={({ payload }: any) => {
+          content={(props) => {
+            const payload = props.payload ?? [];
             return (
               <ul className="flex flex-row flex-wrap justify-center gap-x-3 gap-y-1.5 pt-2">
-                {payload.map((entry: any, index: number) => (
+                {payload.map((entry, index) => (
                   <li key={`item-${index}`} className="flex items-center gap-1.5">
                     <span
                       className="size-2 shrink-0 rounded-full"
@@ -64,7 +65,7 @@ export const RadialVariant = ({ data }: Props) => {
                     />
                     <span className="text-muted-foreground text-xs">{entry.value}</span>
                     <span className="text-xs font-medium">
-                      {formatCurrency(convertAmountFromMiliunits(entry.payload.value))}
+                      {formatCurrency(convertAmountFromMiliunits(entry.payload?.value ?? 0))}
                     </span>
                   </li>
                 ))}

@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { HTMLAttributes } from "react";
 import { LuUpload } from "react-icons/lu";
 import { useCSVReader } from "react-papaparse";
 
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  onUpload: (results: any) => void;
+  onUpload: (results: { data: string[][]; errors: unknown[]; meta: Record<string, unknown> }) => void;
 };
 
 export const UploadButton = ({ onUpload }: Props) => {
@@ -13,9 +13,9 @@ export const UploadButton = ({ onUpload }: Props) => {
 
   return (
     <CSVReader onUploadAccepted={onUpload}>
-      {({ getRootProps }: any) => (
+      {({ getRootProps }: { getRootProps: () => HTMLAttributes<HTMLElement> }) => (
         <Button
-          className="transition-color w-[calc(50%-0.25rem)] md:w-auto cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50"
+          className="transition-color w-[calc(50%-0.25rem)] cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
           {...getRootProps()}
         >
           <LuUpload className="size-4" />
