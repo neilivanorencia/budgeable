@@ -51,7 +51,7 @@ export const Chart = ({ data = [] }: Props) => {
           >
             <SelectValue placeholder="Chart Type" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="border md:border-2">
             <SelectItem
               value="area"
               className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"

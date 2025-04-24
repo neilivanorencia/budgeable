@@ -15,7 +15,7 @@ export const BarVariant = ({ data }: Props) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
         <XAxis
           axisLine={false}
           tickLine={false}
@@ -24,9 +24,9 @@ export const BarVariant = ({ data }: Props) => {
           tickMargin={16}
           style={{ fontSize: "12px" }}
         />
-        <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="income" fill="#14b8a6" className="drop-shadow-sm" />
-        <Bar dataKey="expenses" fill="#ec4899" className="drop-shadow-sm" />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(20,184,166,0.05)" }} />
+        <Bar dataKey="income" fill="#14b8a6" radius={[8, 8, 0, 0]} className="drop-shadow-sm" />
+        <Bar dataKey="expenses" fill="#ec4899" radius={[8, 8, 0, 0]} className="drop-shadow-sm" />
       </BarChart>
     </ResponsiveContainer>
   );

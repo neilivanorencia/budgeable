@@ -25,8 +25,8 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   const expense = payload.length > 1 && payload[1] ? payload[1].value : 0;
 
   return (
-    <div className="overflow-hidden rounded-sm border bg-white shadow-sm">
-      <div className="bg-muted text-muted-foreground p-2 px-3 text-sm">
+    <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_10px_15px_-3px_rgba(30,25,20,0.05),0_4px_6px_-4px_rgba(30,25,20,0.05)] md:border-2">
+      <div className="bg-teal-50/80 p-2 px-3 text-sm text-teal-700">
         {format(date, "MMM dd, yyyy")}
       </div>
       <Separator />

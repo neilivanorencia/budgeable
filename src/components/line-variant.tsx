@@ -15,7 +15,7 @@ export const LineVariant = ({ data }: Props) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
         <XAxis
           axisLine={false}
           tickLine={false}
@@ -24,7 +24,10 @@ export const LineVariant = ({ data }: Props) => {
           tickMargin={16}
           style={{ fontSize: "12px" }}
         />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip
+          content={<CustomTooltip />}
+          cursor={{ stroke: "#14b8a6", strokeWidth: 1, strokeDasharray: "4 4" }}
+        />
         <Line
           dot={false}
           dataKey="income"
