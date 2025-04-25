@@ -58,11 +58,11 @@ export const AccountFilter = () => {
         <SelectValue placeholder="Select account" />
       </SelectTrigger>
       <SelectContent className="rounded-lg">
-        <SelectItem value="all" className="rounded-sm">
+        <SelectItem value="all">
           All Accounts
         </SelectItem>
         {accounts?.map((account) => (
-          <SelectItem key={account.id} value={account.id} className="rounded-sm">
+          <SelectItem key={account.id} value={account.id}>
             {account.name}
           </SelectItem>
         ))}

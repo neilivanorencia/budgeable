@@ -22,6 +22,7 @@ type Props = {
   data?: {
     name: string;
     value: number;
+    color?: string | null;
   }[];
 };
 
@@ -68,8 +69,8 @@ export const PieVariant = ({ data }: Props) => {
           strokeWidth={2}
           stroke="white"
         >
-          {data?.map((_entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          {data?.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color ?? COLORS[index % COLORS.length]} />
           ))}
         </Pie>
       </PieChart>

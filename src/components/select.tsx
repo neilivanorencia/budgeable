@@ -42,6 +42,7 @@ export const Select = ({
       styles={{
         control: (base, state) => ({
           ...base,
+          cursor: "pointer",
           backgroundColor: "transparent",
           borderRadius: "0.5rem",
           borderColor: "#e2e8f0",
@@ -63,13 +64,18 @@ export const Select = ({
           boxShadow: "0 10px 15px -3px rgba(30, 25, 20, 0.06), 0 4px 6px -4px rgba(30, 25, 20, 0.04)",
           overflow: "hidden",
         }),
+        menuList: (base) => ({
+          ...base,
+          padding: "4px",
+        }),
         option: (base, state) => ({
           ...base,
           borderRadius: "0.375rem",
-          backgroundColor: state.isFocused ? "#e6fffa" : base.backgroundColor,
+          cursor: "pointer",
+          backgroundColor: state.isFocused ? "#e6fffa" : "transparent",
           color: state.isFocused ? "#0d9488" : base.color,
-          "&:hover": {
-            color: "#14b8a6",
+          "&:active": {
+            backgroundColor: "#ccfbf1",
           },
         }),
         placeholder: (base) => ({

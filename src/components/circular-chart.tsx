@@ -21,6 +21,7 @@ type Props = {
   data?: {
     name: string;
     value: number;
+    color?: string | null;
   }[];
 };
 
@@ -49,7 +50,7 @@ export const CircularChart = ({ data = [] }: Props) => {
           <SelectContent className="border md:border-2">
             <SelectItem
               value="pie"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <BsPieChart className="mr-2 size-4 shrink-0" />
@@ -58,7 +59,7 @@ export const CircularChart = ({ data = [] }: Props) => {
             </SelectItem>
             <SelectItem
               value="radar"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <TbRadar className="mr-2 size-4 shrink-0" />
@@ -67,7 +68,7 @@ export const CircularChart = ({ data = [] }: Props) => {
             </SelectItem>
             <SelectItem
               value="radial"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <Target className="mr-2 size-4 shrink-0" />

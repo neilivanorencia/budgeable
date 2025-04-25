@@ -21,6 +21,7 @@ type Props = {
   data?: {
     name: string;
     value: number;
+    color?: string | null;
   }[];
 };
 
@@ -35,7 +36,7 @@ export const RadialVariant = ({ data }: Props) => {
         outerRadius="40%"
         data={data?.map((item, index) => ({
           ...item,
-          fill: COLORS[index % COLORS.length],
+          fill: item.color ?? COLORS[index % COLORS.length],
         }))}
       >
         <RadialBar

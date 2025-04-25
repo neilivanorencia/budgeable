@@ -11,6 +11,7 @@ type Props = {
   data?: {
     name: string;
     value: number;
+    color?: string | null;
   }[];
 };
 

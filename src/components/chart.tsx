@@ -54,7 +54,7 @@ export const Chart = ({ data = [] }: Props) => {
           <SelectContent className="border md:border-2">
             <SelectItem
               value="area"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <TbChartAreaLineFilled className="mr-2 size-4 shrink-0" />
@@ -63,7 +63,7 @@ export const Chart = ({ data = [] }: Props) => {
             </SelectItem>
             <SelectItem
               value="bar"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <HiMiniChartBar className="mr-2 size-4 shrink-0" />
@@ -72,7 +72,7 @@ export const Chart = ({ data = [] }: Props) => {
             </SelectItem>
             <SelectItem
               value="line"
-              className="cursor-pointer data-[highlighted]:bg-teal-50 data-[highlighted]:text-teal-600"
+              className="cursor-pointer data-[highlighted]:bg-teal-100/75 data-[highlighted]:text-teal-600"
             >
               <div className="flex items-center">
                 <PiChartLineUpBold className="mr-2 size-4 shrink-0" />
