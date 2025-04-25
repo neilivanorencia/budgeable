@@ -20,8 +20,9 @@ export const columns: ColumnDef<ResponseType>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex w-12 cursor-pointer items-center justify-center">
         <Checkbox
+          className="cursor-pointer data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500 focus-visible:ring-teal-500/50"
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -29,8 +30,9 @@ export const columns: ColumnDef<ResponseType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex w-12 cursor-pointer items-center justify-center">
         <Checkbox
+          className="cursor-pointer data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500 focus-visible:ring-teal-500/50"
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
@@ -39,6 +41,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    size: 48,
   },
   {
     accessorKey: "date",
@@ -59,6 +62,7 @@ export const columns: ColumnDef<ResponseType>[] = [
 
       return <span>{format(date, "dd MMMM, yyyy")}</span>;
     },
+    size: 160,
   },
   {
     accessorKey: "category",
@@ -83,6 +87,7 @@ export const columns: ColumnDef<ResponseType>[] = [
         />
       );
     },
+    size: 160,
   },
   {
     accessorKey: "payee",
@@ -98,6 +103,7 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
+    size: 200,
   },
   {
     accessorKey: "amount",
@@ -119,12 +125,13 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Badge
           variant={amount < 0 ? "destructive" : "primary"}
-          className="rounded-md px-3 py-2 text-sm font-medium"
+          className="text-sm font-normal"
         >
           {formatCurrency(amount)}
         </Badge>
       );
     },
+    size: 140,
   },
   {
     accessorKey: "account",
@@ -143,9 +150,11 @@ export const columns: ColumnDef<ResponseType>[] = [
     cell: ({ row }) => {
       return <AccountColumn account={row.original.account} accountId={row.original.accountId} />;
     },
+    size: 160,
   },
   {
     id: "actions",
+    size: 48,
     cell: ({ row }) => <Actions id={row.original.id} />,
   },
 ];
