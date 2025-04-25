@@ -20,6 +20,10 @@ const app = new Hono()
       .select({
         id: categories.id,
         name: categories.name,
+        type: categories.type,
+        color: categories.color,
+        description: categories.description,
+        notes: categories.notes,
       })
       .from(categories)
       .where(eq(categories.userId, auth.userId));
@@ -46,6 +50,10 @@ const app = new Hono()
         .select({
           id: categories.id,
           name: categories.name,
+          type: categories.type,
+          color: categories.color,
+          description: categories.description,
+          notes: categories.notes,
         })
         .from(categories)
         .where(and(eq(categories.userId, auth.userId), eq(categories.id, id)));
@@ -64,6 +72,10 @@ const app = new Hono()
       "json",
       categoriesInsertSchema.pick({
         name: true,
+        type: true,
+        color: true,
+        description: true,
+        notes: true,
       })
     ),
     async (c) => {
@@ -126,6 +138,10 @@ const app = new Hono()
       "json",
       categoriesInsertSchema.pick({
         name: true,
+        type: true,
+        color: true,
+        description: true,
+        notes: true,
       })
     ),
     async (c) => {

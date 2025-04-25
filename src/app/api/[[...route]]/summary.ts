@@ -76,6 +76,7 @@ const app = new Hono().get(
     const category = await db
       .select({
         name: categories.name,
+        color: categories.color,
         value: sql`SUM(ABS(${transactions.amount}))`.mapWith(Number),
       })
       .from(transactions)
@@ -90,7 +91,7 @@ const app = new Hono().get(
           lte(transactions.date, endDate)
         )
       )
-      .groupBy(categories.name)
+      .groupBy(categories.name, categories.color)
       .orderBy(desc(sql`SUM(ABS(${transactions.amount}))`));
 
     const topCategories = category.slice(0, 3);
@@ -102,6 +103,7 @@ const app = new Hono().get(
       finalCategories.push({
         name: "Other",
         value: otherSum,
+        color: null,
       });
     }
 
