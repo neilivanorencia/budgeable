@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { LuPlus } from "react-icons/lu";
 import { toast } from "sonner";
 
@@ -10,7 +11,6 @@ import { UploadButton } from "@/app/(private)/transactions/upload-button";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TransactionsSkeleton } from "@/components/skeletons/page-skeleton";
 import { transactions as transactionSchema } from "@/db/schema";
 import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
 import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
@@ -76,7 +76,13 @@ const TransactionsPage = () => {
   };
 
   if (transactionsQuery.isLoading) {
-    return <TransactionsSkeleton />;
+    return (
+      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
+        <Card className="flex h-80 items-center justify-center gap-0 border-none shadow-none drop-shadow-none">
+          <Loader2 className="size-6 animate-spin text-slate-300" />
+        </Card>
+      </div>
+    );
   }
 
   if (variant === VARIANTS.IMPORT) {
@@ -90,7 +96,7 @@ const TransactionsPage = () => {
 
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-      <Card className="border-none shadow-none drop-shadow-none">
+      <Card className="gap-0 border-none shadow-none drop-shadow-none">
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
           <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Transactions History

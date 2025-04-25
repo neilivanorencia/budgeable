@@ -1,12 +1,12 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { LuPlus } from "react-icons/lu";
 
 import { columns } from "@/app/(private)/accounts/columns";
 import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AccountsSkeleton } from "@/components/skeletons/page-skeleton";
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
@@ -20,12 +20,18 @@ const AccountsPage = () => {
   const isDisabled = accountsQuery.isLoading || deleteAccounts.isPending;
 
   if (accountsQuery.isLoading) {
-    return <AccountsSkeleton />;
+    return (
+      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
+        <Card className="flex h-80 items-center justify-center gap-0 border-none shadow-none drop-shadow-none">
+          <Loader2 className="size-6 animate-spin text-slate-300" />
+        </Card>
+      </div>
+    );
   }
 
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-      <Card className="border-none shadow-none drop-shadow-none">
+      <Card className="gap-0 border-none shadow-none drop-shadow-none">
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
           <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Accounts Page

@@ -11,7 +11,7 @@ export const SettingsCard = () => {
   const { data: connectedBank } = useGetConnectedBank();
 
   return (
-    <Card className="border-none shadow-none">
+    <Card className="gap-0 border-none shadow-none">
       <CardHeader>
         <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
           Settings
