@@ -14,6 +14,10 @@ import { accountsInsertSchema } from "@/db/schema";
 
 const formSchema = accountsInsertSchema.pick({
   name: true,
+  type: true,
+  status: true,
+  description: true,
+  notes: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -47,6 +51,10 @@ export const NewAccountSheet = () => {
           disabled={mutation.isPending}
           defaultValues={{
             name: "",
+            type: "other",
+            status: "active",
+            description: "",
+            notes: "",
           }}
         />
       </SheetContent>

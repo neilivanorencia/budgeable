@@ -18,6 +18,10 @@ import { useConfirm } from "@/hooks/use-confirm";
 
 const formSchema = categoriesInsertSchema.pick({
   name: true,
+  type: true,
+  color: true,
+  description: true,
+  notes: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -67,9 +71,17 @@ export const EditCategorySheet = () => {
   const defaultValues = categoryQuery.data
     ? {
         name: categoryQuery.data.name,
+        type: categoryQuery.data.type as FormValues["type"],
+        color: categoryQuery.data.color ?? "#14b8a6",
+        description: categoryQuery.data.description,
+        notes: categoryQuery.data.notes,
       }
     : {
         name: "",
+        type: "expense" as const,
+        color: "#14b8a6",
+        description: "",
+        notes: "",
       };
 
   return (

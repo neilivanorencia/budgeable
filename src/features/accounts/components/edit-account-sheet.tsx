@@ -18,6 +18,10 @@ import { useConfirm } from "@/hooks/use-confirm";
 
 const formSchema = accountsInsertSchema.pick({
   name: true,
+  type: true,
+  status: true,
+  description: true,
+  notes: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -67,9 +71,17 @@ export const EditAccountSheet = () => {
   const defaultValues = accountQuery.data
     ? {
         name: accountQuery.data.name,
+        type: accountQuery.data.type as FormValues["type"],
+        status: accountQuery.data.status as FormValues["status"],
+        description: accountQuery.data.description,
+        notes: accountQuery.data.notes,
       }
     : {
         name: "",
+        type: "other" as const,
+        status: "active" as const,
+        description: "",
+        notes: "",
       };
 
   return (

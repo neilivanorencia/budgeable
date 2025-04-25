@@ -14,6 +14,10 @@ import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 
 const formSchema = categoriesInsertSchema.pick({
   name: true,
+  type: true,
+  color: true,
+  description: true,
+  notes: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -47,6 +51,10 @@ export const NewCategorySheet = () => {
           disabled={mutation.isPending}
           defaultValues={{
             name: "",
+            type: "expense",
+            color: "#14b8a6",
+            description: "",
+            notes: "",
           }}
         />
       </SheetContent>
