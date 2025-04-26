@@ -14,13 +14,26 @@ export function convertAmountToMiliunits(amount: number) {
   return Math.round(amount * 1000);
 }
 
-export function formatCurrency(value: number) {
-  return Intl.NumberFormat("en-PH", {
+export const DEFAULT_CURRENCY = "USD";
+
+export function formatCurrency(value: number, currency: string = DEFAULT_CURRENCY) {
+  return Intl.NumberFormat(undefined, {
     style: "currency",
-    currency: "PHP",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    currency,
   }).format(value);
+}
+
+export function getCurrencySymbol(currency: string = DEFAULT_CURRENCY) {
+  return (
+    Intl.NumberFormat(undefined, { style: "currency", currency })
+      .formatToParts(0)
+      .find((part) => part.type === "currency")?.value ?? currency
+  );
+}
+
+export function getCurrencyFractionDigits(currency: string = DEFAULT_CURRENCY) {
+  return Intl.NumberFormat(undefined, { style: "currency", currency }).resolvedOptions()
+    .maximumFractionDigits;
 }
 
 export function calculatePercentageChange(currentValue: number, previousValue: number) {
