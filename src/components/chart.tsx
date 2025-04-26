@@ -1,8 +1,9 @@
-import { FileSearch, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { HiMiniChartBar } from "react-icons/hi2";
 import { PiChartLineUpBold } from "react-icons/pi";
 import { TbChartAreaLineFilled } from "react-icons/tb";
+import { PiSealWarningLight } from "react-icons/pi";
 
 import { AreaVariant } from "@/components/area-variant";
 import { BarVariant } from "@/components/bar-variant";
@@ -85,8 +86,8 @@ export const Chart = ({ data = [] }: Props) => {
       <CardContent>
         {data.length === 0 ? (
           <div className="flex h-[350px] w-full flex-col items-center justify-center gap-y-4">
-            <FileSearch className="text-muted-foreground size-6" />
-            <p className="text-muted-foreground text-sm">No data for this period</p>
+            <PiSealWarningLight className="size-12 text-slate-300" />
+            <p className="text-sm text-slate-400">No data for this period.</p>
           </div>
         ) : (
           <>

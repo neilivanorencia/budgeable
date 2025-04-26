@@ -103,7 +103,7 @@ export const AccountForm = ({ id, defaultValues, onSubmit, onDelete, disabled }:
               <FormLabel className="font-normal text-slate-800">Type</FormLabel>
               <Select value={field.value} onValueChange={field.onChange} disabled={disabled}>
                 <FormControl>
-                  <SelectTrigger className="w-full cursor-pointer shadow-none md:border-2 hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 text-base md:text-sm">
+                  <SelectTrigger className="w-full cursor-pointer shadow-none md:border-2 hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 text-sm">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
@@ -129,7 +129,7 @@ export const AccountForm = ({ id, defaultValues, onSubmit, onDelete, disabled }:
               <FormLabel className="font-normal text-slate-800">Status</FormLabel>
               <Select value={field.value} onValueChange={field.onChange} disabled={disabled}>
                 <FormControl>
-                  <SelectTrigger className="w-full cursor-pointer shadow-none md:border-2 hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 text-base md:text-sm">
+                  <SelectTrigger className="w-full cursor-pointer shadow-none md:border-2 hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 text-sm">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                 </FormControl>

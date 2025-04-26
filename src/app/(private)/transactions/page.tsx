@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
-import { LuPlus } from "react-icons/lu";
+import Papa from "papaparse";
+import { LuDownload, LuPlus } from "react-icons/lu";
 import { toast } from "sonner";
 
 import { columns } from "@/app/(private)/transactions/columns";
@@ -51,6 +53,26 @@ const TransactionsPage = () => {
   const deleteTransactions = useBulkDeleteTransactions();
 
   const isDisabled = transactionsQuery.isLoading || deleteTransactions.isPending;
+
+  const handleExport = () => {
+    const data = transactions.map((row) => ({
+      Date: format(new Date(row.date), "yyyy-MM-dd"),
+      Account: row.account,
+      Category: row.category,
+      Payee: row.payee,
+      Amount: row.amount,
+      Notes: row.notes ?? "",
+    }));
+
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${format(new Date(), "yyyy-MM-dd")}_budgeable.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   const onSubmitImport = async (values: Record<string, string | number | null>[]) => {
     const accountId = await confirm();
@@ -101,7 +123,7 @@ const TransactionsPage = () => {
           <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Transactions History
           </CardTitle>
-          <div className="flex w-full items-center justify-end gap-x-2 md:w-auto">
+          <div className="flex w-full flex-wrap items-center justify-end gap-2 md:w-auto">
             <Button
               className="transition-color w-[calc(50%-0.25rem)] cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
               onClick={newTransaction.onOpen}
@@ -110,6 +132,14 @@ const TransactionsPage = () => {
               Add new
             </Button>
             <UploadButton onUpload={onUpload} />
+            <Button
+              className="transition-color w-full cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+              onClick={handleExport}
+              disabled={isDisabled || transactions.length === 0}
+            >
+              <LuDownload className="size-4" />
+              Export
+            </Button>
           </div>
         </CardHeader>
         <CardContent>

@@ -42,7 +42,7 @@ export const Actions = ({ id }: Props) => {
         <ConfirmDialog />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="size-8 p-0">
+            <Button variant="ghost" className="size-8 p-0 focus-visible:ring-0">
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
