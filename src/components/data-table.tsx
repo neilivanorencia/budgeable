@@ -40,8 +40,8 @@ export function DataTable<TData, TValue>({
   disabled,
 }: DataTableProps<TData, TValue>) {
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure you?",
-    "Deleting accounts cannot be undone."
+    "Delete selected items?",
+    "This will permanently delete all selected items. This action cannot be undone."
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -149,32 +149,36 @@ export function DataTable<TData, TValue>({
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="grid w-full grid-cols-2 gap-x-2 font-normal sm:flex sm:w-auto sm:justify-end">
-          <Button
-            variant={table.getCanPreviousPage() ? "default" : "outline"}
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className={
-              table.getCanPreviousPage()
-                ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
-                : "cursor-pointer text-slate-800"
-            }
-          >
-            Previous
-          </Button>
-          <Button
-            variant={table.getCanNextPage() ? "default" : "outline"}
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className={
-              table.getCanNextPage()
-                ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
-                : "cursor-pointer text-slate-800"
-            }
-          >
-            Next
-          </Button>
+          <span className={!table.getCanPreviousPage() ? "cursor-not-allowed" : undefined}>
+            <Button
+              variant={table.getCanPreviousPage() ? "default" : "outline"}
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className={
+                table.getCanPreviousPage()
+                  ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+                  : "w-full pointer-events-none text-slate-800 md:w-auto"
+              }
+            >
+              Previous
+            </Button>
+          </span>
+          <span className={!table.getCanNextPage() ? "cursor-not-allowed" : undefined}>
+            <Button
+              variant={table.getCanNextPage() ? "default" : "outline"}
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className={
+                table.getCanNextPage()
+                  ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
+                  : "w-full pointer-events-none text-slate-800 md:w-auto"
+              }
+            >
+              Next
+            </Button>
+          </span>
         </div>
       </div>
     </div>

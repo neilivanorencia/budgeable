@@ -30,8 +30,8 @@ export const EditTransactionSheet = () => {
   const { isOpen, onClose, id } = useOpenTransaction();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure you?",
-    "Deleting a transaction cannot be undone."
+    "Delete this transaction?",
+    "This will permanently remove the transaction from your records. This action cannot be undone."
   );
 
   const transactionQuery = useGetTransaction(id);

@@ -30,8 +30,8 @@ export const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure you?",
-    "Deleting an account cannot be undone."
+    "Delete this account?",
+    "This will permanently remove the account and all its data. This action cannot be undone."
   );
 
   const accountQuery = useGetAccount(id);

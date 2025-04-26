@@ -23,8 +23,8 @@ export const Actions = ({ id }: Props) => {
   const { onOpen } = useOpenAccount();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure?",
-    "Deleting this account cannot be undone."
+    "Delete this account?",
+    "This will permanently remove the account and all associated data. This action cannot be undone."
   );
 
   const deleteMutation = useDeleteAccount(id);

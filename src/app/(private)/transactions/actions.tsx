@@ -23,8 +23,8 @@ export const Actions = ({ id }: Props) => {
   const { onOpen } = useOpenTransaction();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure?",
-    "Deleting this transaction cannot be undone."
+    "Delete this transaction?",
+    "This will permanently remove the transaction from your records. This action cannot be undone."
   );
 
   const deleteMutation = useDeleteTransaction(id);

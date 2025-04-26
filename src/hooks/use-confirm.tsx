@@ -58,7 +58,7 @@ export const useConfirm = (
               Cancel
             </Button>
             <Button
-              className="transition-color cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50"
+              className="transition-color cursor-pointer bg-rose-500 shadow-none duration-300 ease-in-out hover:bg-rose-400 hover:shadow-lg hover:shadow-rose-200/50"
               onClick={handleConfirm}
             >
               Confirm

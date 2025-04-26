@@ -23,8 +23,8 @@ export const Actions = ({ id }: Props) => {
   const { onOpen } = useOpenCategory();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    "Are you sure?",
-    "Deleting this category cannot be undone."
+    "Delete this category?",
+    "This will permanently remove the category. Transactions using it will become uncategorized. This action cannot be undone."
   );
 
   const deleteMutation = useDeleteCategory(id);
