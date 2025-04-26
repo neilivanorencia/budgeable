@@ -16,7 +16,6 @@ import {
 import { useConfirm } from "@/hooks/use-confirm";
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -30,7 +29,6 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  filterKey: string;
   onDelete: (rows: Row<TData>[]) => void;
   disabled?: boolean;
 }
@@ -38,7 +36,6 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  filterKey,
   onDelete,
   disabled,
 }: DataTableProps<TData, TValue>) {
@@ -48,7 +45,7 @@ export function DataTable<TData, TValue>({
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -58,13 +55,17 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "includesString",
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
       rowSelection,
+    },
+    meta: {
+      searchTerm: globalFilter,
     },
   });
 
@@ -73,9 +74,9 @@ export function DataTable<TData, TValue>({
       <ConfirmDialog />
       <div className="flex flex-col gap-y-2 py-4 sm:flex-row sm:items-center">
         <Input
-          placeholder={`Filter ${filterKey}...`}
-          value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(filterKey)?.setFilterValue(event.target.value)}
+          placeholder="Search..."
+          value={globalFilter ?? ""}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="w-full border text-sm shadow-none sm:max-w-sm sm:text-base md:border-2"
         />
         {table.getFilteredSelectedRowModel().rows.length > 0 && (
