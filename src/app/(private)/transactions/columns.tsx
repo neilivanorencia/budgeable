@@ -10,7 +10,9 @@ import { CategoryColumn } from "@/app/(private)/transactions/category-column";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { HighlightText } from "@/components/highlight-text";
 import { client } from "@/lib/hono";
+import { getSearchTerm } from "@/lib/table-meta";
 import { formatCurrency } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -41,6 +43,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    enableGlobalFilter: false,
     size: 48,
   },
   {
@@ -78,12 +81,13 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       return (
         <CategoryColumn
           id={row.original.id}
           category={row.original.category}
           categoryId={row.original.categoryId}
+          searchTerm={getSearchTerm(table)}
         />
       );
     },
@@ -102,6 +106,10 @@ export const columns: ColumnDef<ResponseType>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row, table }) => {
+      const payee = row.getValue("payee") as string;
+      return <HighlightText text={payee} searchTerm={getSearchTerm(table)} />;
     },
     size: 200,
   },
@@ -147,14 +155,21 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return <AccountColumn account={row.original.account} accountId={row.original.accountId} />;
+    cell: ({ row, table }) => {
+      return (
+        <AccountColumn
+          account={row.original.account}
+          accountId={row.original.accountId}
+          searchTerm={getSearchTerm(table)}
+        />
+      );
     },
     size: 160,
   },
   {
     id: "actions",
     size: 48,
+    enableGlobalFilter: false,
     cell: ({ row }) => <Actions id={row.original.id} />,
   },
 ];

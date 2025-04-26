@@ -2,15 +2,17 @@ import { TriangleAlert } from "lucide-react";
 
 import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
+import { HighlightText } from "@/components/highlight-text";
 import { cn } from "@/lib/utils";
 
 type Props = {
   id: string;
   category: string | null;
   categoryId: string | null;
+  searchTerm?: string;
 };
 
-export const CategoryColumn = ({ id, category, categoryId }: Props) => {
+export const CategoryColumn = ({ id, category, categoryId, searchTerm }: Props) => {
   const { onOpen: onOpenCategory } = useOpenCategory();
   const { onOpen: onOpenTransaction } = useOpenTransaction();
 
@@ -31,7 +33,10 @@ export const CategoryColumn = ({ id, category, categoryId }: Props) => {
       )}
     >
       {!category && <TriangleAlert className="size-4 shrink-0 text-rose-500" />}
-      {category || "Uncategorized"}
+      {category
+        ? <HighlightText text={category} searchTerm={searchTerm} />
+        : "Uncategorized"
+      }
     </div>
   );
 };

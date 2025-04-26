@@ -7,7 +7,9 @@ import { Actions } from "@/app/(private)/accounts/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { HighlightText } from "@/components/highlight-text";
 import { client } from "@/lib/hono";
+import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
@@ -47,6 +49,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    enableGlobalFilter: false,
     size: 48,
   },
   {
@@ -63,8 +66,8 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      return <span>{row.original.name}</span>;
+    cell: ({ row, table }) => {
+      return <HighlightText text={row.original.name} searchTerm={getSearchTerm(table)} />;
     },
     size: 180,
   },
@@ -82,11 +85,14 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const description = row.original.description;
       return (
         <span className="text-muted-foreground block truncate text-sm">
-          {description?.trim() ? description : "—"}
+          {description?.trim()
+            ? <HighlightText text={description} searchTerm={getSearchTerm(table)} />
+            : "—"
+          }
         </span>
       );
     },
@@ -145,6 +151,7 @@ export const columns: ColumnDef<ResponseType>[] = [
   {
     id: "actions",
     size: 40,
+    enableGlobalFilter: false,
     cell: ({ row }) => (
       <div className="flex justify-end">
         <Actions id={row.original.id} />
