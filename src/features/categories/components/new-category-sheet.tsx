@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { categoriesInsertSchema } from "@/db/schema";
 import { useCreateCategory } from "@/features/categories/api/use-create-category";
-import { CategoryForm } from "@/features/categories/components//category-form";
+import { CategoryForm } from "@/features/categories/components/category-form";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 
 const formSchema = categoriesInsertSchema.pick({

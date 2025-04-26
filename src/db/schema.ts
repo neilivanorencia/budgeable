@@ -97,3 +97,10 @@ export const connectedBanks = pgTable("connected_banks", {
   userId: text("user_id").notNull(),
   accessToken: text("access_token").notNull(),
 });
+
+export const userSettings = pgTable("user_settings", {
+  userId: text("user_id").primaryKey(),
+  currency: text("currency").notNull().default("USD"),
+});
+
+export const userSettingsInsertSchema = createInsertSchema(userSettings);
