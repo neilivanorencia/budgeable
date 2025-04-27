@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 
 import { neon } from "@neondatabase/serverless";
 
-import { accounts, categories, transactions } from "@/db/schema";
+import { accounts, categories, transactions, userSettings } from "@/db/schema";
 import { convertAmountToMiliunits } from "@/lib/utils";
 
 export function loadEnv() {
@@ -35,7 +35,9 @@ export function dbHost(databaseUrl: string) {
   }
 }
 
-export { accounts, categories, transactions, convertAmountToMiliunits };
+export { accounts, categories, transactions, userSettings, convertAmountToMiliunits };
+
+export const SEED_CURRENCY = "USD";
 
 export type CategoryType = "income" | "expense";
 
@@ -61,8 +63,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
       "Stark Industries",
       "Umbrella Co Payroll",
     ],
-    min: 3_000,
-    max: 8_000,
+    min: 2_800,
+    max: 5_200,
     recurring: true,
     color: "#10b981",
     description: "Regular salary and wage payouts from employment",
@@ -71,8 +73,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Freelance",
     type: "income",
     payees: ["Upwork", "Fiverr", "Toptal", "Freelancer", "Direct Client"],
-    min: 500,
-    max: 3_000,
+    min: 120,
+    max: 900,
     color: "#14b8a6",
     description: "Revenue generated from freelance contracts and project gigs",
   },
@@ -80,8 +82,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Investments",
     type: "income",
     payees: ["Vanguard", "Fidelity", "Robinhood", "Dividend Payout", "Bank Interest"],
-    min: 20,
-    max: 800,
+    min: 10,
+    max: 250,
     color: "#06b6d4",
     description: "Returns from dividends, interest, or other investment payouts",
   },
@@ -89,8 +91,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Rent",
     type: "expense",
     payees: ["Property Management", "Apartment Lease", "Landlord"],
-    min: 800,
-    max: 2_500,
+    min: 900,
+    max: 1_900,
     recurring: true,
     color: "#6366f1",
     description: "Monthly rental fees and housing expenditures",
@@ -99,8 +101,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Groceries",
     type: "expense",
     payees: ["Walmart", "Costco", "Tesco", "Carrefour", "Aldi", "Whole Foods"],
-    min: 30,
-    max: 300,
+    min: 15,
+    max: 160,
     color: "#f59e0b",
     description: "Groceries, household items, and everyday essentials",
   },
@@ -108,8 +110,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Dining",
     type: "expense",
     payees: ["McDonald's", "Starbucks", "Subway", "KFC", "Pizza Hut", "Domino's"],
-    min: 8,
-    max: 80,
+    min: 6,
+    max: 55,
     color: "#f97316",
     description: "Dining out, coffee shops, and food delivery",
   },
@@ -117,8 +119,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Transport",
     type: "expense",
     payees: ["Uber", "Lyft", "Bolt", "Shell", "BP", "Metro Transit"],
-    min: 5,
-    max: 120,
+    min: 3,
+    max: 70,
     color: "#0ea5e9",
     description: "Commuting expenses, fuel, public transit, and ride-hailing services",
   },
@@ -126,8 +128,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Utilities",
     type: "expense",
     payees: ["Electric Company", "Water Utility", "Comcast", "AT&T", "Vodafone"],
-    min: 40,
-    max: 350,
+    min: 35,
+    max: 220,
     recurring: true,
     color: "#8b5cf6",
     description:
@@ -137,8 +139,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Shopping",
     type: "expense",
     payees: ["Amazon", "eBay", "IKEA", "Zara", "H&M", "Best Buy"],
-    min: 20,
-    max: 600,
+    min: 12,
+    max: 320,
     color: "#ec4899",
     description: "General retail purchases, apparel, and electronic items",
   },
@@ -146,8 +148,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Health",
     type: "expense",
     payees: ["CVS Pharmacy", "Walgreens", "Boots", "City Clinic", "Dental Care"],
-    min: 15,
-    max: 500,
+    min: 10,
+    max: 280,
     color: "#ef4444",
     description: "Medical care, pharmacy prescriptions, and dental treatments",
   },
@@ -155,8 +157,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Entertainment",
     type: "expense",
     payees: ["Netflix", "Spotify", "Disney+", "Steam", "Cinema"],
-    min: 10,
-    max: 120,
+    min: 8,
+    max: 60,
     color: "#a855f7",
     description: "Leisure activities, streaming subscriptions, gaming, and entertainment",
   },
@@ -164,8 +166,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Education",
     type: "expense",
     payees: ["Udemy", "Coursera", "Skillshare", "Bookstore", "Tuition"],
-    min: 20,
-    max: 500,
+    min: 15,
+    max: 260,
     color: "#3b82f6",
     description: "Educational expenses, training courses, books, and tuition fees",
   },
@@ -173,8 +175,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Travel",
     type: "expense",
     payees: ["Airbnb", "Booking.com", "Expedia", "Delta Airlines", "Marriott"],
-    min: 100,
-    max: 1_800,
+    min: 80,
+    max: 950,
     color: "#f43f5e",
     description: "Travel accommodations, flights, and holiday expenditures",
   },
@@ -182,8 +184,8 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
     name: "Insurance",
     type: "expense",
     payees: ["Geico", "Allianz", "AXA", "Health Insurance", "Auto Insurance"],
-    min: 50,
-    max: 500,
+    min: 40,
+    max: 300,
     recurring: true,
     color: "#64748b",
     description: "Regular insurance premiums for health, auto, and property coverage",

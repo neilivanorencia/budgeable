@@ -9,6 +9,7 @@ import {
   ACCOUNT_TYPE_DESCRIPTIONS,
   ACCOUNT_TYPE_MAP,
   CATEGORY_CATALOG,
+  SEED_CURRENCY,
   type CategoryTemplate,
   accounts,
   categories,
@@ -17,6 +18,7 @@ import {
   dbHost,
   loadEnv,
   transactions,
+  userSettings,
 } from "@/lib/seed";
 
 const CAPS = { accounts: 10, categories: 20, transactions: 5000 } as const;
@@ -121,6 +123,7 @@ async function wipeUser(db: ReturnType<typeof createDb>, userId: string, account
   }
   await db.delete(accounts).where(eq(accounts.userId, userId));
   await db.delete(categories).where(eq(categories.userId, userId));
+  await db.delete(userSettings).where(eq(userSettings.userId, userId));
 }
 
 async function chunkedInsert<TInsert>(
@@ -317,6 +320,12 @@ async function main() {
     await chunkedInsert((chunk) => db.insert(accounts).values(chunk), accountRows);
     const accountIds = accountRows.map((a) => a.id);
 
+    s.message("Setting currency preference...");
+    await db
+      .insert(userSettings)
+      .values({ userId, currency: SEED_CURRENCY })
+      .onConflictDoNothing();
+
     s.message("Creating categories...");
     const income = CATEGORY_CATALOG.filter((c) => c.type === "income");
     const expense = CATEGORY_CATALOG.filter((c) => c.type === "expense");
@@ -355,8 +364,8 @@ async function main() {
     }[] = [];
 
     const makeTxn = (tpl: CategoryTemplate, date: Date) => {
-      const pesos = faker.number.int({ min: tpl.min, max: tpl.max });
-      const signed = tpl.type === "expense" ? -pesos : pesos;
+      const baseAmount = faker.number.int({ min: tpl.min, max: tpl.max });
+      const signed = tpl.type === "expense" ? -baseAmount : baseAmount;
       return {
         id: createId(),
         amount: convertAmountToMiliunits(signed),
