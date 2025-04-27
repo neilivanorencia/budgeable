@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
-import { BsTrash } from "react-icons/bs";
 import { z } from "zod";
 
 import { DatePicker } from "@/components/date-picker";
+import { FormActions } from "@/components/form-actions";
 import { Select } from "@/components/select";
-import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -77,10 +76,6 @@ export const TransactionForm = ({
       amount: amountInMiliunits,
       categoryId: values.categoryId ?? "",
     });
-  };
-
-  const handleDelete = () => {
-    onDelete?.();
   };
 
   return (
@@ -178,27 +173,13 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
-        <div className={id ? "grid grid-cols-2 gap-x-2" : ""}>
-          <Button
-            className="transition-color w-full cursor-pointer bg-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50"
-            disabled={disabled}
-          >
-            {id ? "Save changes" : "Create transaction"}
-          </Button>
-
-          {!!id && (
-            <Button
-              type="button"
-              disabled={disabled}
-              onClick={handleDelete}
-              variant="outline"
-              className="transition-color w-full cursor-pointer border-2 border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600"
-            >
-              <BsTrash className="size-4" />
-              Delete transaction
-            </Button>
-          )}
-        </div>
+        <FormActions
+          id={id}
+          label="transaction"
+          onDelete={onDelete}
+          disabled={disabled}
+          deleteClassName="transition-color w-full cursor-pointer border-2 border-teal-500 text-teal-500 shadow-none duration-300 ease-in-out hover:bg-teal-50 hover:text-teal-600"
+        />
       </form>
     </Form>
   );
