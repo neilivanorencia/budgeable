@@ -49,14 +49,16 @@ export const SettingsCard = () => {
                   Amounts are displayed and stored in this currency.
                 </p>
               </div>
-              <div className="w-full md:w-72">
-                <Select
-                  placeholder="Select currency"
-                  options={CURRENCY_OPTIONS}
-                  value={currency}
-                  onChange={onCurrencyChange}
-                  disabled={updateCurrency.isPending}
-                />
+              <div className={cn("w-full md:w-72", updateCurrency.isPending && "cursor-not-allowed")}>
+                <div className={cn(updateCurrency.isPending && "pointer-events-none opacity-70")}>
+                  <Select
+                    placeholder="Select currency"
+                    options={CURRENCY_OPTIONS}
+                    value={currency}
+                    onChange={onCurrencyChange}
+                    disabled={updateCurrency.isPending}
+                  />
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-y-2 rounded-md p-3 md:flex-row md:items-center md:justify-between md:gap-x-4 md:px-0 md:py-4">

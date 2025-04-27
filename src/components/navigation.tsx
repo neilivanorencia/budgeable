@@ -2,7 +2,7 @@
 
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BsArrowRightShort } from "react-icons/bs";
 import { IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
@@ -49,9 +49,13 @@ export const Navigation = () => {
   const router = useRouter();
   const isMobile = useMedia("(max-width: 1024px)", false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const search = searchParams.toString();
+  const withFilters = (href: string) => (search ? `${href}?${search}` : href);
 
   const onClick = (href: string) => {
-    router.push(href);
+    router.push(withFilters(href));
     setIsOpen(false);
   };
 
@@ -91,7 +95,7 @@ export const Navigation = () => {
                   onClick={() => onClick(route.href)}
                   className={`group relative w-full cursor-pointer justify-start rounded-xl py-6 text-sm font-normal text-slate-700 sm:py-8 sm:text-base ${
                     isActive
-                      ? "bg-teal-500 font-normal text-white border border-teal-400/50 hover:bg-teal-500 hover:text-white"
+                      ? "border border-teal-400/50 bg-teal-500 font-normal text-white hover:bg-teal-500 hover:text-white"
                       : "bg-transparent hover:bg-teal-200/50 hover:text-slate-800"
                   }`}
                 >
@@ -130,7 +134,7 @@ export const Navigation = () => {
       {routes.map((route) => (
         <NavigationItem
           key={route.href}
-          href={route.href}
+          href={withFilters(route.href)}
           label={route.label}
           isActive={pathname === route.href}
         />
