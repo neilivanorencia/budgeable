@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { transactions as transactionSchema } from "@/db/schema";
 import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
 import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
@@ -46,6 +47,7 @@ const TransactionsPage = () => {
     setVariant(VARIANTS.LIST);
   };
 
+  const { currency } = useCurrency();
   const newTransaction = useNewTransaction();
   const transactionsQuery = useGetTransactions();
   const transactions = transactionsQuery.data || [];
@@ -60,7 +62,7 @@ const TransactionsPage = () => {
       Account: row.account,
       Category: row.category,
       Payee: row.payee,
-      Amount: row.amount,
+      [`Amount (${currency})`]: row.amount,
       Notes: row.notes ?? "",
     }));
 

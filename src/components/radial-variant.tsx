@@ -1,6 +1,7 @@
 import { Legend, RadialBar, RadialBarChart, ResponsiveContainer } from "recharts";
 
-import { convertAmountFromMiliunits, formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
+import { convertAmountFromMiliunits } from "@/lib/utils";
 
 const COLORS = [
   "#14b8a6",
@@ -26,6 +27,8 @@ type Props = {
 };
 
 export const RadialVariant = ({ data }: Props) => {
+  const { format } = useCurrency();
+
   return (
     <ResponsiveContainer width="100%" height={350}>
       <RadialBarChart
@@ -44,7 +47,7 @@ export const RadialVariant = ({ data }: Props) => {
             fill: "#fff",
             fontSize: 12,
             position: "insideStart",
-            formatter: (value: number) => formatCurrency(convertAmountFromMiliunits(value)),
+            formatter: (value: number) => format(convertAmountFromMiliunits(value)),
           }}
           background
           dataKey="value"
@@ -66,7 +69,7 @@ export const RadialVariant = ({ data }: Props) => {
                     />
                     <span className="text-muted-foreground text-xs">{entry.value}</span>
                     <span className="text-xs font-medium">
-                      {formatCurrency(convertAmountFromMiliunits(entry.payload?.value ?? 0))}
+                      {format(convertAmountFromMiliunits(entry.payload?.value ?? 0))}
                     </span>
                   </li>
                 ))}

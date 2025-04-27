@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import { convertAmountFromMiliunits, formatCurrency } from "@/lib/utils";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
+import { convertAmountFromMiliunits } from "@/lib/utils";
 
 type CircularTooltipProps = {
   active?: boolean;
@@ -12,6 +13,8 @@ type CircularTooltipProps = {
 };
 
 export const CircularTooltip = ({ active, payload }: CircularTooltipProps) => {
+  const { format } = useCurrency();
+
   if (!active || !payload || payload.length === 0) {
     return null;
   }
@@ -29,7 +32,7 @@ export const CircularTooltip = ({ active, payload }: CircularTooltipProps) => {
             <div className="size-1.5 rounded-full bg-rose-500" />
             <p className="text-muted-foreground text-sm">Expenses</p>
           </div>
-          <p className="text-right text-sm">{formatCurrency(convertAmountFromMiliunits(value) * -1)}</p>
+          <p className="text-right text-sm">{format(convertAmountFromMiliunits(value) * -1)}</p>
         </div>
       </div>
     </div>

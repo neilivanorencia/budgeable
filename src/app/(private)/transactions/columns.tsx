@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { HighlightText } from "@/components/highlight-text";
 import { client } from "@/lib/hono";
-import { getSearchTerm } from "@/lib/table-meta";
+import { getCurrency, getSearchTerm } from "@/lib/table-meta";
 import { formatCurrency } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -127,15 +127,16 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const amount = parseFloat(row.getValue("amount") as string);
+      const currency = getCurrency(table);
 
       return (
         <Badge
           variant={amount < 0 ? "destructive" : "primary"}
           className="text-sm font-normal"
         >
-          {formatCurrency(amount)}
+          {formatCurrency(amount, currency)}
         </Badge>
       );
     },

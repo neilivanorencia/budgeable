@@ -5,6 +5,7 @@ import { BsTrash } from "react-icons/bs";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
 import {
   Table,
   TableBody,
@@ -44,6 +45,8 @@ export function DataTable<TData, TValue>({
     "This will permanently delete all selected items. This action cannot be undone."
   );
 
+  const { currency } = useCurrency();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [rowSelection, setRowSelection] = React.useState({});
@@ -66,6 +69,7 @@ export function DataTable<TData, TValue>({
     },
     meta: {
       searchTerm: globalFilter,
+      currency,
     },
   });
 

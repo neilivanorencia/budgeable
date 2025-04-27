@@ -4,7 +4,8 @@ import { IoInformation } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
+import { cn, getCurrencyFractionDigits, getCurrencySymbol } from "@/lib/utils";
 
 type Props = {
   value: string;
@@ -14,6 +15,10 @@ type Props = {
 };
 
 export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) => {
+  const { currency } = useCurrency();
+  const symbol = getCurrencySymbol(currency);
+  const fractionDigits = getCurrencyFractionDigits(currency);
+
   const parsedValue = parseFloat(value);
   const isIncome = parsedValue >= 0;
   const isExpense = parsedValue < 0;
@@ -46,15 +51,15 @@ export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) =
         </Tooltip>
       </TooltipProvider>
       <CurrencyInput
-        prefix="₱"
+        prefix={symbol}
         className={cn(
           "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 pl-10 text-sm shadow-none transition-colors outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:border-2 md:shadow-xs",
           "focus-visible:border-teal-500"
         )}
         placeholder={placeholder}
         value={value}
-        decimalsLimit={2}
-        decimalScale={2}
+        decimalsLimit={fractionDigits}
+        decimalScale={fractionDigits}
         onValueChange={onChange}
         disabled={disabled}
       />

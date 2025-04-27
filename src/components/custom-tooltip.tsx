@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import { Separator } from '@/components/ui/separator';
-import { formatCurrency } from '@/lib/utils';
+import { useCurrency } from '@/features/settings/hooks/use-currency';
 
 interface RechartsPayloadItem {
   payload: {
@@ -16,6 +16,8 @@ interface CustomTooltipProps {
 }
 
 export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  const { format: formatMoney } = useCurrency();
+
   if (!active || !payload || payload.length === 0) {
     return null;
   }
@@ -36,14 +38,14 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
             <div className="size-1.5 rounded-full bg-teal-500" />
             <p className="text-muted-foreground text-sm">Income</p>
           </div>
-          <p className="text-right text-sm">{formatCurrency(income)}</p>
+          <p className="text-right text-sm">{formatMoney(income)}</p>
         </div>
         <div className="flex items-center justify-between gap-x-4">
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-rose-500" />
             <p className="text-muted-foreground text-sm">Expenses</p>
           </div>
-          <p className="text-right text-sm">{formatCurrency(expense * -1)}</p>
+          <p className="text-right text-sm">{formatMoney(expense * -1)}</p>
         </div>
       </div>
     </div>

@@ -4,7 +4,8 @@ import { IconType } from "react-icons";
 import { CountUp } from "@/components/count-up";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn, formatCurrency, formatPercentage } from "@/lib/utils";
+import { useCurrency } from "@/features/settings/hooks/use-currency";
+import { cn, formatPercentage } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const boxVariants = cva("rounded-lg p-3 md:rounded-xl", {
@@ -54,13 +55,15 @@ export const DataCard = ({
   dateRange,
   percentageChange = 0,
 }: DataCardProps) => {
+  const { format } = useCurrency();
+
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Card
             className="cursor-pointer border-none shadow-none"
-            aria-label={`${title} data card showing ${formatCurrency(value)}`}
+            aria-label={`${title} data card showing ${format(value)}`}
           >
             <CardHeader className="flex flex-row items-center justify-between gap-x-4">
               <div className="space-y-2">
@@ -83,7 +86,7 @@ export const DataCard = ({
                   end={value}
                   decimals={2}
                   decimalPlaces={2}
-                  formattingFn={formatCurrency}
+                  formattingFn={format}
                 />
               </h1>
               <p
@@ -101,7 +104,7 @@ export const DataCard = ({
         </TooltipTrigger>
         <TooltipContent>
           <p>
-            Details for {title}: {formatCurrency(value)}
+            Details for {title}: {format(value)}
           </p>
         </TooltipContent>
       </Tooltip>
