@@ -64,7 +64,7 @@ export const ColorPicker = ({ value, onChange, disabled }: Props) => {
           className="absolute top-full left-0 z-[9999] mt-1 rounded-2xl border bg-white p-3 shadow-[0_10px_15px_-3px_rgba(30,25,20,0.06),0_4px_6px_-4px_rgba(30,25,20,0.04)]"
           style={{ zIndex: 9999 }}
         >
-          <HexColorPicker color={currentColor} onChange={onChange} />
+          <HexColorPicker color={currentColor} onChange={onChange} style={{ width: "100%" }} />
           <input
             type="text"
             value={value ?? ""}
