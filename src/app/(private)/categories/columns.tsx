@@ -1,13 +1,11 @@
 "use client";
 
 import { InferResponseType } from "hono";
-import { ArrowUpDown } from "lucide-react";
 
 import { Actions } from "@/app/(private)/categories/actions";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { HighlightText } from "@/components/highlight-text";
+import { actionsColumn, selectColumn, sortableHeader } from "@/components/table-columns";
+import { Badge } from "@/components/ui/badge";
 import { client } from "@/lib/hono";
 import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
@@ -17,47 +15,10 @@ export type ResponseType = InferResponseType<typeof client.api.categories.$get, 
 const DEFAULT_CATEGORY_COLOR = "#14b8a6";
 
 export const columns: ColumnDef<ResponseType>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex w-12 cursor-pointer items-center justify-center">
-        <Checkbox
-          className="cursor-pointer data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500 focus-visible:ring-teal-500/50"
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex w-12 cursor-pointer items-center justify-center">
-        <Checkbox
-          className="cursor-pointer data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500 focus-visible:ring-teal-500/50"
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-    enableGlobalFilter: false,
-    size: 48,
-  },
+  selectColumn<ResponseType>(),
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: sortableHeader("Name"),
     cell: ({ row, table }) => {
       const { name } = row.original;
       return <HighlightText text={name} searchTerm={getSearchTerm(table)} />;
@@ -66,18 +27,7 @@ export const columns: ColumnDef<ResponseType>[] = [
   },
   {
     accessorKey: "color",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Color
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: sortableHeader("Color"),
     enableGlobalFilter: false,
     cell: ({ row }) => {
       const color = row.original.color;
@@ -99,18 +49,7 @@ export const columns: ColumnDef<ResponseType>[] = [
   },
   {
     accessorKey: "description",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Description
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: sortableHeader("Description"),
     cell: ({ row, table }) => {
       const description = row.original.description;
       return (
@@ -126,18 +65,7 @@ export const columns: ColumnDef<ResponseType>[] = [
   },
   {
     accessorKey: "type",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Type
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: sortableHeader("Type"),
     cell: ({ row }) => {
       const type = row.original.type;
 
@@ -149,14 +77,9 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     size: 120,
   },
-  {
-    id: "actions",
-    size: 40,
-    enableGlobalFilter: false,
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Actions id={row.original.id} />
-      </div>
-    ),
-  },
+  actionsColumn<ResponseType>(({ row }) => (
+    <div className="flex justify-end">
+      <Actions id={row.original.id} />
+    </div>
+  )),
 ];
