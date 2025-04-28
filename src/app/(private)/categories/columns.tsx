@@ -10,7 +10,7 @@ import { client } from "@/lib/hono";
 import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0];
+type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0];
 
 const DEFAULT_CATEGORY_COLOR = "#14b8a6";
 

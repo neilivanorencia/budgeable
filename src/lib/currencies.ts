@@ -1,6 +1,6 @@
 import { getCurrencySymbol } from "@/lib/utils";
 
-export type CurrencyOption = {
+type CurrencyOption = {
   value: string;
   label: string;
   symbol: string;

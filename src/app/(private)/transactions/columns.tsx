@@ -14,7 +14,7 @@ import { getCurrency, getSearchTerm } from "@/lib/table-meta";
 import { formatCurrency } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type ResponseType = InferResponseType<typeof client.api.transactions.$get, 200>["data"][0];
+type ResponseType = InferResponseType<typeof client.api.transactions.$get, 200>["data"][0];
 
 export const columns: ColumnDef<ResponseType>[] = [
   selectColumn<ResponseType>(),

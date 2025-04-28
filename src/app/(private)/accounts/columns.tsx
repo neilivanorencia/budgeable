@@ -10,7 +10,7 @@ import { client } from "@/lib/hono";
 import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
+type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
 
 const ACCOUNT_TYPE_LABELS: Record<string, string> = {
   cash: "Cash",
