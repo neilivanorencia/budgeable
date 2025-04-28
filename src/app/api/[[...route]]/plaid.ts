@@ -3,8 +3,8 @@ import { Configuration, CountryCode, PlaidApi, PlaidEnvironments, Products } fro
 import { z } from "zod";
 
 import { db } from "@/db";
-import { accounts, categories, connectedBanks, transactions } from "@/db/schema";
-import { convertAmountToMiliunits } from "@/lib/utils";
+import { accounts, categories, connectedBanks } from "@/db/schema";
+import { syncAccounts, syncCategories, syncTransactions } from "@/lib/plaid-sync";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2";
@@ -145,58 +145,11 @@ const app = new Hono()
 
       const plaidCategories = await plaidClient.categoriesGet({});
 
-      const newAccounts = await db
-        .insert(accounts)
-        .values(
-          plaidAccounts.data.accounts.map((account) => ({
-            id: createId(),
-            name: account.name,
-            plaidId: account.account_id,
-            userId: auth.userId,
-          }))
-        )
-        .returning();
+      const newAccounts = await syncAccounts(auth.userId, plaidAccounts.data.accounts);
 
-      const newCategories = await db
-        .insert(categories)
-        .values(
-          plaidCategories.data.categories.map((category) => ({
-            id: createId(),
-            name: category.hierarchy.join(", "),
-            plaidId: category.category_id,
-            userId: auth.userId,
-          }))
-        )
-        .returning();
+      const newCategories = await syncCategories(auth.userId, plaidCategories.data.categories);
 
-      const newTransactionsValues = plaidTransactions.data.added.reduce(
-        (acc, transaction) => {
-          const account = newAccounts.find((account) => account.plaidId === transaction.account_id);
-          const category = newCategories.find(
-            (category) => category.plaidId === transaction.category_id
-          );
-          const amountInMiliunits = convertAmountToMiliunits(transaction.amount);
-
-          if (account) {
-            acc.push({
-              id: createId(),
-              amount: amountInMiliunits,
-              payee: transaction.merchant_name || transaction.name,
-              notes: transaction.name,
-              date: new Date(transaction.date),
-              accountId: account.id,
-              categoryId: category?.id || "Uncategorized",
-            });
-          }
-
-          return acc;
-        },
-        [] as (typeof transactions.$inferInsert)[]
-      );
-
-      if (newTransactionsValues.length > 0) {
-        await db.insert(transactions).values(newTransactionsValues);
-      }
+      await syncTransactions(newAccounts, newCategories, plaidTransactions.data.added);
 
       return c.json({ ok: true }, 200);
     }
