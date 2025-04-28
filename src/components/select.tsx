@@ -31,12 +31,14 @@ type Props = {
   placeholder?: string;
 };
 
+const EMPTY_OPTIONS: Option[] = [];
+
 export const Select = ({
   value,
   onChange,
   disabled,
   onCreate,
-  options = [],
+  options = EMPTY_OPTIONS,
   placeholder,
 }: Props) => {
   const onSelect = (option: SingleValue<Option>) => {

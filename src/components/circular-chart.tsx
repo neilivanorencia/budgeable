@@ -26,7 +26,9 @@ type Props = {
   }[];
 };
 
-export const CircularChart = ({ data = [] }: Props) => {
+const EMPTY_DATA: NonNullable<Props["data"]> = [];
+
+export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
   const [chartType, setChartType] = useState("pie");
 
   const onTypeChange = (type: string) => {

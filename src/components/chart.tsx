@@ -28,7 +28,9 @@ type Props = {
   }[];
 };
 
-export const Chart = ({ data = [] }: Props) => {
+const EMPTY_DATA: NonNullable<Props["data"]> = [];
+
+export const Chart = ({ data = EMPTY_DATA }: Props) => {
   const [chartType, setChartType] = useState("area");
 
   const onTypeChange = (type: string) => {
