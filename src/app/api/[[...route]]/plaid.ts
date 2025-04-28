@@ -139,15 +139,15 @@ const app = new Hono()
         access_token: connectedBank.accessToken,
       });
 
-      const plaidAccounts = await plaidClient.accountsGet({
-        access_token: connectedBank.accessToken,
-      });
+      const [plaidAccounts, plaidCategories] = await Promise.all([
+        plaidClient.accountsGet({ access_token: connectedBank.accessToken }),
+        plaidClient.categoriesGet({}),
+      ]);
 
-      const plaidCategories = await plaidClient.categoriesGet({});
-
-      const newAccounts = await syncAccounts(auth.userId, plaidAccounts.data.accounts);
-
-      const newCategories = await syncCategories(auth.userId, plaidCategories.data.categories);
+      const [newAccounts, newCategories] = await Promise.all([
+        syncAccounts(auth.userId, plaidAccounts.data.accounts),
+        syncCategories(auth.userId, plaidCategories.data.categories),
+      ]);
 
       await syncTransactions(newAccounts, newCategories, plaidTransactions.data.added);
 

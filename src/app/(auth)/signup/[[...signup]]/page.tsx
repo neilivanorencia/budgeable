@@ -29,6 +29,7 @@ export default function Page() {
             alt="Budgeable Authentication"
             className="object-cover"
             fill
+            sizes="(max-width: 1024px) 0vw, 50vw"
             priority
           />
         </div>
