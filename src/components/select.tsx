@@ -1,17 +1,31 @@
 "use client";
 
 import { useMemo } from "react";
-import { SingleValue } from "react-select";
+import { Check } from "lucide-react";
+import { components, OptionProps, SingleValue } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useMedia } from "react-use";
+
+type Option = {
+  label: string;
+  value: string;
+};
+
+const SelectOption = (props: OptionProps<Option, false>) => {
+  return (
+    <components.Option {...props}>
+      <div className="flex w-full items-center justify-between gap-2">
+        <span>{props.children}</span>
+        {props.isSelected && <Check className="size-4 shrink-0" />}
+      </div>
+    </components.Option>
+  );
+};
 
 type Props = {
   onChange: (value?: string) => void;
   onCreate?: (value: string) => void;
-  options?: {
-    label: string;
-    value: string;
-  }[];
+  options?: Option[];
   value?: string | null | undefined;
   disabled?: boolean;
   placeholder?: string;
@@ -25,7 +39,7 @@ export const Select = ({
   options = [],
   placeholder,
 }: Props) => {
-  const onSelect = (option: SingleValue<{ label: string; value: string }>) => {
+  const onSelect = (option: SingleValue<Option>) => {
     onChange(option?.value);
   };
 
@@ -39,6 +53,7 @@ export const Select = ({
     <CreatableSelect
       placeholder={placeholder}
       className="h-10 text-sm"
+      components={{ Option: SelectOption }}
       styles={{
         control: (base, state) => ({
           ...base,
@@ -50,7 +65,6 @@ export const Select = ({
           boxShadow: "none",
           "&:hover": {
             borderColor: "#14b8a6",
-            color: "#14b8a6",
           },
           ...(state.isFocused && {
             borderColor: "#14b8a6",
@@ -59,7 +73,7 @@ export const Select = ({
         }),
         menu: (base) => ({
           ...base,
-          borderRadius: "0.625rem",
+          borderRadius: "1rem",
           border: "1px solid #e2e8f0",
           boxShadow: "0 10px 15px -3px rgba(30, 25, 20, 0.06), 0 4px 6px -4px rgba(30, 25, 20, 0.04)",
           overflow: "hidden",
@@ -70,25 +84,18 @@ export const Select = ({
         }),
         option: (base, state) => ({
           ...base,
-          borderRadius: "0.375rem",
+          borderRadius: "0.5rem",
           cursor: "pointer",
-          backgroundColor: state.isFocused ? "#e6fffa" : "transparent",
-          color: state.isFocused ? "#0d9488" : base.color,
+          padding: "6px 8px",
+          color: state.isFocused ? "#0f766e" : "#1e293b",
+          backgroundColor: state.isFocused ? "rgba(204, 251, 241, 0.75)" : "transparent",
           "&:active": {
-            backgroundColor: "#ccfbf1",
-          },
-        }),
-        placeholder: (base) => ({
-          ...base,
-          "&:hover": {
-            color: "#14b8a6",
+            backgroundColor: "rgba(204, 251, 241, 0.75)",
           },
         }),
         singleValue: (base) => ({
           ...base,
-          "&:hover": {
-            color: "#14b8a6",
-          },
+          color: "#1e293b",
         }),
       }}
       value={formattedValue}
