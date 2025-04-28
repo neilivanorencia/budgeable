@@ -15,8 +15,8 @@ export const AccountColumn = ({ account, accountId, searchTerm }: Props) => {
   };
 
   return (
-    <div onClick={onClick} className="flex cursor-pointer items-center hover:underline">
+    <button type="button" onClick={onClick} className="flex cursor-pointer items-center text-left hover:underline">
       <HighlightText text={account} searchTerm={searchTerm} />
-    </div>
+    </button>
   );
 };

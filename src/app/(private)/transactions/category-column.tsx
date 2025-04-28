@@ -25,10 +25,11 @@ export const CategoryColumn = ({ id, category, categoryId, searchTerm }: Props) 
   };
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       className={cn(
-        "flex cursor-pointer items-center hover:underline",
+        "flex cursor-pointer items-center text-left hover:underline",
         !category && "text-rose-500"
       )}
     >
@@ -37,6 +38,6 @@ export const CategoryColumn = ({ id, category, categoryId, searchTerm }: Props) 
         ? <HighlightText text={category} searchTerm={searchTerm} />
         : "Uncategorized"
       }
-    </div>
+    </button>
   );
 };

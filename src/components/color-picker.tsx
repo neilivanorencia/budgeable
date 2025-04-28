@@ -67,6 +67,7 @@ export const ColorPicker = ({ value, onChange, disabled }: Props) => {
           <HexColorPicker color={currentColor} onChange={onChange} style={{ width: "100%" }} />
           <input
             type="text"
+            aria-label="Hex color value"
             value={value ?? ""}
             onChange={handleHexInput}
             placeholder="#000000"
