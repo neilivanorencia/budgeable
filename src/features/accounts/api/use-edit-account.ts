@@ -1,35 +1,8 @@
-import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
-
+import { createEditMutation } from "@/lib/create-query-hooks";
 import { client } from "@/lib/hono";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type ResponseType = InferResponseType<(typeof client.api.accounts)[":id"]["$patch"]>;
-type RequestType = InferRequestType<(typeof client.api.accounts)[":id"]["$patch"]>["json"];
-
-export const useEditAccount = () => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation<ResponseType, Error, { id: string; data: RequestType }>({
-    mutationFn: async ({ id, data }) => {
-      const response = await client.api.accounts[":id"]["$patch"]({
-        param: { id },
-        json: data,
-      });
-
-      return await response.json();
-    },
-    onSuccess: (_, { id }) => {
-      toast.success("Account edited");
-      queryClient.invalidateQueries({ queryKey: ["account", { id }] });
-      queryClient.invalidateQueries({ queryKey: ["accounts"] });
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["summary"] });
-    },
-    onError: () => {
-      toast.error("Failed to edit account");
-    },
-  });
-
-  return mutation;
-};
+export const useEditAccount = createEditMutation(client.api.accounts[":id"], {
+  singleKey: "account",
+  invalidate: [["accounts"], ["transactions"], ["summary"]],
+  messages: { success: "Account edited", error: "Failed to edit account" },
+});
