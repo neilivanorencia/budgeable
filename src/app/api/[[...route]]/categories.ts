@@ -1,9 +1,9 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { Hono } from "hono";
-import { z } from "zod";
 
 import { db } from "@/db/index";
 import { categories, categoriesInsertSchema } from "@/db/schema";
+import { bulkDeleteSchema, idParamSchema } from "@/lib/api-utils";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2";
@@ -32,7 +32,7 @@ const app = new Hono()
   })
   .get(
     "/:id",
-    zValidator("param", z.object({ id: z.string().optional() })),
+    zValidator("param", idParamSchema),
     clerkMiddleware(),
     async (c) => {
       const auth = getAuth(c);
@@ -101,12 +101,7 @@ const app = new Hono()
   .post(
     "/bulk-delete",
     clerkMiddleware(),
-    zValidator(
-      "json",
-      z.object({
-        ids: z.array(z.string()),
-      })
-    ),
+    zValidator("json", bulkDeleteSchema),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
@@ -128,12 +123,7 @@ const app = new Hono()
   .patch(
     "/:id",
     clerkMiddleware(),
-    zValidator(
-      "param",
-      z.object({
-        id: z.string().optional(),
-      })
-    ),
+    zValidator("param", idParamSchema),
     zValidator(
       "json",
       categoriesInsertSchema.pick({
@@ -173,12 +163,7 @@ const app = new Hono()
   .delete(
     "/:id",
     clerkMiddleware(),
-    zValidator(
-      "param",
-      z.object({
-        id: z.string().optional(),
-      })
-    ),
+    zValidator("param", idParamSchema),
     async (c) => {
       const auth = getAuth(c);
       const { id } = c.req.valid("param");
