@@ -7,6 +7,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useCurrency } from "@/features/settings/hooks/use-currency";
 import { cn, getCurrencyFractionDigits, getCurrencySymbol } from "@/lib/utils";
 
+/**
+ * Properties for configuring the currency format input field parameters.
+ */
 type Props = {
   value: string;
   onChange: (value: string | undefined) => void;
@@ -14,15 +17,23 @@ type Props = {
   disabled?: boolean;
 };
 
+/**
+ * An input component designed to manage financial transaction amounts with support for switching signs.
+ */
 export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) => {
+  // Extracts current localization configurations to assign appropriate symbols and fraction sizes.
   const { currency } = useCurrency();
   const symbol = getCurrencySymbol(currency);
   const fractionDigits = getCurrencyFractionDigits(currency);
 
+  // Computes flag indicators depending on whether the balance evaluation represents cash flow direction.
   const parsedValue = parseFloat(value);
   const isIncome = parsedValue >= 0;
   const isExpense = parsedValue < 0;
 
+  /**
+   * Toggles the arithmetic sign of the numeric value when clicking the prefix indicator.
+   */
   const onReverseValue = () => {
     if (!value) return;
     onChange((parseFloat(value) * -1).toString());
@@ -30,6 +41,7 @@ export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) =
 
   return (
     <div className="relative">
+      {/* Renders the interactive prefix button that updates the symbol value state on user input */}
       <TooltipProvider>
         <Tooltip delayDuration={100}>
           <TooltipTrigger asChild>
@@ -50,6 +62,8 @@ export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) =
           <TooltipContent>Use [+] for income and [-] for expense</TooltipContent>
         </Tooltip>
       </TooltipProvider>
+
+      {/* Renders the numeric currency element formatted to match specialized fraction layouts */}
       <CurrencyInput
         prefix={symbol}
         className={cn(
@@ -63,6 +77,8 @@ export const AmountInput = ({ value, onChange, placeholder, disabled }: Props) =
         onValueChange={onChange}
         disabled={disabled}
       />
+
+      {/* Conditional context messages verifying how the saved entity parses into ledger rows */}
       <p className="text-muted-foreground mt-2 text-xs">
         {isIncome && "This will count as income"}
       </p>

@@ -6,16 +6,23 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 
+/**
+ * Configuration properties for the `DatePicker` component.
+ */
 type Props = {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
   disabled?: boolean;
 };
 
+/**
+ * A custom calendar popover field that manages internal active overlay states manually.
+ */
 export const DatePicker = ({ value, onChange, disabled }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
+  // Clears the overlay menu window when registering click interactions outside the element container wrapper bounds.
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -29,6 +36,9 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
     }
   }, [isOpen]);
 
+  /**
+   * Passes the active calendar day choice upstream and hides the view window overlay framework.
+   */
   const handleDateSelect = (date: Date | undefined) => {
     if (date && onChange) {
       onChange(date);
@@ -36,12 +46,16 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
     }
   };
 
+  /**
+   * Alternates the display status condition variables governing menu container nodes.
+   */
   const handleButtonClick = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <div className="relative" ref={containerRef}>
+      {/* Click target trigger element displaying selected properties or fallbacks */}
       <Button
         type="button"
         disabled={disabled}
@@ -56,6 +70,7 @@ export const DatePicker = ({ value, onChange, disabled }: Props) => {
         {value ? format(value, "PPP") : "Pick a date"}
       </Button>
 
+      {/* Floating single day select grid panel position locked below target boundaries */}
       {isOpen && (
         <div
           className="absolute top-full left-0 z-[9999] mt-1 rounded-2xl border bg-white shadow-[0_10px_15px_-3px_rgba(30,25,20,0.06),0_4px_6px_-4px_rgba(30,25,20,0.04)]"
