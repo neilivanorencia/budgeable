@@ -2,9 +2,13 @@ import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
+/**
+ * Main dashboard viewport structural fallback skeleton layout matching the parent block dimensions.
+ */
 export const DashboardSkeleton = () => {
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
+      {/* Upper metric grid rows mirroring structural configurations of top overview metrics */}
       <div className="mb-6 grid grid-cols-1 gap-4 pb-2 md:grid-cols-3 md:gap-8">
         {Array.from({ length: 3 }).map((_, i) => (
           <Card key={i} className="h-[192px] border-none shadow-none">
@@ -25,7 +29,9 @@ export const DashboardSkeleton = () => {
         ))}
       </div>
 
+      {/* Main analytical layout panel combining timeline trend boxes and category graphics */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-6">
+        {/* Left side historical data visualization loading placeholder */}
         <div className="col-span-1 lg:col-span-3 xl:col-span-4">
           <Card className="border-none shadow-none">
             <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
@@ -40,6 +46,7 @@ export const DashboardSkeleton = () => {
           </Card>
         </div>
 
+        {/* Right side circular segment breakdown loading placeholder */}
         <div className="col-span-1 lg:col-span-3 xl:col-span-2">
           <Card className="border-none shadow-none">
             <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">

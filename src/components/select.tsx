@@ -11,6 +11,9 @@ type Option = {
   value: string;
 };
 
+/**
+ * Custom sub-component that overrides the default dropdown list item presentation layout.
+ */
 const SelectOption = (props: OptionProps<Option, false>) => {
   return (
     <components.Option {...props}>
@@ -22,6 +25,9 @@ const SelectOption = (props: OptionProps<Option, false>) => {
   );
 };
 
+/**
+ * Configuration property contracts required to instantiate the customized selection menu.
+ */
 type Props = {
   onChange: (value?: string) => void;
   onCreate?: (value: string) => void;
@@ -33,6 +39,9 @@ type Props = {
 
 const EMPTY_OPTIONS: Option[] = [];
 
+/**
+ * An combo-box select input element with dynamic option instantiation hook configurations.
+ */
 export const Select = ({
   value,
   onChange,
@@ -41,12 +50,16 @@ export const Select = ({
   options = EMPTY_OPTIONS,
   placeholder,
 }: Props) => {
+  /**
+   * Forwards underlying option values upstream during state transformation triggers.
+   */
   const onSelect = (option: SingleValue<Option>) => {
     onChange(option?.value);
   };
 
   const isMobile = useMedia("(max-width: 767px)", false);
 
+  // Computes and yields the active matching object pointer matching the selected parameter string value.
   const formattedValue = useMemo(() => {
     return options.find((option) => option.value === value);
   }, [options, value]);
@@ -57,6 +70,7 @@ export const Select = ({
       className="h-10 text-sm"
       components={{ Option: SelectOption }}
       styles={{
+        // Main wrapper framework properties framing the primary select target input line
         control: (base, state) => ({
           ...base,
           cursor: "pointer",
@@ -73,17 +87,22 @@ export const Select = ({
             outline: "none",
           }),
         }),
+
+        // Floating dropdown popover frame housing list items
         menu: (base) => ({
           ...base,
           borderRadius: "1rem",
           border: "1px solid #e2e8f0",
-          boxShadow: "0 10px 15px -3px rgba(30, 25, 20, 0.06), 0 4px 6px -4px rgba(30, 25, 20, 0.04)",
+          boxShadow:
+            "0 10px 15px -3px rgba(30, 25, 20, 0.06), 0 4px 6px -4px rgba(30, 25, 20, 0.04)",
           overflow: "hidden",
         }),
         menuList: (base) => ({
           ...base,
           padding: "4px",
         }),
+
+        // Context configuration styles for item buttons inside the scroll list block
         option: (base, state) => ({
           ...base,
           borderRadius: "0.5rem",
