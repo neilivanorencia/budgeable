@@ -3,14 +3,24 @@ import { toast } from "sonner";
 
 import { QueryKey, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+/**
+ * Fallback baseline signature mapping RPC client function methods.
+ */
 type EndpointFn = (...args: never[]) => Promise<unknown>;
 
+// Type inference extractors targeting embedded JSON bodies, properties, and structural database data vectors.
 type JsonOf<T> = T extends { json: infer J } ? J : never;
 type DataOf<T> = T extends { data: infer D } ? D : never;
 type JsonResponse<R> = { ok: boolean; json: () => Promise<R> };
 
+/**
+ * Context configuration objects framing operational notification messages.
+ */
 type Messages = { success: string; error: string };
 
+/**
+ * Generates an automated query engine hook configuration specialized in processing remote plural resource lists.
+ */
 export function createGetList<E extends { $get: EndpointFn }>(
   endpoint: E,
   config: { queryKey: QueryKey; error: string }
@@ -35,6 +45,9 @@ export function createGetList<E extends { $get: EndpointFn }>(
     });
 }
 
+/**
+ * Generates an automated conditional query hook instance configured to read distinct item records by string identifier.
+ */
 export function createGetOne<
   E extends { $get: EndpointFn },
   R = DataOf<InferResponseType<E["$get"], 200>>,
@@ -50,6 +63,7 @@ export function createGetOne<
 
   return (id?: string) =>
     useQuery<R, Error>({
+      // Defers downstream fetch execution pipelines until an evaluation identifier string is available.
       enabled: !!id,
       queryKey: [config.queryKey, { id }],
       queryFn: async () => {
@@ -69,6 +83,9 @@ export function createGetOne<
     });
 }
 
+/**
+ * Factory module generating custom mutations that post new records to remote data backends.
+ */
 export function createPostMutation<E extends { $post: EndpointFn }>(
   endpoint: E,
   config: { invalidate: QueryKey[]; messages: Messages }
@@ -87,6 +104,7 @@ export function createPostMutation<E extends { $post: EndpointFn }>(
         return response.json();
       },
       onSuccess: () => {
+        // Fires success banner notifications and resets matching validation cache structures.
         toast.success(config.messages.success);
         config.invalidate.forEach((queryKey) => queryClient.invalidateQueries({ queryKey }));
       },
@@ -97,6 +115,9 @@ export function createPostMutation<E extends { $post: EndpointFn }>(
   };
 }
 
+/**
+ * Factory module creating mutation wrappers that apply patch update payloads to targeted remote entity structures.
+ */
 export function createEditMutation<E extends { $patch: EndpointFn }>(
   endpoint: E,
   config: { singleKey: string; invalidate: QueryKey[]; messages: Messages }
@@ -118,6 +139,7 @@ export function createEditMutation<E extends { $patch: EndpointFn }>(
         return response.json();
       },
       onSuccess: (_, { id }) => {
+        // Refreshes the distinct detailed object cache along with parent collections on successful updates.
         toast.success(config.messages.success);
         queryClient.invalidateQueries({ queryKey: [config.singleKey, { id }] });
         config.invalidate.forEach((queryKey) => queryClient.invalidateQueries({ queryKey }));
@@ -129,6 +151,9 @@ export function createEditMutation<E extends { $patch: EndpointFn }>(
   };
 }
 
+/**
+ * Factory module engineering a mutation blueprint used to execute deletion operations over item ids.
+ */
 export function createDeleteMutation<E extends { $delete: EndpointFn }>(
   endpoint: E,
   config: { singleKey: string; invalidate: QueryKey[]; messages: Messages }
@@ -148,6 +173,7 @@ export function createDeleteMutation<E extends { $delete: EndpointFn }>(
         return response.json();
       },
       onSuccess: () => {
+        // Resets local tracking caches immediately following validated remote database table deletions.
         toast.success(config.messages.success);
         queryClient.invalidateQueries({ queryKey: [config.singleKey, { id }] });
         config.invalidate.forEach((queryKey) => queryClient.invalidateQueries({ queryKey }));
