@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useConfirm } from "@/hooks/use-confirm";
 
+/**
+ * Configuration properties for the `RowActions` component.
+ */
 type Props = {
   onEdit: () => void;
   onDelete: () => void;
@@ -22,6 +25,9 @@ type Props = {
   triggerClassName?: string;
 };
 
+/**
+ * A table row action dropdown menu providing standard edit and delete triggers.
+ */
 export const RowActions = ({
   onEdit,
   onDelete,
@@ -30,8 +36,12 @@ export const RowActions = ({
   confirmMessage,
   triggerClassName = "size-8 p-0",
 }: Props) => {
+  // Instantiates safety modal alert configurations before running deletion callbacks.
   const [ConfirmDialog, confirm] = useConfirm(confirmTitle, confirmMessage);
 
+  /**
+   * Prompts the confirmation modal dialog before executing destructive record mutations.
+   */
   const handleDelete = async () => {
     const confirmed = await confirm();
 
@@ -44,6 +54,8 @@ export const RowActions = ({
     <div>
       <>
         <ConfirmDialog />
+
+        {/* Dropdown overlay menu component framing inline row configuration targets */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className={triggerClassName}>

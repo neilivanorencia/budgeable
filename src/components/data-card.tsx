@@ -8,6 +8,9 @@ import { useCurrency } from "@/features/settings/hooks/use-currency";
 import { cn, formatPercentage } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+/**
+ * Styling configurations defining structural backgrounds for category icon wrapper frames.
+ */
 const boxVariants = cva("rounded-lg p-3 md:rounded-xl", {
   variants: {
     variant: {
@@ -22,6 +25,9 @@ const boxVariants = cva("rounded-lg p-3 md:rounded-xl", {
   },
 });
 
+/**
+ * Styling configurations determining vector fill fills for custom layout metrics.
+ */
 const iconVariants = cva("size-6", {
   variants: {
     variant: {
@@ -39,6 +45,9 @@ const iconVariants = cva("size-6", {
 type BoxVariants = VariantProps<typeof boxVariants>;
 type IconVariants = VariantProps<typeof iconVariants>;
 
+/**
+ * Properties required to configure data points and color states inside metrics cards.
+ */
 interface DataCardProps extends BoxVariants, IconVariants {
   icon: IconType;
   title: string;
@@ -47,6 +56,9 @@ interface DataCardProps extends BoxVariants, IconVariants {
   percentageChange?: number;
 }
 
+/**
+ * A summary component displaying numeric metrics alongside localized percent trends and descriptive tags.
+ */
 export const DataCard = ({
   icon: Icon,
   title,
@@ -55,6 +67,7 @@ export const DataCard = ({
   dateRange,
   percentageChange = 0,
 }: DataCardProps) => {
+  // Extracts currency formatting handlers tailored to match active user localization options.
   const { format } = useCurrency();
 
   return (
@@ -65,6 +78,7 @@ export const DataCard = ({
             className="cursor-pointer border-none shadow-none"
             aria-label={`${title} data card showing ${format(value)}`}
           >
+            {/* Header section presenting card title structures alongside context metadata ranges */}
             <CardHeader className="flex flex-row items-center justify-between gap-x-4">
               <div className="space-y-2">
                 <CardTitle className="font-manrope line-clamp-1 text-xl lg:text-2xl">
@@ -78,6 +92,8 @@ export const DataCard = ({
                 <Icon className={cn(iconVariants({ variant }))} />
               </div>
             </CardHeader>
+
+            {/* Inner frame containing dynamically mounting counter values and percent vector tags */}
             <CardContent>
               <h1 className="font-manrope mb-2 line-clamp-1 text-xl font-semibold break-all lg:text-2xl">
                 <CountUp
@@ -102,6 +118,8 @@ export const DataCard = ({
             </CardContent>
           </Card>
         </TooltipTrigger>
+
+        {/* Hover overlay explaining detailed textual evaluations to support visibility requirements */}
         <TooltipContent>
           <p>
             Details for {title}: {format(value)}
@@ -112,6 +130,9 @@ export const DataCard = ({
   );
 };
 
+/**
+ * Renders a fallback skeleton framework component used during async metric computation phases.
+ */
 export const DataCardLoading = () => {
   return (
     <Card className="h-[192px] border-none shadow-none">

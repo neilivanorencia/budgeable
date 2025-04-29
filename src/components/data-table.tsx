@@ -27,6 +27,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+/**
+ * Structural property definitions for configuring custom data grid instances.
+ */
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -34,12 +37,16 @@ interface DataTableProps<TData, TValue> {
   disabled?: boolean;
 }
 
+/**
+ * A data grid component supporting sorting, pagination, global filtering, and multi-row deletion.
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,
   onDelete,
   disabled,
 }: DataTableProps<TData, TValue>) {
+  // Instantiates safety modal alert configurations before firing row deletion execution pipelines.
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete selected items?",
     "This will permanently delete all selected items. This action cannot be undone."
@@ -47,10 +54,12 @@ export function DataTable<TData, TValue>({
 
   const { currency } = useCurrency();
 
+  // Initializes state states tracking active tracking grids manually.
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [rowSelection, setRowSelection] = React.useState({});
 
+  // Constructs the core table logic instances injecting functional hooks and context structures.
   const table = useReactTable({
     data,
     columns,
@@ -76,6 +85,8 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <ConfirmDialog />
+
+      {/* Control bar containing search query fields and multi-row action deletion switches */}
       <div className="flex flex-col gap-y-2 py-4 sm:flex-row sm:items-center">
         <Input
           placeholder="Search..."
@@ -101,6 +112,8 @@ export function DataTable<TData, TValue>({
           </Button>
         )}
       </div>
+
+      {/* Main core layout rendering column definitions and text rows dynamically */}
       <div className="rounded-md border">
         <Table className="table-fixed">
           <TableHeader>
@@ -147,6 +160,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
+      {/* Footer block tracking row inventory states and paging toggle actions */}
       <div className="flex flex-col-reverse gap-y-2 py-4 sm:flex-row sm:items-center sm:justify-end sm:space-x-2">
         <div className="text-muted-foreground mt-4 w-full text-center text-sm sm:mt-0 sm:text-left">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
@@ -162,7 +177,7 @@ export function DataTable<TData, TValue>({
               className={
                 table.getCanPreviousPage()
                   ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
-                  : "w-full pointer-events-none text-slate-800 md:w-auto"
+                  : "pointer-events-none w-full text-slate-800 md:w-auto"
               }
             >
               Previous
@@ -177,7 +192,7 @@ export function DataTable<TData, TValue>({
               className={
                 table.getCanNextPage()
                   ? "w-full cursor-pointer bg-teal-500 shadow-none transition-colors duration-300 ease-in-out hover:bg-teal-400 hover:shadow-lg hover:shadow-teal-200/50 md:w-auto"
-                  : "w-full pointer-events-none text-slate-800 md:w-auto"
+                  : "pointer-events-none w-full text-slate-800 md:w-auto"
               }
             >
               Next
