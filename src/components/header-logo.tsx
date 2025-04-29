@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * Desktop application logo component displayed within the primary dashboard header block.
+ */
 export const HeaderLogo = () => {
   return (
     <Link href="/">
+      {/* Structural desktop wrapper hidden on small viewports and flexed on wide screens */}
       <div className="hidden items-center gap-3 lg:flex">
         <Image
           src="/icon.svg"
@@ -12,7 +16,9 @@ export const HeaderLogo = () => {
           height={100}
           className="h-12 w-12 transition-transform hover:scale-105"
         />
-        <span className="font-manrope text-2xl tracking-wide font-bold uppercase text-slate-100">Budgeable</span>
+        <span className="font-manrope text-2xl font-bold tracking-wide text-slate-100 uppercase">
+          Budgeable
+        </span>
       </div>
     </Link>
   );

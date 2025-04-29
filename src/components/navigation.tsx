@@ -15,6 +15,9 @@ import { NavigationItem } from "@/components/navigation-item";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+/**
+ * Static registry of core application routes mapping icons to respective internal page paths.
+ */
 const routes = [
   {
     href: "/dashboard",
@@ -43,7 +46,11 @@ const routes = [
   },
 ];
 
+/**
+ * A responsive main navigation bar that switches to an animated sheet drawer on mobile viewports.
+ */
 export const Navigation = () => {
+  // Controls the display visibility state of the mobile slide-out drawer panel.
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -51,14 +58,19 @@ export const Navigation = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  // Serializes active search params to preserve current filters across state transitions.
   const search = searchParams.toString();
   const withFilters = (href: string) => (search ? `${href}?${search}` : href);
 
+  /**
+   * Redirects routes while maintaining filter variables and clearing drawer panels.
+   */
   const onClick = (href: string) => {
     router.push(withFilters(href));
     setIsOpen(false);
   };
 
+  // Renders a mobile-first slide-out navigation sheet on smaller screen widths
   if (isMobile) {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -71,6 +83,7 @@ export const Navigation = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="bg-teal-50 px-4 pt-6">
+          {/* Mobile drawer header rendering brand signatures and logo variants */}
           <div className="flex flex-col items-center justify-center gap-3 text-center">
             <Image
               src="/icon.svg"
@@ -84,6 +97,8 @@ export const Navigation = () => {
             </h1>
           </div>
           <div className="mb-4 h-px w-full bg-teal-200/70" />
+
+          {/* Mobile vertical link stack mapping navigation routes */}
           <nav className="flex flex-col gap-y-4">
             {routes.map((route) => {
               const isActive = route.href === pathname;
@@ -118,6 +133,8 @@ export const Navigation = () => {
               );
             })}
           </nav>
+
+          {/* Persistent absolute footer anchoring a copyright block at the drawer base */}
           <div className="absolute right-0 bottom-6 left-0 px-4">
             <div className="mb-4 h-px w-full bg-teal-200/70" />
             <p className="text-center text-xs tracking-wide text-slate-500 sm:text-sm">
@@ -129,6 +146,7 @@ export const Navigation = () => {
     );
   }
 
+  // Renders a persistent horizontal desktop header link list layout on wide screens
   return (
     <nav className="hidden items-center gap-x-4 overflow-x-auto lg:flex">
       {routes.map((route) => (
