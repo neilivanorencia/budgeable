@@ -5,16 +5,23 @@ import { HexColorPicker } from "react-colorful";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Configuration properties for the `ColorPicker` component.
+ */
 type Props = {
   value?: string | null;
   onChange: (color: string) => void;
   disabled?: boolean;
 };
 
+/**
+ * A dropdown popover containing a visual canvas palette and inline hex input strings.
+ */
 export const ColorPicker = ({ value, onChange, disabled }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
+  // Clears the overlay panel when registering click interactions outside the element container bounds.
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -28,8 +35,12 @@ export const ColorPicker = ({ value, onChange, disabled }: Props) => {
     }
   }, [isOpen]);
 
+  // Falls back to a default emerald teal hex value if no string prop exists.
   const currentColor = value ?? "#14b8a6";
 
+  /**
+   * Sanitizes raw text string changes to match standard hex expression syntax guidelines.
+   */
   const handleHexInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
@@ -39,6 +50,7 @@ export const ColorPicker = ({ value, onChange, disabled }: Props) => {
 
   return (
     <div className="relative" ref={containerRef}>
+      {/* Click target trigger element showing the active preview swatch and string indicator */}
       <button
         type="button"
         disabled={disabled}
@@ -59,6 +71,7 @@ export const ColorPicker = ({ value, onChange, disabled }: Props) => {
         </span>
       </button>
 
+      {/* Floating canvas palette overlay rendering color wheel fields and text nodes */}
       {isOpen && (
         <div
           className="absolute top-full left-0 z-[9999] mt-1 rounded-2xl border bg-white p-3 shadow-[0_10px_15px_-3px_rgba(30,25,20,0.06),0_4px_6px_-4px_rgba(30,25,20,0.04)]"

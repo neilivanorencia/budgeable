@@ -20,6 +20,9 @@ import { cn } from "@/lib/utils";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
+/**
+ * Properties containing historical transaction data points.
+ */
 type Props = {
   data?: {
     date: string;
@@ -28,17 +31,28 @@ type Props = {
   }[];
 };
 
+/**
+ * Fallback array reference used when no data prop is supplied to the component.
+ */
 const EMPTY_DATA: NonNullable<Props["data"]> = [];
 
+/**
+ * A interactive container component that toggles between area, bar, and line graph visualizations.
+ */
 export const Chart = ({ data = EMPTY_DATA }: Props) => {
+  // Manages the active graph layout visualization configuration selection state.
   const [chartType, setChartType] = useState("area");
 
+  /**
+   * Updates the chosen layout selection key state parameter.
+   */
   const onTypeChange = (type: string) => {
     setChartType(type);
   };
 
   return (
     <Card className="border-none shadow-none">
+      {/* Container holding layout title headers and dropdown selector components */}
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
         <CardTitle className="font-manrope line-clamp-1 text-xl lg:text-2xl">
           Transactions
@@ -85,6 +99,8 @@ export const Chart = ({ data = EMPTY_DATA }: Props) => {
           </SelectContent>
         </Select>
       </CardHeader>
+
+      {/* Displays an empty alert view or conditional chart variants depending on available data arrays */}
       <CardContent>
         {data.length === 0 ? (
           <div className="flex h-[350px] w-full flex-col items-center justify-center gap-y-4">
@@ -103,6 +119,9 @@ export const Chart = ({ data = EMPTY_DATA }: Props) => {
   );
 };
 
+/**
+ * Renders a fallback skeleton framework display card used during async data collection phases.
+ */
 export const ChartLoading = () => {
   return (
     <Card className="border-none shadow-none">

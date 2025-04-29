@@ -3,6 +3,9 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } f
 
 import { CustomTooltip } from "@/components/custom-tooltip";
 
+/**
+ * Properties containing historical cash flow data.
+ */
 type Props = {
   data: {
     date: string;
@@ -11,11 +14,17 @@ type Props = {
   }[];
 };
 
+/**
+ * Renders a data chart visualization showing income versus expenses over time using gradient area fills.
+ */
 export const AreaVariant = ({ data }: Props) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <AreaChart data={data}>
+        {/* Renders structural background grid lines with an alternate gray color split */}
         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+
+        {/* Defines color gradient configurations used to fill the area shapes */}
         <defs>
           <linearGradient id="income" x1="0" y1="0" x2="0" y2="1">
             <stop offset="2%" stopColor="#14b8a6" stopOpacity={0.85} />
@@ -26,6 +35,8 @@ export const AreaVariant = ({ data }: Props) => {
             <stop offset="98%" stopColor="#f43f5e" stopOpacity={0} />
           </linearGradient>
         </defs>
+
+        {/* Configures the horizontal axis labels with standardized timestamp string styling templates */}
         <XAxis
           axisLine={false}
           tickLine={false}
@@ -34,10 +45,14 @@ export const AreaVariant = ({ data }: Props) => {
           tickMargin={16}
           style={{ fontSize: "12px" }}
         />
+
+        {/* Attaches a customized cursor tracker and tooltip overlay container onto active hover lines */}
         <Tooltip
           content={<CustomTooltip />}
           cursor={{ stroke: "#14b8a6", strokeWidth: 1, strokeDasharray: "4 4" }}
         />
+
+        {/* Displays the financial data curves layered directly inside the dashboard viewport view */}
         <Area
           type="monotone"
           dataKey="income"

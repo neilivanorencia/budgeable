@@ -3,6 +3,9 @@ import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recha
 import { CircularTooltip } from "@/components/circular-tooltip";
 import { formatPercentage } from "@/lib/utils";
 
+/**
+ * Fallback palette of hex color strings used to paint individual donut chart slices.
+ */
 const COLORS = [
   "#14b8a6",
   "#6366f1",
@@ -18,6 +21,9 @@ const COLORS = [
   "#d946ef",
 ];
 
+/**
+ * Properties containing structural category value breakdowns.
+ */
 type Props = {
   data?: {
     name: string;
@@ -26,10 +32,14 @@ type Props = {
   }[];
 };
 
+/**
+ * Renders a categorical data chart visualization formatted into an accessorized donut pie layout.
+ */
 export const PieVariant = ({ data }: Props) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <PieChart>
+        {/* Render indicator elements showing color nodes alongside calculated distribution percentages */}
         <Legend
           layout="horizontal"
           verticalAlign="bottom"
@@ -47,7 +57,9 @@ export const PieVariant = ({ data }: Props) => {
                     />
                     <span className="text-muted-foreground text-xs">{entry.value}</span>
                     <span className="text-xs font-medium">
-                      {formatPercentage(((entry.payload as { percent?: number })?.percent ?? 0) * 100)}
+                      {formatPercentage(
+                        ((entry.payload as { percent?: number })?.percent ?? 0) * 100
+                      )}
                     </span>
                   </li>
                 ))}
@@ -55,7 +67,11 @@ export const PieVariant = ({ data }: Props) => {
             );
           }}
         />
+
+        {/* Custom tooltip configuration that runs on mouse hover states over targeted pie nodes */}
         <Tooltip content={<CircularTooltip />} />
+
+        {/* Core vector arc component parsing raw array items into physical chart shapes */}
         <Pie
           data={data}
           cx="50%"

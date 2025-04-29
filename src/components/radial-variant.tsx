@@ -3,6 +3,9 @@ import { Legend, RadialBar, RadialBarChart, ResponsiveContainer } from "recharts
 import { useCurrency } from "@/features/settings/hooks/use-currency";
 import { convertAmountFromMiliunits } from "@/lib/utils";
 
+/**
+ * Fallback palette of hex color strings used to paint individual chart concentric tracks.
+ */
 const COLORS = [
   "#14b8a6",
   "#6366f1",
@@ -18,6 +21,9 @@ const COLORS = [
   "#d946ef",
 ];
 
+/**
+ * Properties containing structural category metrics.
+ */
 type Props = {
   data?: {
     name: string;
@@ -26,7 +32,11 @@ type Props = {
   }[];
 };
 
+/**
+ * Renders a categorical data chart visualization formatted into a layered radial bar layout.
+ */
 export const RadialVariant = ({ data }: Props) => {
+  // Extracts currency formatting handlers configured to match active user localization.
   const { format } = useCurrency();
 
   return (
@@ -42,6 +52,7 @@ export const RadialVariant = ({ data }: Props) => {
           fill: item.color ?? COLORS[index % COLORS.length],
         }))}
       >
+        {/* Core dynamic bar track rendering values alongside embedded inline string labels */}
         <RadialBar
           label={{
             fill: "#fff",
@@ -52,6 +63,8 @@ export const RadialVariant = ({ data }: Props) => {
           background
           dataKey="value"
         />
+
+        {/* Displays descriptive category trackers paired with their formatted financial magnitudes */}
         <Legend
           layout="horizontal"
           verticalAlign="bottom"

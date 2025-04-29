@@ -18,6 +18,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
+/**
+ * Properties containing grouped category values and metric data points.
+ */
 type Props = {
   data?: {
     name: string;
@@ -26,17 +29,28 @@ type Props = {
   }[];
 };
 
+/**
+ * Fallback static array reference used when no data property is supplied to the element.
+ */
 const EMPTY_DATA: NonNullable<Props["data"]> = [];
 
+/**
+ * A wrapper card component that allows switching between pie, radar, and radial analytics charts.
+ */
 export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
+  // Tracks the active visualization mode key selected from the type dropdown.
   const [chartType, setChartType] = useState("pie");
 
+  /**
+   * Updates the chosen chart visualization configuration state parameter.
+   */
   const onTypeChange = (type: string) => {
     setChartType(type);
   };
 
   return (
     <Card className="border-none shadow-none">
+      {/* Structural layout wrapper containing title headers and selection inputs */}
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
         <CardTitle className="font-manrope line-clamp-1 text-xl lg:text-2xl">Categories</CardTitle>
         <Select defaultValue={chartType} onValueChange={onTypeChange}>
@@ -81,6 +95,8 @@ export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
           </SelectContent>
         </Select>
       </CardHeader>
+
+      {/* Switches between specialized visual graphics or falls back to an empty error placeholder view */}
       <CardContent>
         {data.length === 0 ? (
           <div className="flex h-[350px] w-full flex-col items-center justify-center gap-y-4">
@@ -99,6 +115,9 @@ export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
   );
 };
 
+/**
+ * Renders a placeholder display architecture used while loading data parameters asynchronously.
+ */
 export const CircularChartLoading = () => {
   return (
     <Card className="border-none shadow-none">
