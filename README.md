@@ -89,3 +89,83 @@ Budgeable is a personal finance and budgeting web application designed to help u
   <summary>See screenshot</summary><br>
 <img src="https://i.imgur.com/rQoK7jn.png" alt="Budgeable" />
 </details>
+
+## 🚀 Getting Started
+
+The following steps outline how to set up the project for local development and testing.
+
+### 📋 Prerequisites
+
+- **[Node.js](https://nodejs.org/)**: A JavaScript runtime environment that powers the backend of Budgeable and enables server-side JavaScript execution.
+- **[Bun](https://bun.sh/docs/installation)**: An all-in-one JavaScript runtime, bundler, transpiler, and package manager.
+- **[Git](https://git-scm.com/downloads)**: A distributed version control system needed to clone the repository and manage code changes.
+
+> [!NOTE]
+> Different package managers can be used (such as npm, pnpm, yarn), but the project was developed using Bun.
+
+### ⚙️ Installation Steps
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/neilivanorencia/budgeable.git
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   bun install
+   ```
+
+3. **Set up environment variables**
+
+   Create a `.env` file in the root directory. Use the following template:
+
+   ```plaintext
+   # Clerk Authentication
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+   CLERK_PUBLISHABLE_KEY=
+   CLERK_SECRET_KEY=
+
+   # Clerk Authentication URLs
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=
+   NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=
+   NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=
+
+   # Database
+   DATABASE_URL=
+
+   # Plaid Integration
+   PLAID_CLIENT_ID=
+   PLAID_SECRET_KEY=
+
+   # Application URLs
+   NEXT_PUBLIC_APP_URL=
+   ```
+
+   - Clerk keys are available in the Clerk dashboard after creating an application.
+   - A PostgreSQL connection string is required for `DATABASE_URL` (services like Neon, Supabase, or a local instance are supported).
+   - Plaid API keys and environment can be obtained from the Plaid dashboard.
+
+4. **Run database migrations**
+
+   ```bash
+   bun run db:migrate
+   ```
+
+### 🛠️ Development
+
+Start the development server by running:
+
+```bash
+npm run dev
+# or
+pnpm run dev
+# or
+yarn dev
+# or
+bun run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with local browser to see the result.
