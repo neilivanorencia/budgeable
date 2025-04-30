@@ -39,6 +39,19 @@
 
 Budgeable is a personal finance and budgeting web application designed to help users track their expenses, manage budgets, and gain insights into their spending habits. It has a simple, modern design with easy-to-understand data visualizations and integrates with Plaid for bank account synchronization, so that financial data is always up-to-date and easily accessible.
 
+## 🗂️ Table of Contents
+
+- [🗂️ Table of Contents](#️-table-of-contents)
+- [✨ Features](#-features)
+- [🚀 Getting Started](#-getting-started)
+  - [📋 Prerequisites](#-prerequisites)
+  - [⚙️ Installation Steps](#️-installation-steps)
+  - [🛠️ Development](#️-development)
+- [💻 Technology Stack](#-technology-stack)
+- [📂 Project Structure](#-project-structure)
+- [🤝 Contribution](#-contribution)
+- [📄 License](#-license)
+
 ## ✨ Features
 
 - **Dashboard Overview** - Offers a concise, at-a-glance overview of the user's financial situation through an intuitive dashboard. It displays key metrics such as total budget, expenses incurred, and remaining funds for user-defined periods. The dashboard features interactive charts, including quantitative charts (such as area chart, bar chart, and line chart) to visualize transaction trends over time and circular charts (such as pie chart, radar chart, and radial chart) that breaks down spending by various categories, enabling users to filter the data by specific accounts and custom date ranges for personalized financial analysis.
