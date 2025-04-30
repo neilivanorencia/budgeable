@@ -12,6 +12,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AmountInput } from "@/components/amount-input";
 import { convertAmountToMiliunits } from "@/lib/utils";
 
+/**
+ * Validates transaction form fields on the client.
+ */
 const formSchema = z.object({
   date: z.coerce.date(),
   accountId: z.string(),
@@ -21,9 +24,19 @@ const formSchema = z.object({
   notes: z.string().nullable().optional(),
 });
 
+/**
+ * Type inferred from the form validation schema.
+ */
 type FormValues = z.input<typeof formSchema>;
+
+/**
+ * Type expected by the API endpoints, excluding the database record `id`.
+ */
 type ApiFormValues = Omit<z.input<typeof transactionsInsertSchema>, "id">;
 
+/**
+ * Configuration properties for handling form data state and event actions.
+ */
 type Props = {
   id?: string;
   defaultValues?: FormValues;
@@ -42,6 +55,9 @@ type Props = {
   onCreateCategory: (name: string) => void;
 };
 
+/**
+ * Handles the creation and modification of transaction records.
+ */
 export const TransactionForm = ({
   id,
   defaultValues,
@@ -53,6 +69,7 @@ export const TransactionForm = ({
   onCreateAccount,
   onCreateCategory,
 }: Props) => {
+  // Prepares the form field fallback defaults for initialization.
   const formDefaultValues = {
     date: defaultValues?.date || new Date(),
     accountId: defaultValues?.accountId || "",
@@ -62,13 +79,19 @@ export const TransactionForm = ({
     notes: defaultValues?.notes || "",
   };
 
+  // Hooks up validation rules and schema parameters to the form lifecycle tracker.
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: formDefaultValues,
   });
 
+  /**
+   * Transforms structural field parameters before dispatching data payload mutations.
+   * @param values Parsed form data values verified through the local validation schema.
+   */
   const handleSubmit = (values: FormValues) => {
     const amount = parseFloat(values.amount);
+    // Scales numerical floats to integers to prevent floating-point tracking errors in the database ledger.
     const amountInMiliunits = convertAmountToMiliunits(amount);
 
     onSubmit({
@@ -81,6 +104,7 @@ export const TransactionForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        {/* Renders the calendar date picker interface field */}
         <FormField
           name="date"
           control={form.control}
@@ -93,6 +117,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders the select dropdown menu for choosing or creating a financial account */}
         <FormField
           name="accountId"
           control={form.control}
@@ -112,6 +138,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders the select dropdown menu for assigning or creating a budget category */}
         <FormField
           name="categoryId"
           control={form.control}
@@ -131,6 +159,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders a text input field for capturing the name of the payee entity */}
         <FormField
           name="payee"
           control={form.control}
@@ -143,6 +173,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders a numeric currency field configured for managing transaction value inputs */}
         <FormField
           name="amount"
           control={form.control}
@@ -155,6 +187,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders an expanded text field layer for adding supplemental remarks or metadata */}
         <FormField
           name="notes"
           control={form.control}
@@ -173,6 +207,8 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+
+        {/* Renders actionable trigger buttons for managing form processing and record deletion updates */}
         <FormActions
           id={id}
           label="transaction"

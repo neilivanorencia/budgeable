@@ -20,24 +20,37 @@ import { TransactionForm } from "@/features/transactions/components/transaction-
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
 
+/**
+ * Zod validation schema configured for parsing transaction form inputs.
+ */
 const formSchema = transactionsInsertSchema.omit({
   id: true,
 });
 
+/**
+ * Type representing the expected structure of parsed transaction form values.
+ */
 type FormValues = z.input<typeof formSchema>;
 
+/**
+ * An overlay sheet component providing an isolated environment to update or delete a transaction.
+ */
 export const EditTransactionSheet = () => {
+  // Accesses routing control flags and the contextual item identifier for managing the sheet.
   const { isOpen, onClose, id } = useOpenTransaction();
 
+  // Instantiates an asynchronous modal confirmation sequence for handling records deletion securely.
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete this transaction?",
     "This will permanently remove the transaction from your records. This action cannot be undone."
   );
 
+  // Core transaction entity query hooks.
   const transactionQuery = useGetTransaction(id);
   const editMutation = useEditTransaction();
   const deleteMutation = useDeleteTransaction(id);
 
+  // Resolves relational dependency options for budget categories.
   const categoryQuery = useGetCategories();
   const categoryMutation = useCreateCategory();
   const onCreateCategory = (name: string) => categoryMutation.mutate({ name });
@@ -46,6 +59,7 @@ export const EditTransactionSheet = () => {
     value: category.id,
   }));
 
+  // Resolves relational dependency options for financial accounts.
   const accountQuery = useGetAccounts();
   const accountMutation = useCreateAccount();
   const onCreateAccount = (name: string) => accountMutation.mutate({ name });
@@ -54,8 +68,10 @@ export const EditTransactionSheet = () => {
     value: account.id,
   }));
 
+  // Computes initialization loading flags to lock interaction until the primary record data resolves.
   const isLoading = transactionQuery.isLoading || categoryQuery.isLoading || accountQuery.isLoading;
 
+  // Computes background mutation processing flags to disable form fields during transport execution.
   const isPending =
     editMutation.isPending ||
     deleteMutation.isPending ||
@@ -63,6 +79,10 @@ export const EditTransactionSheet = () => {
     categoryMutation.isPending ||
     accountMutation.isPending;
 
+  /**
+   * Dispatches parsed and validated form fields to the data persistence mutation.
+   * @param values Raw inputs collected from the transaction form wrapper.
+   */
   const onSubmit = (values: FormValues) => {
     if (!id) return;
 
@@ -77,6 +97,9 @@ export const EditTransactionSheet = () => {
     );
   };
 
+  /**
+   * Prompts the user with a confirmation modal prior to triggering the record deletion engine.
+   */
   const onDelete = async () => {
     const confirmed = await confirm();
 
@@ -89,6 +112,7 @@ export const EditTransactionSheet = () => {
     }
   };
 
+  // Normalizes transaction data fields into a structured default value object, formatting dates and amounts safely.
   const defaultValues = transactionQuery.data
     ? {
         accountId: transactionQuery.data.accountId,
@@ -109,9 +133,11 @@ export const EditTransactionSheet = () => {
 
   return (
     <>
+      {/* Structural placement for the overlay dialog markup wrapper */}
       <ConfirmDialog />
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent className="space-y-4 bg-teal-50 px-4 pt-6">
+          {/* Header context section describing active modal operations */}
           <SheetHeader>
             <SheetTitle className="font-manrope text-center text-xl font-bold">
               Edit Transaction
@@ -120,6 +146,8 @@ export const EditTransactionSheet = () => {
               Update an existing transaction details.
             </SheetDescription>
           </SheetHeader>
+
+          {/* Displays a full-height centered loading spinner or maps the transactional input canvas */}
           {isLoading ? (
             <div className="absolute-inset-0 flex items-center justify-center">
               <Loader2 className="text-muted-foreground size-8 animate-spin" />
