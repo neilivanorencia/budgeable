@@ -8,11 +8,18 @@ type Props = {
   id: string;
 };
 
+/**
+ * Interactive table row actions menu wrapper for individual financial categories.
+ */
 export const Actions = ({ id }: Props) => {
+  // Destructures modal state controls to focus on the target item signature
   const { onOpen } = useOpenCategory();
+
+  // Prepares the mutation network event tied to this specific entity identifier
   const deleteMutation = useDeleteCategory(id);
 
   return (
+    /* Composes contextual drop-down menus with pre-configured validation check titles and copy blocks */
     <RowActions
       onEdit={() => onOpen(id)}
       onDelete={() => deleteMutation.mutate()}

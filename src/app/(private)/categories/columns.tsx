@@ -10,11 +10,17 @@ import { client } from "@/lib/hono";
 import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
 
+// Extracts the core category data structure from the upstream Hono API endpoint schema definition
 type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0];
 
+// Standard fallback color configuration used if a specific classification token lacks an explicit color code
 const DEFAULT_CATEGORY_COLOR = "#14b8a6";
 
+/**
+ * Data table column definitions for managing the financial categories data matrix view.
+ */
 export const columns: ColumnDef<ResponseType>[] = [
+  // Generates standard checkbox row selection control inputs
   selectColumn<ResponseType>(),
   {
     accessorKey: "name",
@@ -34,6 +40,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       const displayColor = color ?? DEFAULT_CATEGORY_COLOR;
 
       return (
+        /* Render cell layout hosting a colored inline badge alongside the uppercase hexadecimal value */
         <div className="flex items-center gap-2">
           <span
             className="size-5 shrink-0 rounded-md border border-black/10"
@@ -54,10 +61,11 @@ export const columns: ColumnDef<ResponseType>[] = [
       const description = row.original.description;
       return (
         <span className="text-muted-foreground block truncate text-sm">
-          {description?.trim()
-            ? <HighlightText text={description} searchTerm={getSearchTerm(table)} />
-            : "—"
-          }
+          {description?.trim() ? (
+            <HighlightText text={description} searchTerm={getSearchTerm(table)} />
+          ) : (
+            "—"
+          )}
         </span>
       );
     },
@@ -70,13 +78,18 @@ export const columns: ColumnDef<ResponseType>[] = [
       const type = row.original.type;
 
       return (
-        <Badge variant={type === "income" ? "primary" : "destructive"} className="capitalize text-sm font-normal">
+        /* Maps distinct visual color variants to separate profit flows from expenditures */
+        <Badge
+          variant={type === "income" ? "primary" : "destructive"}
+          className="text-sm font-normal capitalize"
+        >
           {type}
         </Badge>
       );
     },
     size: 120,
   },
+  // Generates trailing standalone action dropdown triggers tracking individual record identifiers
   actionsColumn<ResponseType>(({ row }) => (
     <div className="flex justify-end">
       <Actions id={row.original.id} />

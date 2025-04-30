@@ -11,14 +11,20 @@ import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-dele
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 
+/**
+ * Smart dashboard page managing financial categories and batch operations.
+ */
 const CategoriesPage = () => {
+  // Global hooks handling individual creation sheets, category querying, and deletion mutations
   const newCategory = useNewCategory();
   const categoriesQuery = useGetCategories();
   const categories = categoriesQuery.data || [];
   const deleteCategories = useBulkDeleteCategories();
 
+  // Computes active data manipulation states to freeze layout control triggers
   const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending;
 
+  // Renders a standard isolated animation spinner panel while network streams execute queries
   if (categoriesQuery.isLoading) {
     return (
       <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
@@ -32,6 +38,7 @@ const CategoriesPage = () => {
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="gap-0 border-none shadow-none drop-shadow-none">
+        {/* Core header element hosting layout titles and item registration controls */}
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
           <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Categories Page
@@ -44,6 +51,7 @@ const CategoriesPage = () => {
             Add new
           </Button>
         </CardHeader>
+        {/* Presentational content layout displaying table rows, custom query filters, and bulk item removal triggers */}
         <CardContent>
           <DataTable
             columns={columns}

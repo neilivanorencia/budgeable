@@ -11,14 +11,20 @@ import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-a
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 
+/**
+ * Dashboard page managing financial account records and batch operations.
+ */
 const AccountsPage = () => {
+  // Global hooks handling individual creation sheets, account querying, and deletion mutations
   const newAccount = useNewAccount();
   const accountsQuery = useGetAccounts();
   const accounts = accountsQuery.data || [];
   const deleteAccounts = useBulkDeleteAccounts();
 
+  // Computes active data manipulation states to freeze layout control triggers
   const isDisabled = accountsQuery.isLoading || deleteAccounts.isPending;
 
+  // Renders a standard isolated animation spinner panel while network streams execute queries
   if (accountsQuery.isLoading) {
     return (
       <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
@@ -32,6 +38,7 @@ const AccountsPage = () => {
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="gap-0 border-none shadow-none drop-shadow-none">
+        {/* Core header element hosting layout titles and item registration controls */}
         <CardHeader className="flex flex-col items-center gap-y-2 md:flex-row md:items-center md:justify-between">
           <CardTitle className="font-manrope line-clamp-1 text-xl font-medium text-slate-800 md:text-2xl">
             Accounts Page
@@ -44,6 +51,7 @@ const AccountsPage = () => {
             Add new
           </Button>
         </CardHeader>
+        {/* Presentational content layout displaying table rows, custom query filters, and bulk item removal triggers */}
         <CardContent>
           <DataTable
             columns={columns}

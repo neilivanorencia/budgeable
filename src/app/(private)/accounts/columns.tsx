@@ -10,8 +10,10 @@ import { client } from "@/lib/hono";
 import { getSearchTerm } from "@/lib/table-meta";
 import { ColumnDef } from "@tanstack/react-table";
 
+// Extracts the core account data structure from the upstream Hono API endpoint schema definition
 type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
 
+// Maps backend structural keys into friendly, user-facing presentational labels
 const ACCOUNT_TYPE_LABELS: Record<string, string> = {
   cash: "Cash",
   checking: "Checking",
@@ -22,7 +24,11 @@ const ACCOUNT_TYPE_LABELS: Record<string, string> = {
   other: "Other",
 };
 
+/**
+ * Data table column definitions for managing the financial accounts data matrix view.
+ */
 export const columns: ColumnDef<ResponseType>[] = [
+  // Generates standard checkbox row selection control inputs
   selectColumn<ResponseType>(),
   {
     accessorKey: "name",
@@ -39,10 +45,11 @@ export const columns: ColumnDef<ResponseType>[] = [
       const description = row.original.description;
       return (
         <span className="text-muted-foreground block truncate text-sm">
-          {description?.trim()
-            ? <HighlightText text={description} searchTerm={getSearchTerm(table)} />
-            : "—"
-          }
+          {description?.trim() ? (
+            <HighlightText text={description} searchTerm={getSearchTerm(table)} />
+          ) : (
+            "—"
+          )}
         </span>
       );
     },
@@ -55,6 +62,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       const type = row.original.type;
 
       return (
+        /* Renders a localized outline badge matching the account category */
         <Badge variant="outline" className="text-sm font-normal">
           {ACCOUNT_TYPE_LABELS[type] ?? type}
         </Badge>
@@ -69,13 +77,18 @@ export const columns: ColumnDef<ResponseType>[] = [
       const status = row.original.status;
 
       return (
-        <Badge variant={status === "active" ? "primary" : "secondary"} className="capitalize text-sm font-normal">
+        /* Toggles badge visual accents based on whether the account is active or disabled */
+        <Badge
+          variant={status === "active" ? "primary" : "secondary"}
+          className="text-sm font-normal capitalize"
+        >
           {status}
         </Badge>
       );
     },
     size: 110,
   },
+  // Generates trailing standalone action dropdown triggers tracking individual record identifiers
   actionsColumn<ResponseType>(({ row }) => (
     <div className="flex justify-end">
       <Actions id={row.original.id} />
