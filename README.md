@@ -58,7 +58,7 @@ Budgeable is a personal finance and budgeting web application designed to help u
 
 <details>
   <summary>See screenshot</summary><br>
-<img src="https://i.imgur.com/ArU9rDf.png" alt="Budgeable" />
+<img src="https://i.imgur.com/F0N2Rp0.png" alt="Budgeable" />
 </details>
 
 - **Transaction Management** - Features a sortable and filterable table, allowing users to organize their financial activities and transactions by date, category, payee, amount, and account. It also supports manual transaction entry, bulk import capabilities, and allows users to select and delete multiple transactions efficiently, with pagination for easy navigation through extensive transaction lists.
@@ -211,6 +211,9 @@ Open [http://localhost:3000](http://localhost:3000) with local browser to see th
     ├── 0002_currency.sql
 └── 📁public
     ├── auth-image.jpg
+    ├── site.webmanifest
+    ├── web-app-manifest-192x192.png
+    ├── web-app-manifest-512x512.png
     ├── website-preview.png
 └── 📁scripts
     ├── seed.ts
@@ -265,7 +268,10 @@ Open [http://localhost:3000](http://localhost:3000) with local browser to see th
                 ├── settings.ts
                 ├── summary.ts
                 ├── transactions.ts
+        ├── apple-icon.png
+        ├── favicon.ico
         ├── globals.css
+        ├── icon.png
         ├── icon.svg
         ├── layout.tsx
     └── 📁components

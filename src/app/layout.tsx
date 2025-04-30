@@ -96,6 +96,7 @@ export const metadata: Metadata = {
     canonical: "https://budgeable.vercel.app/",
   },
   applicationName: "Budgeable",
+  manifest: "/site.webmanifest",
 };
 
 /**
