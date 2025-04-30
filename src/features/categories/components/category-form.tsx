@@ -16,11 +16,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { categoriesInsertSchema } from "@/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+/**
+ * Static options defining valid classifications for a transaction category.
+ */
 const CATEGORY_TYPE_OPTIONS = [
   { value: "income", label: "Income" },
   { value: "expense", label: "Expense" },
 ] as const;
 
+/**
+ * Client-side validation schema filtering allowed properties from the database schema.
+ */
 const formSchema = categoriesInsertSchema.pick({
   name: true,
   type: true,
@@ -29,8 +35,14 @@ const formSchema = categoriesInsertSchema.pick({
   notes: true,
 });
 
+/**
+ * Type representing the validated form values.
+ */
 type FormValues = z.input<typeof formSchema>;
 
+/**
+ * Component configurations for controlling state initialization and actions.
+ */
 type Props = {
   id?: string;
   defaultValues?: FormValues;
@@ -39,12 +51,19 @@ type Props = {
   disabled?: boolean;
 };
 
+/**
+ * Form interface for creating or updating transaction category data.
+ */
 export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }: Props) => {
+  // Registers the react-hook-form instance using the selected Zod schema.
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
 
+  /**
+   * Forwards validated form values to the parent submission handler.
+   */
   const handleSubmit = (values: FormValues) => {
     onSubmit(values);
   };
@@ -52,6 +71,7 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        {/* Input field for entering the unique category name */}
         <FormField
           name="name"
           control={form.control}
@@ -64,6 +84,8 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
             </FormItem>
           )}
         />
+
+        {/* Input field for adding a brief summary or category description */}
         <FormField
           name="description"
           control={form.control}
@@ -81,6 +103,8 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
             </FormItem>
           )}
         />
+
+        {/* Dropdown selection menu for designating the transaction classification type */}
         <FormField
           name="type"
           control={form.control}
@@ -89,16 +113,13 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
               <FormLabel className="font-normal text-slate-800">Type</FormLabel>
               <Select value={field.value} onValueChange={field.onChange} disabled={disabled}>
                 <FormControl>
-                  <SelectTrigger className="w-full cursor-pointer shadow-none md:border-2 hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 text-base md:text-sm">
+                  <SelectTrigger className="w-full cursor-pointer text-base shadow-none hover:border-teal-500 focus-visible:border-teal-500 focus-visible:ring-0 md:border-2 md:text-sm">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {CATEGORY_TYPE_OPTIONS.map((option) => (
-                    <SelectItem
-                      key={option.value}
-                      value={option.value}
-                    >
+                    <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
                   ))}
@@ -107,6 +128,8 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
             </FormItem>
           )}
         />
+
+        {/* Custom interactive picker component to assign a distinct category color theme */}
         <FormField
           name="color"
           control={form.control}
@@ -114,15 +137,13 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
             <FormItem>
               <FormLabel className="font-normal text-slate-800">Color</FormLabel>
               <FormControl>
-                <ColorPicker
-                  value={field.value}
-                  onChange={field.onChange}
-                  disabled={disabled}
-                />
+                <ColorPicker value={field.value} onChange={field.onChange} disabled={disabled} />
               </FormControl>
             </FormItem>
           )}
         />
+
+        {/* Text area input field for logging optional metadata notes or details */}
         <FormField
           name="notes"
           control={form.control}
@@ -141,6 +162,8 @@ export const CategoryForm = ({ id, defaultValues, onSubmit, onDelete, disabled }
             </FormItem>
           )}
         />
+
+        {/* Core button actions panel component for dispatching form mutations */}
         <FormActions id={id} label="category" onDelete={onDelete} disabled={disabled} />
       </form>
     </Form>

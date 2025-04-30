@@ -178,3 +178,254 @@ Open [http://localhost:3000](http://localhost:3000) with local browser to see th
 - **shadcn/ui** - A UI component library specifically designed for building user interfaces in web applications using React.
 - **Tailwind CSS** - A utility-first CSS framework that allows for quick and flexible styling using predefined classes.
 - **Typescript** - A strongly typed programming language that builds on JavaScript by adding static types.
+
+## 📂 Project Structure
+
+<details>
+  <summary>See project structure here</summary>
+
+```plaintext
+└── 📁.vscode
+    ├── settings.json
+└── 📁drizzle
+    └── 📁meta
+        ├── _journal.json
+        ├── 0000_snapshot.json
+        ├── 0001_snapshot.json
+        ├── 0002_snapshot.json
+    ├── 0000_budgeable.sql
+    ├── 0001_additional_fields.sql
+    ├── 0002_currency.sql
+└── 📁public
+    ├── auth-image.jpg
+    ├── website-preview.png
+└── 📁scripts
+    ├── seed.ts
+    ├── wipe.ts
+└── 📁src
+    └── 📁app
+        └── 📁(auth)
+            └── 📁signin
+                └── 📁[[...signin]]
+                    ├── page.tsx
+            └── 📁signup
+                └── 📁[[...signup]]
+                    ├── page.tsx
+        └── 📁(private)
+            └── 📁accounts
+                ├── actions.tsx
+                ├── columns.tsx
+                ├── layout.tsx
+                ├── page.tsx
+            └── 📁categories
+                ├── actions.tsx
+                ├── columns.tsx
+                ├── layout.tsx
+                ├── page.tsx
+            └── 📁dashboard
+                ├── layout.tsx
+                ├── page.tsx
+            └── 📁settings
+                ├── layout.tsx
+                ├── page.tsx
+                ├── settings-card.tsx
+            └── 📁transactions
+                ├── account-column.tsx
+                ├── actions.tsx
+                ├── category-column.tsx
+                ├── columns.tsx
+                ├── import-card.tsx
+                ├── import-table.tsx
+                ├── layout.tsx
+                ├── page.tsx
+                ├── table-head-select.tsx
+                ├── upload-button.tsx
+            ├── layout.tsx
+        └── 📁(public)
+            ├── page.tsx
+        └── 📁api
+            └── 📁[[...route]]
+                ├── accounts.ts
+                ├── categories.ts
+                ├── plaid.ts
+                ├── route.ts
+                ├── settings.ts
+                ├── summary.ts
+                ├── transactions.ts
+        ├── globals.css
+        ├── icon.svg
+        ├── layout.tsx
+    └── 📁components
+        └── 📁skeletons
+            ├── header-skeleton.tsx
+            ├── page-skeleton.tsx
+        └── 📁ui
+            ├── background-ripple-effect.tsx
+            ├── badge.tsx
+            ├── button.tsx
+            ├── calendar.tsx
+            ├── card.tsx
+            ├── checkbox.tsx
+            ├── dialog.tsx
+            ├── dropdown-menu.tsx
+            ├── form.tsx
+            ├── input.tsx
+            ├── label.tsx
+            ├── popover.tsx
+            ├── select.tsx
+            ├── separator.tsx
+            ├── sheet.tsx
+            ├── skeleton.tsx
+            ├── sonner.tsx
+            ├── table.tsx
+            ├── textarea.tsx
+            ├── tooltip.tsx
+        ├── account-filter.tsx
+        ├── amount-input.tsx
+        ├── area-variant.tsx
+        ├── bar-variant.tsx
+        ├── chart.tsx
+        ├── circular-chart.tsx
+        ├── circular-tooltip.tsx
+        ├── color-picker.tsx
+        ├── count-up.tsx
+        ├── custom-tooltip.tsx
+        ├── data-card.tsx
+        ├── data-chart.tsx
+        ├── data-grid.tsx
+        ├── data-table.tsx
+        ├── date-filter.tsx
+        ├── date-picker.tsx
+        ├── filter.tsx
+        ├── form-actions.tsx
+        ├── header-logo.tsx
+        ├── header.tsx
+        ├── highlight-text.tsx
+        ├── highlight.tsx
+        ├── line-variant.tsx
+        ├── motion-section.tsx
+        ├── navigation-item.tsx
+        ├── navigation.tsx
+        ├── pie-variant.tsx
+        ├── radar-variant.tsx
+        ├── radial-variant.tsx
+        ├── row-actions.tsx
+        ├── select.tsx
+        ├── table-columns.tsx
+        ├── welcome-message.tsx
+    └── 📁db
+        ├── index.ts
+        ├── schema.ts
+    └── 📁features
+        └── 📁accounts
+            └── 📁api
+                ├── use-bulk-delete-accounts.ts
+                ├── use-create-account.ts
+                ├── use-delete-account.ts
+                ├── use-edit-account.ts
+                ├── use-get-account.ts
+                ├── use-get-accounts.ts
+            └── 📁components
+                ├── account-form.tsx
+                ├── edit-account-sheet.tsx
+                ├── new-account-sheet.tsx
+            └── 📁hooks
+                ├── use-new-account.ts
+                ├── use-open-account.ts
+                ├── use-select-account.tsx
+        └── 📁categories
+            └── 📁api
+                ├── use-bulk-delete-categories.ts
+                ├── use-create-category.ts
+                ├── use-delete-category.ts
+                ├── use-edit-category.ts
+                ├── use-get-categories.ts
+                ├── use-get-category.ts
+            └── 📁components
+                ├── category-form.tsx
+                ├── edit-category-sheet.tsx
+                ├── new-category-sheet.tsx
+            └── 📁hooks
+                ├── use-new-category.ts
+                ├── use-open-category.ts
+        └── 📁home
+            └── 📁components
+                ├── call-to-action.tsx
+                ├── features.tsx
+                ├── footer.tsx
+                ├── hero.tsx
+                ├── navigation-bar.tsx
+                ├── preview.tsx
+                ├── section-card.tsx
+                ├── steps.tsx
+            └── 📁hooks
+                ├── use-active-section.ts
+                ├── use-sticky-header.ts
+        └── 📁plaid
+            └── 📁api
+                ├── use-create-link-token.ts
+                ├── use-delete-connected-bank.ts
+                ├── use-exchange-public-token.ts
+                ├── use-get-connected-bank.ts
+            └── 📁components
+                ├── plaid-connect.tsx
+                ├── plaid-disconnect.tsx
+        └── 📁settings
+            └── 📁api
+                ├── use-get-currency.ts
+                ├── use-update-currency.ts
+            └── 📁hooks
+                ├── use-currency.ts
+        └── 📁summary
+            └── 📁api
+                ├── use-get-summary.ts
+        └── 📁transactions
+            └── 📁api
+                ├── use-bulk-create-transactions.ts
+                ├── use-bulk-delete-transactions.ts
+                ├── use-create-transaction.ts
+                ├── use-delete-transaction.ts
+                ├── use-edit-transaction.ts
+                ├── use-get-transaction.ts
+                ├── use-get-transactions.ts
+            └── 📁components
+                ├── edit-transaction-sheet.tsx
+                ├── new-transaction-sheet.tsx
+                ├── transaction-form.tsx
+            └── 📁hooks
+                ├── use-new-transaction.ts
+                ├── use-open-transaction.ts
+    └── 📁hooks
+        ├── use-confirm.tsx
+    └── 📁lib
+        ├── api-utils.ts
+        ├── create-query-hooks.ts
+        ├── create-store.ts
+        ├── currencies.ts
+        ├── hono.ts
+        ├── plaid-sync.ts
+        ├── seed.ts
+        ├── table-meta.ts
+        ├── utils.ts
+    └── 📁providers
+        ├── query-provider.tsx
+        ├── sheet-provider.tsx
+    ├── middleware.ts
+    ├── migrate.ts
+├── .env
+├── .gitignore
+├── .markdownlint.json
+├── .prettierrc
+├── bun.lock
+├── components.json
+├── drizzle.config.ts
+├── eslint.config.mjs
+├── LICENSE
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── README.md
+└── tsconfig.json
+```
+
+</details>
