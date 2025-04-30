@@ -52,11 +52,12 @@ export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
     <Card className="border-none shadow-none">
       {/* Structural layout wrapper containing title headers and selection inputs */}
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
-        <CardTitle className="font-manrope line-clamp-1 text-xl lg:text-2xl">Categories</CardTitle>
+        <CardTitle className="font-manrope min-w-0 truncate text-xl lg:text-2xl">Categories</CardTitle>
+        <div className="shrink-0">
         <Select defaultValue={chartType} onValueChange={onTypeChange}>
           <SelectTrigger
             className={cn(
-              "h-10 cursor-pointer rounded-lg border-2 border-slate-200 bg-transparent text-sm transition duration-300 ease-in-out",
+              "h-10 cursor-pointer rounded-lg border border-slate-200 bg-transparent text-sm transition duration-300 ease-in-out md:border-2",
               "hover:border-teal-500",
               "focus:border-teal-500 focus:ring-0 focus:outline-none",
               "lg:w-auto"
@@ -94,6 +95,7 @@ export const CircularChart = ({ data = EMPTY_DATA }: Props) => {
             </SelectItem>
           </SelectContent>
         </Select>
+        </div>
       </CardHeader>
 
       {/* Switches between specialized visual graphics or falls back to an empty error placeholder view */}
