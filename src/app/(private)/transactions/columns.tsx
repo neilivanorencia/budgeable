@@ -14,9 +14,14 @@ import { getCurrency, getSearchTerm } from "@/lib/table-meta";
 import { formatCurrency } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 
+// Extracts the core transaction shape from the upstream API endpoint signature definition
 type ResponseType = InferResponseType<typeof client.api.transactions.$get, 200>["data"][0];
 
+/**
+ * Data table column definitions for managing the transaction data matrix view.
+ */
 export const columns: ColumnDef<ResponseType>[] = [
+  // Generates standard checkbox row selection control inputs
   selectColumn<ResponseType>(),
   {
     accessorKey: "date",
@@ -33,6 +38,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     header: sortableHeader("Category"),
     cell: ({ row, table }) => {
       return (
+        /* Renders the classification label or redirects towards transactional recovery panels */
         <CategoryColumn
           id={row.original.id}
           category={row.original.category}
@@ -60,10 +66,8 @@ export const columns: ColumnDef<ResponseType>[] = [
       const currency = getCurrency(table);
 
       return (
-        <Badge
-          variant={amount < 0 ? "destructive" : "primary"}
-          className="text-sm font-normal"
-        >
+        /* Applies alternative visual accent variations matching income vs expenditure values */
+        <Badge variant={amount < 0 ? "destructive" : "primary"} className="text-sm font-normal">
           {formatCurrency(amount, currency)}
         </Badge>
       );
@@ -75,6 +79,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     header: sortableHeader("Account"),
     cell: ({ row, table }) => {
       return (
+        /* Renders the relational holding account layer link */
         <AccountColumn
           account={row.original.account}
           accountId={row.original.accountId}
@@ -84,5 +89,6 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     size: 160,
   },
+  // Generates trailing standalone action dropdown triggers tracking individual record identifiers
   actionsColumn<ResponseType>(({ row }) => <Actions id={row.original.id} />, 48),
 ];

@@ -8,11 +8,18 @@ type Props = {
   id: string;
 };
 
+/**
+ * Interactive table row actions menu wrapper for individual transactions.
+ */
 export const Actions = ({ id }: Props) => {
+  // Destructures modal state controls to focus on the target item signature
   const { onOpen } = useOpenTransaction();
+
+  // Prepares the mutation network event tied to this specific entity identifier
   const deleteMutation = useDeleteTransaction(id);
 
   return (
+    /* Composes contextual drop-down menus with pre-configured validation check titles and copy blocks */
     <RowActions
       onEdit={() => onOpen(id)}
       onDelete={() => deleteMutation.mutate()}

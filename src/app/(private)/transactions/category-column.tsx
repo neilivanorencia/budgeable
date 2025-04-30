@@ -12,19 +12,25 @@ type Props = {
   searchTerm?: string;
 };
 
+/**
+ * Presentational table column component displaying an interactable category label.
+ */
 export const CategoryColumn = ({ id, category, categoryId, searchTerm }: Props) => {
+  // Destructures state control hooks to toggle editing sheet overlays
   const { onOpen: onOpenCategory } = useOpenCategory();
   const { onOpen: onOpenTransaction } = useOpenTransaction();
 
+  // Redirects the focus path based on the structural validity of the classification property
   const onClick = () => {
     if (categoryId) {
       onOpenCategory(categoryId);
     } else {
-      onOpenTransaction(id)
+      onOpenTransaction(id);
     }
   };
 
   return (
+    /* Structural action trigger adapting textual context properties and alert warning elements dynamically */
     <button
       type="button"
       onClick={onClick}
@@ -34,10 +40,7 @@ export const CategoryColumn = ({ id, category, categoryId, searchTerm }: Props) 
       )}
     >
       {!category && <TriangleAlert className="size-4 shrink-0 text-rose-500" />}
-      {category
-        ? <HighlightText text={category} searchTerm={searchTerm} />
-        : "Uncategorized"
-      }
+      {category ? <HighlightText text={category} searchTerm={searchTerm} /> : "Uncategorized"}
     </button>
   );
 };

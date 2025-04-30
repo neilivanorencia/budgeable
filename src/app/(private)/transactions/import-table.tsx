@@ -15,10 +15,14 @@ type Props = {
   onTableHeadSelectChange: (columnIndex: number, value: string | null) => void;
 };
 
+/**
+ * Presentational spreadsheet table component used to preview parsed CSV matrix data.
+ */
 export const ImportTable = ({ headers, rows, selectedColumns, onTableHeadSelectChange }: Props) => {
   return (
     <div className="overflow-hidden rounded-md border">
       <Table>
+        {/* Table header row displaying interactive field assignment select elements */}
         <TableHeader className="bg-muted">
           <TableRow>
             {headers.map((_item, index) => (
@@ -32,6 +36,7 @@ export const ImportTable = ({ headers, rows, selectedColumns, onTableHeadSelectC
             ))}
           </TableRow>
         </TableHeader>
+        {/* Table body grid rendering the matching raw data text cells */}
         <TableBody>
           {rows.map((row: string[], index) => (
             <TableRow key={index}>

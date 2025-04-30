@@ -15,10 +15,15 @@ type Props = {
 
 const options = ["amount", "date", "payee"];
 
+/**
+ * Dropdown selector component mounted in file import table headers.
+ */
 export const TableHeadSelect = ({ columnIndex, selectedColumns, onChange }: Props) => {
+  // Extracts the current field mapping rule assigned to this specific column index
   const currentSelection = selectedColumns[`column_${columnIndex}`];
 
   return (
+    /* Interactive dropdown field passing tracking attributes down to change listeners */
     <Select value={currentSelection || ""} onValueChange={(value) => onChange(columnIndex, value)}>
       <SelectTrigger
         className={cn(
@@ -31,6 +36,7 @@ export const TableHeadSelect = ({ columnIndex, selectedColumns, onChange }: Prop
       <SelectContent>
         <SelectItem value="skip">Skip</SelectItem>
         {options.map((option, index) => {
+          // Disables the current option if it is already claimed by an alternative column
           const disabled =
             Object.values(selectedColumns).includes(option) &&
             selectedColumns[`column_${columnIndex}`] !== option;
