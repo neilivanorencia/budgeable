@@ -6,6 +6,11 @@ import { neon } from "@neondatabase/serverless";
 import { accounts, categories, transactions, userSettings } from "@/db/schema";
 import { convertAmountToMiliunits } from "@/lib/utils";
 
+/**
+ * Validates and extracts essential operational variables from system environment profiles.
+ * Throws structural errors if vital database or authentication keys are missing.
+ * @returns An object containing verified `databaseUrl` and `clerkSecretKey` values.
+ */
 export function loadEnv() {
   config({ path: ".env" });
 
@@ -22,11 +27,21 @@ export function loadEnv() {
   return { databaseUrl, clerkSecretKey };
 }
 
+/**
+ * Initializes a standard serverless instance pointing to Neon HTTP data endpoints.
+ * @param databaseUrl - The verified connection target string.
+ * @returns A pre-configured Drizzle ORM client instance.
+ */
 export function createDb(databaseUrl: string) {
   const sql = neon(databaseUrl);
   return drizzle({ client: sql });
 }
 
+/**
+ * Parses a database connection string safely to capture host platform signatures.
+ * @param databaseUrl - The verified connection target string to parse.
+ * @returns The host signature domain name or a fallback label if parsing fails.
+ */
 export function dbHost(databaseUrl: string) {
   try {
     return new URL(databaseUrl).host;
@@ -37,10 +52,15 @@ export function dbHost(databaseUrl: string) {
 
 export { accounts, categories, transactions, userSettings, convertAmountToMiliunits };
 
+// The standard baseline currency initialization signature used for setup operations
 export const SEED_CURRENCY = "USD";
 
+// Explicit union type defining acceptable financial flows
 export type CategoryType = "income" | "expense";
 
+/**
+ * Structural outline for a category generation asset.
+ */
 export interface CategoryTemplate {
   name: string;
   type: CategoryType;
@@ -52,6 +72,7 @@ export interface CategoryTemplate {
   description: string;
 }
 
+// Preset collection configuration layouts applied to build uniform mocking profiles
 export const CATEGORY_CATALOG: CategoryTemplate[] = [
   {
     name: "Salary",
@@ -192,6 +213,7 @@ export const CATEGORY_CATALOG: CategoryTemplate[] = [
   },
 ];
 
+// Explicit union type defining supported tracking modalities
 export type AccountType =
   | "cash"
   | "checking"
@@ -201,6 +223,7 @@ export type AccountType =
   | "ewallet"
   | "other";
 
+// Mappings used to align friendly nomenclature with structured type definitions
 export const ACCOUNT_TYPE_MAP: Record<string, AccountType> = {
   "Checking Account": "checking",
   "Savings Account": "savings",
@@ -214,6 +237,7 @@ export const ACCOUNT_TYPE_MAP: Record<string, AccountType> = {
   "Cash Wallet": "cash",
 };
 
+// Friendly context string collections defining the purpose of each individual category type
 export const ACCOUNT_TYPE_DESCRIPTIONS: Record<AccountType, string> = {
   cash: "Physical currency and coins",
   checking: "Primary account for daily transaction and spending operations",

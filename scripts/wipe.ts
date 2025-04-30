@@ -4,6 +4,11 @@ import { eq, inArray } from "drizzle-orm";
 
 import { accounts, categories, createDb, dbHost, loadEnv, transactions } from "@/lib/seed";
 
+/**
+ * Handles Clack terminal escape combinations by safely forcing a script exit.
+ * @param value - The input value or cancellation symbol to evaluate.
+ * @returns The original unescaped value if cancellation is not triggered.
+ */
 function bail<T>(value: T | symbol): T {
   if (p.isCancel(value)) {
     p.cancel("Cancelled. Nothing was deleted.");
@@ -12,6 +17,9 @@ function bail<T>(value: T | symbol): T {
   return value as T;
 }
 
+/**
+ * Orchestrator routine driving the automated data removal workspace.
+ */
 async function main() {
   const { databaseUrl, clerkSecretKey } = loadEnv();
   const db = createDb(databaseUrl);
@@ -19,6 +27,7 @@ async function main() {
 
   p.intro("Budgeable Wipe");
 
+  // Collects the target profile identification key from manual console input
   const userId = bail(
     await p.text({
       message: "Clerk userId to wipe?",
@@ -27,6 +36,7 @@ async function main() {
     })
   ).trim();
 
+  // Queries structural dimensions to evaluate target user financial record density
   const accountRows = await db
     .select({ id: accounts.id })
     .from(accounts)
@@ -46,6 +56,7 @@ async function main() {
     transactionCount = txnRows.length;
   }
 
+  // Logs discovered database item density metrics to the terminal stream
   const hasData = accountRows.length + categoryRows.length + transactionCount > 0;
   if (!hasData) {
     p.log.info("This user has no finance data in the database.");
@@ -60,6 +71,7 @@ async function main() {
     );
   }
 
+  // Interactively queries if downstream identity configurations should be wiped alongside transaction records
   const scope = bail(
     await p.select({
       message: "What should be removed?",
@@ -70,11 +82,13 @@ async function main() {
     })
   ) as "db" | "db+clerk";
 
+  // Gracefully halts execution pathways if no database entries remain to be scrubbed
   if (!hasData && scope === "db") {
     p.outro("Nothing to do.");
     process.exit(0);
   }
 
+  // Outputs a summary profile listing target rows marked for deletion
   p.note(
     [
       `Target:  ${userId}`,
@@ -85,6 +99,7 @@ async function main() {
     "About to delete"
   );
 
+  // Asserts an absolute verification match check before authorizing destructive queries
   const confirm = bail(
     await p.text({
       message: "Type 'yes' to permanently delete",
@@ -100,12 +115,15 @@ async function main() {
   const s = p.spinner();
   s.start("Deleting...");
   try {
+    // Cascades deletion downstream to clear transaction ledger dependents first
     if (accountIds.length > 0) {
       await db.delete(transactions).where(inArray(transactions.accountId, accountIds));
     }
+    // Removes the primary relational account and category definitions
     await db.delete(accounts).where(eq(accounts.userId, userId));
     await db.delete(categories).where(eq(categories.userId, userId));
 
+    // Despatches user elimination requests via Clerk integrations if requested by the configuration
     if (scope === "db+clerk") {
       s.message("Deleting Clerk user...");
       await clerk.users.deleteUser(userId);

@@ -21,9 +21,13 @@ import {
   userSettings,
 } from "@/lib/seed";
 
+// Hard upper boundaries for seeding generation limits
 const CAPS = { accounts: 10, categories: 20, transactions: 5000 } as const;
+
+// Standalone fallback counts when input strings are submitted blank
 const DEFAULTS = { accounts: 4, categories: 10, transactions: 500 } as const;
 
+// Common names for account mapping scenarios
 const ACCOUNT_NAMES = [
   "Checking Account",
   "Savings Account",
@@ -37,6 +41,11 @@ const ACCOUNT_NAMES = [
   "Cash Wallet",
 ];
 
+/**
+ * Handles Clack terminal escape combinations by safely forcing a script exit.
+ * @param value - The input value or cancellation symbol to evaluate.
+ * @returns The original unescaped value if cancellation is not triggered.
+ */
 function bail<T>(value: T | symbol): T {
   if (p.isCancel(value)) {
     p.cancel("Cancelled. Nothing was written.");
@@ -45,6 +54,13 @@ function bail<T>(value: T | symbol): T {
   return value as T;
 }
 
+/**
+ * Captures user configuration integers via interactive CLI text questions.
+ * @param label - The singular description string printed to the terminal screen.
+ * @param max - The absolute maximum value accepted by the prompt validation checks.
+ * @param def - The standard integer applied when questions receive empty returns.
+ * @returns A validated positive number within bounds.
+ */
 async function promptCount(label: string, max: number, def: number) {
   const raw = bail(
     await p.text({
@@ -64,6 +80,11 @@ async function promptCount(label: string, max: number, def: number) {
   return Number(raw.trim() === "" ? def : raw.trim());
 }
 
+/**
+ * Requests and parses standalone text entries into valid Date objects.
+ * @param message - The informational text query printed to the terminal console.
+ * @returns A validated Javascript Date object.
+ */
 async function promptDate(message: string) {
   const raw = bail(
     await p.text({
@@ -81,6 +102,10 @@ async function promptDate(message: string) {
   return parse(raw.trim(), "yyyy-MM-dd", new Date());
 }
 
+/**
+ * Builds strong authentication strings matching common complex validation schemas.
+ * @returns A high-entropy password containing casing variations, digits, and a symbol character.
+ */
 function generatePassword() {
   const upper = faker.string.alpha({ length: 4, casing: "upper" });
   const lower = faker.string.alpha({ length: 4, casing: "lower" });
@@ -89,6 +114,12 @@ function generatePassword() {
   return faker.helpers.shuffle((upper + lower + digits + symbol).split("")).join("");
 }
 
+/**
+ * Counts existing records associated with a given user identifier to evaluate state density.
+ * @param db - Configured Drizzle ORM client instance.
+ * @param userId - Target profile identity key string.
+ * @returns Collection counts along with a list of extracted account identifiers.
+ */
 async function getUserCounts(db: ReturnType<typeof createDb>, userId: string) {
   const accountRows = await db
     .select({ id: accounts.id })
@@ -117,6 +148,12 @@ async function getUserCounts(db: ReturnType<typeof createDb>, userId: string) {
   };
 }
 
+/**
+ * Destroys all historical application files assigned to a unique account identity.
+ * @param db - Configured Drizzle ORM client instance.
+ * @param userId - Target profile identity key string.
+ * @param accountIds - Array of active relational identifiers to clear.
+ */
 async function wipeUser(db: ReturnType<typeof createDb>, userId: string, accountIds: string[]) {
   if (accountIds.length > 0) {
     await db.delete(transactions).where(inArray(transactions.accountId, accountIds));
@@ -126,6 +163,11 @@ async function wipeUser(db: ReturnType<typeof createDb>, userId: string, account
   await db.delete(userSettings).where(eq(userSettings.userId, userId));
 }
 
+/**
+ * Splits massive insert sets into manageable array sizes to bypass connection payload throttles.
+ * @param insertRows - Callback execution function committing database assignments.
+ * @param rows - The target data array records to process.
+ */
 async function chunkedInsert<TInsert>(
   insertRows: (chunk: TInsert[]) => Promise<unknown>,
   rows: TInsert[]
@@ -136,6 +178,10 @@ async function chunkedInsert<TInsert>(
   }
 }
 
+/**
+ * Orchestrator routine driving the automated data generation workspace.
+ * Creates identities, shapes target metrics, and builds relational financial maps.
+ */
 async function main() {
   const { databaseUrl, clerkSecretKey } = loadEnv();
   const db = createDb(databaseUrl);
@@ -143,6 +189,7 @@ async function main() {
 
   p.intro("Budgeable Seeder");
 
+  // Selects between standing profiling nodes or generating an entirely new account entity
   const mode = bail(
     await p.select({
       message: "Who should this data belong to?",
@@ -160,6 +207,7 @@ async function main() {
   let userId: string;
   let createdCredentials: { email: string; password: string } | null = null;
 
+  // Provisions fresh backend nodes via Clerk management integrations if requested
   if (mode === "new") {
     const fullName = bail(
       await p.text({
@@ -205,6 +253,7 @@ async function main() {
       process.exit(1);
     }
   } else {
+    // Collects standing verification strings directly from manual console submissions
     userId = bail(
       await p.text({
         message: "Existing Clerk userId?",
@@ -214,6 +263,7 @@ async function main() {
     ).trim();
   }
 
+  // Captures structural balance specifications via individual volume requests
   const accountCount = await promptCount("accounts", CAPS.accounts, DEFAULTS.accounts);
   const requestedCategoryCount = await promptCount(
     "categories",
@@ -226,6 +276,7 @@ async function main() {
     DEFAULTS.transactions
   );
 
+  // Verifies requested items fall inside bounded repository catalog definitions
   const categoryCount = Math.min(requestedCategoryCount, CATEGORY_CATALOG.length);
   if (categoryCount < requestedCategoryCount) {
     p.log.warn(
@@ -233,6 +284,7 @@ async function main() {
     );
   }
 
+  // Validates time bounding layouts to maintain uniform chronology metrics
   const startDate = await promptDate("Start date for the data span? (YYYY-MM-DD)");
   let endDate = await promptDate("End date for the data span? (YYYY-MM-DD)");
   while (startDate > endDate) {
@@ -240,6 +292,7 @@ async function main() {
     endDate = await promptDate("End date for the data span? (YYYY-MM-DD)");
   }
 
+  // Analyzes standing data nodes to configure append vs overwrite choices
   const existing = await getUserCounts(db, userId);
   let wipeFirst = false;
   if (existing.accounts + existing.categories + existing.transactions > 0) {
@@ -265,6 +318,7 @@ async function main() {
     ? `NEW Clerk user ${userId} (${createdCredentials.email})`
     : `existing user ${userId}`;
 
+  // Prints the aggregated parameters sheet summary before initializing pipeline tasks
   p.note(
     [
       `Target:       ${targetLabel}`,
@@ -278,6 +332,7 @@ async function main() {
     "About to write"
   );
 
+  // Demands a final confirmation sequence match to authorize generation activity
   const confirm = bail(
     await p.text({
       message: "Type 'yes' to proceed",
@@ -294,11 +349,13 @@ async function main() {
   s.start("Seeding...");
 
   try {
+    // Executes data removal workflows when structural overwrite behaviors are selected
     if (wipeFirst) {
       s.message("Wiping existing data for this user...");
       await wipeUser(db, userId, existing.accountIds);
     }
 
+    // Compiles fresh account records using real financial name mappings
     s.message("Creating accounts...");
     const accountNames = faker.helpers.shuffle(ACCOUNT_NAMES).slice(0, accountCount);
     while (accountNames.length < accountCount) {
@@ -320,12 +377,11 @@ async function main() {
     await chunkedInsert((chunk) => db.insert(accounts).values(chunk), accountRows);
     const accountIds = accountRows.map((a) => a.id);
 
+    // Provisions core preference keys to ground localization utilities
     s.message("Setting currency preference...");
-    await db
-      .insert(userSettings)
-      .values({ userId, currency: SEED_CURRENCY })
-      .onConflictDoNothing();
+    await db.insert(userSettings).values({ userId, currency: SEED_CURRENCY }).onConflictDoNothing();
 
+    // Balanced distribution builder that selects matching category types
     s.message("Creating categories...");
     const income = CATEGORY_CATALOG.filter((c) => c.type === "income");
     const expense = CATEGORY_CATALOG.filter((c) => c.type === "expense");
@@ -363,6 +419,7 @@ async function main() {
       categoryId: string;
     }[] = [];
 
+    // Factory sub-routine generating randomized individual ledger profiles
     const makeTxn = (tpl: CategoryTemplate, date: Date) => {
       const baseAmount = faker.number.int({ min: tpl.min, max: tpl.max });
       const signed = tpl.type === "expense" ? -baseAmount : baseAmount;
@@ -377,6 +434,7 @@ async function main() {
       };
     };
 
+    // Computes and injects static monthly recurring entries across the timeframe
     const recurringTemplates = selectedTemplates.filter((t) => t.recurring);
     const monthAnchors: Date[] = [];
     {
@@ -396,16 +454,19 @@ async function main() {
       }
     }
 
+    // Fills up remaining volumetric targets with scattered random transactions
     while (txnRows.length < transactionCount) {
       const tpl = faker.helpers.arrayElement(selectedTemplates);
       const date = faker.date.between({ from: startDate, to: endDate });
       txnRows.push(makeTxn(tpl, date));
     }
 
+    // Executes chunk-partitioned database migrations for the generated transaction set
     await chunkedInsert((chunk) => db.insert(transactions).values(chunk), txnRows);
 
     s.stop("Seed complete.");
 
+    // Prints configuration deployment receipts to terminal streams
     p.note(
       [
         `Accounts:     ${accountRows.length}`,
@@ -415,6 +476,7 @@ async function main() {
       "Inserted"
     );
 
+    // Exposes runtime dynamic user identity setups securely
     if (createdCredentials) {
       p.note(
         [`Email:    ${createdCredentials.email}`, `Password: ${createdCredentials.password}`].join(

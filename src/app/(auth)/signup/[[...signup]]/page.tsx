@@ -5,16 +5,23 @@ import { useEffect, useState } from "react";
 
 import { ClerkLoaded, ClerkLoading, SignUp } from "@clerk/nextjs";
 
+/**
+ * Authentication client page displaying the unified sign-up terminal.
+ */
 export default function Page() {
+  // Tracking state to determine if the component has mounted on the client
   const [isMounted, setIsMounted] = useState(false);
 
+  // Sets the `isMounted` flag to `true` after the initial client-side render pass
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // Renders a structural shell loading state during server pre-rendering to eliminate layout shift
   if (!isMounted) {
     return (
       <div className="grid min-h-screen grid-cols-1 bg-white lg:grid-cols-2">
+        {/* Placeholder wrapper matching the dimensions of the sign-up column */}
         <div className="flex h-full flex-col items-center justify-center p-4 md:p-6">
           <div className="mx-auto w-full max-w-lg">
             <div className="flex items-center justify-center p-8">
@@ -22,6 +29,7 @@ export default function Page() {
             </div>
           </div>
         </div>
+        {/* Placeholder wrapper matching the dimensions of the branding column */}
         <div className="relative hidden h-full items-center justify-center overflow-hidden bg-teal-500 lg:flex">
           <div className="absolute inset-0 z-10 bg-gradient-to-tl from-teal-600/80 to-teal-100/10" />
           <Image
@@ -39,7 +47,9 @@ export default function Page() {
 
   return (
     <div className="grid min-h-screen grid-cols-1 bg-white lg:grid-cols-2">
+      {/* Interactive left column containing the authentication terminal forms */}
       <div className="flex h-full flex-col items-center justify-center p-4 md:p-6">
+        {/* Displays a standalone spinner element while the Clerk library assets are fetching */}
         <ClerkLoading>
           <div className="mx-auto w-full max-w-lg">
             <div className="flex items-center justify-center p-8">
@@ -47,6 +57,7 @@ export default function Page() {
             </div>
           </div>
         </ClerkLoading>
+        {/* Mounts the interactive sign-up card component once the provider is ready */}
         <ClerkLoaded>
           <div className="mx-auto w-full max-w-lg">
             <SignUp
@@ -67,6 +78,7 @@ export default function Page() {
         </ClerkLoaded>
       </div>
 
+      {/* Decorative side panel rendering image on desktop viewports */}
       <div className="relative hidden h-full items-center justify-center overflow-hidden bg-teal-500 lg:flex">
         <div className="absolute inset-0 z-10 bg-gradient-to-tl from-teal-600/80 to-teal-100/10" />
         <Image
